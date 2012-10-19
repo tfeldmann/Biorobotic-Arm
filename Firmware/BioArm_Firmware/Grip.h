@@ -17,4 +17,5 @@ public:
 	Grip();
 	void open();
 	void close();
+	void angle(uint8_t angle);
 };

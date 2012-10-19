@@ -2,6 +2,8 @@
  * @file Grip.cpp
  */
 #include "Grip.h"
+#define GRIP_OPEN_ANGLE  0
+#define GRIP_CLOSE_ANGLE 180
 
 Grip::Grip()
 {
@@ -10,10 +12,15 @@ Grip::Grip()
 
 void Grip::open()
 {
-	servo.write(0);
+	servo.write(GRIP_OPEN_ANGLE);
 }
 
 void Grip::close()
 {
-	servo.write(180);
+	servo.write(GRIP_CLOSE_ANGLE);
+}
+
+void Grip::angle(uint8_t angle)
+{
+	servo.write(angle);
 }

@@ -20,8 +20,8 @@ Commands are sent in plain ascii.
 The possible arguments ([Option1 | Option2]) can be numbers or plain text.
 <pre>
 GRIP [OPEN | CLOSE | _ANGLE_]
-The grip can be opened/closed using the first two commands.
-_ANGLE_ can be any number between 0 and 180 (degrees).
+	The grip can be opened/closed using the first two commands.
+	_ANGLE_ can be any number between 0 and 180 (degrees).
 </pre>
 
 ## Contributors
