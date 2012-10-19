@@ -16,10 +16,11 @@ It contains the source files for the firmware, control-software and remote softw
 ## API
 Connect to the robot via a 19200 baud, 8N1 serial connection.
 Commands are sent in plain ascii.
-[Option1 | Option2] shows the possible arguments.
 
+The possible arguments ([Option1 | Option2]) can be numbers or plain text.
 <pre>
-	GRIP [OPEN | CLOSE] : Opens/Closes the grip
+GRIP [OPEN | CLOSE | *ANGLE*]
+The grip can be opened/closes using the first two commands. *Angle* can be any number between 0 and 180.
 </pre>
 
 ## Contributors
