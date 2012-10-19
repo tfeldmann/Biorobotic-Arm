@@ -14,10 +14,13 @@ It contains the source files for the firmware, control-software and remote softw
         - close()
 
 ## API
-Connect to the robot via a 19200 baud, 8N1 serial connection. Commands are sent in plain ascii.
+Connect to the robot via a 19200 baud, 8N1 serial connection.
+Commands are sent in plain ascii.
+[Option1 | Option2] shows the possible arguments.
 
-Close / Open the grip
-<pre>GRIP OPEN / CLOSE</pre>
+<pre>
+	GRIP [OPEN | CLOSE] : Opens/Closes the grip
+</pre>
 
 ## Contributors
 - Fehmer, Manuel
