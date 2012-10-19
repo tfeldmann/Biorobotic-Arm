@@ -4,5 +4,7 @@
 		{
 			"path": "./"
 		}
-	]
+	],
+	"folder_exclude_patterns": [".svn", ".git", ".hg", "CVS"],
+	"file_exclude_patterns": ["*.sublime-project", "*.sublime-workspace", ".gitignore"]
 }
