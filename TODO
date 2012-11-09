@@ -1,0 +1,17 @@
+# Implement API Calls
+ ☐ grip open
+ ☐ grip close
+ ☐ grip angle
+ ☐ wrist angle
+ ☐ base angle
+ ☐ shoulder angle
+ ☐ elbow angle
+
+# Setup controlling for
+ ☐ base
+ ☐ shoulder
+ ☐ elbow
+
+# Other
+ ☐ Collision detection
+ ☐ setup hardware pins

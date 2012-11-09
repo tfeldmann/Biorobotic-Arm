@@ -10,14 +10,22 @@ Commands are sent in plain ascii.
 The possible arguments ([Option1 | Option2]) can be numbers or plain text.
 <pre>
 ?
-	? is the identify command. The robot anwers with BIOROBOTIC_ARM_1.0
+	This is the identify command. The robot anwers with "BIOROBOTIC_ARM_1.0"
 	"1.0" is the firmware version. Number changes before the decimal point
 	change the API.
 </pre>
 <pre>
-GRIP [OPEN | CLOSE | _ANGLE_]
+BASE     [ANGLE]
+SHOULDER [ANGLE]
+ELBOW    [ANGLE]
+WRIST    [ANGLE]
+GRIP     [ANGLE]
+	Each part of the robot can be controlled independently by sending the
+	desired angle. ANGLE can be any number between 0 and 255.
+</pre>
+<pre>
+GRIP ["OPEN" | "CLOSE"]
 	The grip can be opened/closed using the first two commands.
-	_ANGLE_ can be any number between 0 and 180 (degrees).
 </pre>
 
 ## Contributors
