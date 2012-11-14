@@ -1,38 +1,36 @@
-import oscP5.*;
+import java.awt.*;
+import processing.serial.*;
+import org.gicentre.utils.multisketch.*;
 
-OscP5 oscP5;
-float p1, p2, p3;
-float maxValue = 127;
+Serial serialPort;
+BaseSketch baseSketch;
+ArmSketch  armSketch;
 
 void setup()
 {
-    size(400,400);
-    smooth();
-    oscP5 = new OscP5(this, 5001);
+    size(600, 300);
+    setLayout(new GridLayout(0, 2)); 
+
+    baseSketch = new BaseSketch();
+    armSketch  = new ArmSketch();
+
+    SketchPanel baseSketchPanel = new SketchPanel(this, baseSketch); 
+    add(baseSketchPanel); 
+    baseSketch.setIsActive(true); 
+
+    SketchPanel armSketchPanel = new SketchPanel(this, armSketch); 
+    add(armSketchPanel); 
+    armSketch.setIsActive(true);
+
+    String portName = Serial.list()[4];
+    serialPort = new Serial(this, portName, 9600);
 }
 
 void draw()
 {
-    background(#000000);
-
-    float rectWidth = width / 3;
-
-    fill(#FF0000);
-    rect(0, height, rectWidth, - height / maxValue * p1);
-
-    fill(#00FF00);
-    rect(rectWidth, height, rectWidth, - height / maxValue * p2);
-
-    fill(#0000FF);
-    rect(rectWidth * 2, height, rectWidth, - height / maxValue * p3);
-}
-
-void oscEvent(OscMessage theOscMessage)
-{
-    if(theOscMessage.checkAddrPattern("/gyro"))
+    if (serialPort.available() > 0)
     {
-        p1 = theOscMessage.get(3).floatValue();
-        p2 = theOscMessage.get(4).floatValue();
-        p3 = theOscMessage.get(5).floatValue();
+        int val = serialPort.read();
     }
 }
+
