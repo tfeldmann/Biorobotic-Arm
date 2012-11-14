@@ -29,7 +29,18 @@ void scmd_identify()
 
 void scmd_base()
 {
-    Serial.println("# BASE [ANGLE]");
+    char *arg = serialCommand.next();
+    if (arg == NULL)
+    {
+        Serial.println("# BASE [ANGLE]");
+    }
+    else
+    {
+        int16_t desired_angle = atoi(arg);
+        base_desired_angle(desired_angle);
+        Serial.print("# BASE ");
+        Serial.println(desired_angle);
+    }
 }
 
 void scmd_shoulder()
