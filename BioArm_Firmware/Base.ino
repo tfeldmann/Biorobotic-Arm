@@ -1,27 +1,27 @@
 /**
  * Base.ino
  *
- * Arduino    H-Bridge
- *    4 --------- 5
- *   52 --------- 3
+ * Arduino      H-Bridge
+ *  BASE_PWM --- 5
+ *  BASE_DIR --- 3
  *
- * H-Bridge   Motor
- *  OP1 --------- blue
- *  OP2 --------- white
+ * H-Bridge     Motor
+ *  OUTPUT1 ---- blue
+ *  OUTPUT2 ---- white
  *
- * Arduino    Potentiometer
- *   A0 --------- yellow
- *  GND --------- black
- *  +5V --------- red
+ * Arduino      Potentiometer
+ *  BASE_POT --- yellow
+ *  GND -------- black
+ *  +5V -------- red
  */
 
 const uint8_t BASE_POT = A0;
 const uint8_t BASE_DIR = 52;
 const uint8_t BASE_PWM = 4;  // uses timer0
 
+const int8_t BASE_TOLERANCE = 1;
 const uint16_t BASE_PWM_MIN = 30;
 const uint16_t BASE_PWM_MAX = 255;
-const int8_t BASE_TOLERANCE = 1;
 
 // controller settings
 #define BASE_CONTROLLER_P 20
@@ -41,7 +41,7 @@ void base_init()
     pinMode(BASE_PWM, OUTPUT);
 }
 
-void base_desired_pos(int16_t pos)
+void base_set_desired_pos(int16_t pos)
 {
     base.pos_desired = pos;
 }
