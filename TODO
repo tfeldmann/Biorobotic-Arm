@@ -1,9 +1,9 @@
 # Implement API Calls
- ☐ grip open
- ☐ grip close
- ☐ grip angle
- ☐ wrist angle
- ☐ base angle
+ ✔ grip open @done (12-11-15 21:49)
+ ✔ grip close @done (12-11-15 21:49)
+ ✔ grip angle @done (12-11-15 21:49)
+ ✔ wrist angle @done (12-11-15 21:49)
+ ✔ base angle @done (12-11-15 21:49)
  ☐ shoulder angle
  ☐ elbow angle
 
@@ -14,4 +14,4 @@
 
 # Other
  ☐ Collision detection
- ☐ setup hardware pins
+ ✔ setup hardware pins @done (12-11-15 21:49)
