@@ -9,8 +9,12 @@ ArmSketch  armSketch;
 void setup()
 {
     size(600, 300);
-    setLayout(new GridLayout(0, 2));
 
+    String portName = Serial.list()[4];
+    serial = new Serial(this, portName, 115200);
+    serial.clear();
+
+    setLayout(new GridLayout(0, 2));
     baseSketch = new BaseSketch();
     armSketch  = new ArmSketch();
 
@@ -23,10 +27,6 @@ void setup()
     add(armSketchPanel);
     armSketch.setIsActive(true);
     armSketch.setParentSketch(this);
-
-    String portName = Serial.list()[4];
-    serial = new Serial(this, portName, 115200);
-    serial.clear();
 }
 
 void draw()
@@ -44,6 +44,7 @@ void serialEvent(Serial serial)
             msg = trim(msg);
             if (msg.charAt(0) == '#') return;
             baseSketch.pos_current = Integer.parseInt(msg);
+            println(baseSketch.pos_current);
         }
         catch (Exception ex)
         {

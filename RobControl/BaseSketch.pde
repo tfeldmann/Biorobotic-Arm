@@ -10,6 +10,8 @@ class BaseSketch extends EmbeddedSketch
         smooth();
         ellipseMode(CENTER);
         rectMode(CENTER);
+
+        pos_desired = 512; // set to middle
     }
 
     void draw()
@@ -20,13 +22,18 @@ class BaseSketch extends EmbeddedSketch
         float current_angle = positionToAngle(pos_current);
         float desired_angle = positionToAngle(pos_desired);
 
-        // show robot
-        text(round(current_angle) + "°", 15, 30);
+        fill(0);
+        text(round(current_angle) + "°", 15, 35);
+        fill(0, 180, 0);
+        text(round(desired_angle) + "°", 15, 20);
         translate(width / 2, height / 2);
+
+        // show robot
+        stroke(0);
+        strokeWeight(1);
+        fill(220);
         pushMatrix();
             rotate(radians(current_angle) + 0.375 * TWO_PI);
-            strokeWeight(1);
-            fill(255);
             rect(0, 0, 150, 150);
             strokeWeight(10);
             line(25, 0, 125, 0);
@@ -35,9 +42,11 @@ class BaseSketch extends EmbeddedSketch
         // show desired position
         pushMatrix();
             rotate(radians(desired_angle) + 0.375 * TWO_PI);
-            fill(0, 180, 0); // green
-            noStroke();
-            ellipse(130, 0, 20, 20);
+            fill(0, 180, 0, 100); // green
+            stroke(0, 180, 0, 100);
+            //ellipse(130, 0, 20, 20);
+            strokeWeight(10);
+            line(0, 0, 130, 0);
         popMatrix();
     }
 
@@ -46,8 +55,8 @@ class BaseSketch extends EmbeddedSketch
         PVector dirVect = new PVector(mouseX - width / 2, (height - mouseY) - height / 2);
         float angle = degrees(atan2(dirVect.x, dirVect.y)) + 135;
         angle = constrain(angle, 0, 270);
-        pos_desired = angleToPos(angle);
-        sendSerial("BASE "+(new Integer(mouseY)).toString());
+
+        set_desired_pos(angleToPos(angle));
     }
 
     float positionToAngle(int pos)
@@ -58,6 +67,13 @@ class BaseSketch extends EmbeddedSketch
     int angleToPos(float angle)
     {
         return round(angle * 1023.0 / 270.0);
+    }
+
+    void set_desired_pos(int position)
+    {
+        pos_desired = position;
+        sendSerial("BASE "+(new Integer(position)).toString());
+
     }
 }
 

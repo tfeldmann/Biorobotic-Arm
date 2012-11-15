@@ -7,15 +7,6 @@
  *
  * This is the entry point for the biorobotic-arm's firmware.
  * You can find the repository at: https://github.com/tfeldmann/Biorobotic-Arm
- *
- * Used timers:
- * ------------
- * Timer0: Arduino internal functions
- * Timer1: Control tick
- * Timer2: Base DC-Motor PWM
- * Timer3: Shoulder stepper
- * Timer4: Elbow stepper
- * Timer5: Servos in hand
  */
 
 void setup()
@@ -24,16 +15,10 @@ void setup()
     Serial.begin(115200);
     scmd_init();
 
-    // base_init();
-    // shoulder_init();
-    // elbow_init();
-    // init_hand();
-
-    // shoulder_set_speed(1.0);
-    // elbow_set_speed(1.0);
+    base_init();
 
     start_control_tick(50); // 50Hz
-    base_desired_angle(300);
+    base_desired_pos(512); // init on middle position
 }
 
 void loop()
@@ -65,6 +50,4 @@ void start_control_tick(uint8_t freq)
 ISR(TIMER1_COMPA_vect)
 {
     base_control();
-    shoulder_control();
-    elbow_control();
 }
