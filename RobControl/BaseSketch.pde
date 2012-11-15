@@ -50,13 +50,13 @@ class BaseSketch extends EmbeddedSketch
         popMatrix();
     }
 
-    void mouseDragged()
+    void setPositionByMouse()
     {
         PVector dirVect = new PVector(mouseX - width / 2, (height - mouseY) - height / 2);
         float angle = degrees(atan2(dirVect.x, dirVect.y)) + 135;
         angle = constrain(angle, 0, 270);
 
-        set_desired_pos(angleToPos(angle));
+        sendPositionCommand(angleToPos(angle));
     }
 
     float positionToAngle(int pos)
@@ -69,11 +69,20 @@ class BaseSketch extends EmbeddedSketch
         return round(angle * 1023.0 / 270.0);
     }
 
-    void set_desired_pos(int position)
+    void sendPositionCommand(int position)
     {
         pos_desired = position;
         sendSerial("BASE "+(new Integer(position)).toString());
+    }
 
+    void mouseDragged()
+    {
+        setPositionByMouse();
+    }
+
+    void mousePressed()
+    {
+        setPositionByMouse();
     }
 }
 

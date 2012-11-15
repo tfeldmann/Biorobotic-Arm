@@ -16,9 +16,13 @@ void setup()
     scmd_init();
 
     base_init();
+    base_set_desired_pos(512); // init on middle position
+
+    hand_init();
+    wrist_set_angle(90);
+    grip_close();
 
     start_control_tick(50); // 50Hz
-    base_desired_pos(512); // init on middle position
 }
 
 void loop()

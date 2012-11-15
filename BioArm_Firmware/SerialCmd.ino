@@ -37,7 +37,7 @@ void scmd_base()
     else
     {
         int16_t desired_pos = atoi(arg);
-        base_desired_pos(desired_pos);
+        base_set_desired_pos(desired_pos);
         Serial.print("# BASE ");
         Serial.println(desired_pos);
     }
@@ -50,10 +50,45 @@ void scmd_shoulder()
 
 void scmd_wrist()
 {
-    Serial.println("# WRIST [ANGLE]");
+    char *arg = serialCommand.next();
+    if (arg == NULL)
+    {
+        Serial.println("# WRIST [ANGLE]");
+    }
+    else
+    {
+        uint8_t angle = atoi(arg);
+        wrist_set_angle(angle);
+        Serial.print("# WRIST ");
+        Serial.println(angle);
+    }
 }
 
 void scmd_grip()
 {
-    Serial.println("# GRIP [OPEN|CLOSE|ANGLE]");
+    char *arg = serialCommand.next();
+    if (arg == NULL)
+    {
+        Serial.println("# GRIP [OPEN|CLOSE]");
+    }
+    else
+    {
+        if (strcmp(arg, "OPEN") == 0)
+        {
+            grip_open();
+            Serial.println("# GRIP OPEN");
+        }
+        else if (strcmp(arg, "CLOSE") == 0)
+        {
+            grip_close();
+            Serial.println("# GRIP CLOSE");
+        }
+        else
+        {
+            uint8_t angle = atoi(arg);
+            grip_set_angle(angle);
+            Serial.print("# GRIP ");
+            Serial.println(angle);
+        }
+    }
 }
