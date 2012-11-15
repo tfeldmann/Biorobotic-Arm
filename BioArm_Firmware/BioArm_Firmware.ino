@@ -23,13 +23,29 @@ void setup()
 
 void loop()
 {
-    scmd_update();
+    scmd_update(); // listen for commands
 
-    // send current positions to PC
-    static unsigned long timestamp = millis();
-    if (millis() - timestamp > 50)
+    /*
+        send current positions to PC
+        The values are separated as defined in 'separator'
+        1. Base
+        2. Shoulder
+        3. Elbow
+        4. Wrist
+        5. Grip
+     */
+    static uint32_t timestamp = millis();
+    if (millis() - timestamp > 50) // every 50ms
     {
-        Serial.println(base_position());
+        const String separator = String(';');
+        String status =
+            base_position() + separator +
+            0 + separator +
+            0 + separator +
+            wrist_angle() + separator +
+            grip_angle();
+        Serial.println(status);
+
         timestamp = millis();
     }
 }
