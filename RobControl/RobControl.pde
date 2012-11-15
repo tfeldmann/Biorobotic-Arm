@@ -6,6 +6,7 @@ Serial serial;
 BaseSketch baseSketch = new BaseSketch();
 ArmSketch armSketch = new ArmSketch();
 WristSketch wristSketch = new WristSketch();
+GripSketch gripSketch = new GripSketch();
 
 void setup()
 {
@@ -31,6 +32,11 @@ void setup()
     add(wristSketchPanel);
     wristSketch.setIsActive(true);
     wristSketch.setParentSketch(this);
+
+    SketchPanel gripSketchPanel = new SketchPanel(this, gripSketch);
+    add(gripSketchPanel);
+    gripSketch.setIsActive(true);
+    gripSketch.setParentSketch(this);
 }
 
 void draw()
@@ -57,7 +63,7 @@ void serialEvent(Serial serial)
             */
             String args[] = msg.split(";");
             baseSketch.pos_current = Integer.parseInt(args[0]);
-            wristSketch.angle_current = Integer.parseInt(args[3]);
+            wristSketch.current_angle = Integer.parseInt(args[3]);
         }
         catch (Exception ex)
         {

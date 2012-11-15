@@ -24,7 +24,7 @@ class ArmSketch extends EmbeddedSketch
     void draw()
     {
         super.draw();
-        background(255);
+        background(230);
 
         line(shoulder.x, height - shoulder.y, elbow.x, height - elbow.y);
         line(elbow.x, height - elbow.y, p.x, height - p.y);
