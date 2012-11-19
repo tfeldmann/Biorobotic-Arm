@@ -29,6 +29,7 @@ void draw()
 
 void oscEvent(OscMessage theOscMessage)
 {
+    println(theOscMessage);
     if(theOscMessage.checkAddrPattern("/gyro"))
     {
         p1 = theOscMessage.get(3).floatValue();

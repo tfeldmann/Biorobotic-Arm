@@ -26,6 +26,10 @@ class ArmSketch extends EmbeddedSketch
         super.draw();
         background(230);
 
+        fill(0);
+        text("Arms", 10, height - 10);
+
+        fill(255);
         line(shoulder.x, height - shoulder.y, elbow.x, height - elbow.y);
         line(elbow.x, height - elbow.y, p.x, height - p.y);
         ellipse(shoulder.x, height - shoulder.y, 10, 10);

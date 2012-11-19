@@ -23,6 +23,7 @@ class BaseSketch extends EmbeddedSketch
         float desired_angle = positionToAngle(pos_desired);
 
         fill(0);
+        text("Base", 10, height - 10);
         text(round(current_angle) + "°", 15, 35);
         fill(0, 180, 0);
         text(round(desired_angle) + "°", 15, 20);
@@ -36,7 +37,7 @@ class BaseSketch extends EmbeddedSketch
             rotate(radians(current_angle) + 0.375 * TWO_PI);
             rect(0, 0, 150, 150);
             strokeWeight(10);
-            line(25, 0, 125, 0);
+            line(30, 0, 120, 0);
         popMatrix();
 
         // show desired position
@@ -45,8 +46,8 @@ class BaseSketch extends EmbeddedSketch
             fill(0, 180, 0, 100); // green
             stroke(0, 180, 0, 100);
             //ellipse(130, 0, 20, 20);
-            strokeWeight(10);
-            line(0, 0, 130, 0);
+            strokeWeight(2);
+            line(20, 0, 130, 0);
         popMatrix();
     }
 
@@ -55,7 +56,6 @@ class BaseSketch extends EmbeddedSketch
         PVector dirVect = new PVector(mouseX - width / 2, (height - mouseY) - height / 2);
         float angle = degrees(atan2(dirVect.x, dirVect.y)) + 135;
         angle = constrain(angle, 0, 270);
-
         sendPositionCommand(angleToPos(angle));
     }
 
