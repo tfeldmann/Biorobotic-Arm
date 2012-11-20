@@ -46,9 +46,13 @@ void serialEvent(Serial serial)
         try
         {
             msg = trim(msg);
+
+            // sanity checks
+            if (msg.length() <= 0) return;
             if (msg.charAt(0) == '#') return;
 
             /*
+                position data comes in this order:
                 0. Base
                 1. Shoulder
                 2. Elbow
@@ -56,9 +60,12 @@ void serialEvent(Serial serial)
                 4. Grip
             */
             String args[] = msg.split(";");
-            baseSketch.pos_current = Integer.parseInt(args[0]);
-            handSketch.current_angle = Integer.parseInt(args[3]);
-            handSketch.grip_is_open = Integer.parseInt(args[4]) != 0;
+            if (args.length == 5)
+            {
+                baseSketch.pos_current = Integer.parseInt(args[0]);
+                handSketch.current_angle = Integer.parseInt(args[3]);
+                handSketch.grip_is_open = Integer.parseInt(args[4]) != 0;
+            }
         }
         catch (Exception ex)
         {
