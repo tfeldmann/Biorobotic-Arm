@@ -1,17 +1,22 @@
-# Implement API Calls
+# firmware
+ ☐ send shoulder angle
+ ☐ control shoulder
+ ☐ send elbow angle
+ ☐ control elbow
+ ☐ collision detection
+ ☐ implement holding a flat level in wrist
+
+# software
+ ☐ base turns in wrong direction
+ ☐ "hold level"-button
+ ☐ logging panel
+ ☐ run a given program
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
  ✔ grip open @done (12-11-15 21:49)
  ✔ grip close @done (12-11-15 21:49)
- ✔ grip angle @done (12-11-15 21:49)
  ✔ wrist angle @done (12-11-15 21:49)
  ✔ base angle @done (12-11-15 21:49)
- ☐ shoulder angle
- ☐ elbow angle
-
-# Setup controlling for
- ☐ base
- ☐ shoulder
- ☐ elbow
-
-# Other
- ☐ Collision detection
+ ✔ controlling base @done (12-11-20 15:30)
  ✔ setup hardware pins @done (12-11-15 21:49)
