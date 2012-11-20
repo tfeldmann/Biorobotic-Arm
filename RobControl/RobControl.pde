@@ -5,8 +5,7 @@ import org.gicentre.utils.multisketch.*;
 Serial serial;
 BaseSketch baseSketch = new BaseSketch();
 ArmSketch armSketch = new ArmSketch();
-WristSketch wristSketch = new WristSketch();
-GripSketch gripSketch = new GripSketch();
+HandSketch handSketch = new HandSketch();
 
 void setup()
 {
@@ -28,15 +27,10 @@ void setup()
     armSketch.setIsActive(true);
     armSketch.setParentSketch(this);
 
-    SketchPanel wristSketchPanel = new SketchPanel(this, wristSketch);
-    add(wristSketchPanel);
-    wristSketch.setIsActive(true);
-    wristSketch.setParentSketch(this);
-
-    SketchPanel gripSketchPanel = new SketchPanel(this, gripSketch);
-    add(gripSketchPanel);
-    gripSketch.setIsActive(true);
-    gripSketch.setParentSketch(this);
+    SketchPanel handSketchPanel = new SketchPanel(this, handSketch);
+    add(handSketchPanel);
+    handSketch.setIsActive(true);
+    handSketch.setParentSketch(this);
 }
 
 void draw()
@@ -55,15 +49,16 @@ void serialEvent(Serial serial)
             if (msg.charAt(0) == '#') return;
 
             /*
-                1. Base
-                2. Shoulder
-                3. Elbow
-                4. Wrist
-                5. Grip
+                0. Base
+                1. Shoulder
+                2. Elbow
+                3. Wrist
+                4. Grip
             */
             String args[] = msg.split(";");
             baseSketch.pos_current = Integer.parseInt(args[0]);
-            wristSketch.current_angle = Integer.parseInt(args[3]);
+            handSketch.current_angle = Integer.parseInt(args[3]);
+            handSketch.grip_is_open = Integer.parseInt(args[4]) != 0;
         }
         catch (Exception ex)
         {
