@@ -19,14 +19,15 @@ BASE     [ANGLE]
 SHOULDER [ANGLE]
 ELBOW    [ANGLE]
 WRIST    [ANGLE]
-GRIP     [ANGLE]
 	Each part of the robot can be controlled independently by sending the
 	desired angle. ANGLE can be any number between 0 and 255.
 </pre>
 <pre>
 GRIP ["OPEN" | "CLOSE"]
-	The grip can be opened/closed using the first two commands.
+	The grip can be opened/closed
 </pre>
+
+![Logo](https://raw.github.com/tfeldmann/Biorobotic-Arm/master/RobControl/Logo.png)
 
 ## Contributors
 - Fehmer, Manuel
