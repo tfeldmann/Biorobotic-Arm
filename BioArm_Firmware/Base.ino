@@ -20,18 +20,25 @@ const uint8_t BASE_DIR = 52;
 const uint8_t BASE_PWM = 4;  // uses timer0
 
 const int8_t BASE_TOLERANCE = 1;
-const uint16_t BASE_PWM_MIN = 30;
-const uint16_t BASE_PWM_MAX = 255;
+const uint16_t BASE_PWM_MIN = 50;  // 0...255
+const uint16_t BASE_PWM_MAX = 150; // 0...255
 
 // controller settings
 #define BASE_CONTROLLER_P 20
 
 typedef struct
 {
-    volatile int16_t pos_desired;
+    // actual position
     volatile int16_t pos_current;
+
+    // interpolated position
+    volatile int16_t pos_start_i;
+    volatile int16_t pos_current_i;
+
+    // desired position
+    volatile int16_t pos_desired;
 } Base;
-Base base;
+static Base base;
 
 
 void base_init()
@@ -49,6 +56,7 @@ void base_set_desired_pos(int16_t pos)
 void base_control()
 {
     base.pos_current = analogRead(BASE_POT);
+
     int16_t diff = base.pos_desired - base.pos_current;
 
     bool dir = (diff > 0);
@@ -61,7 +69,7 @@ void base_control()
 
 void base_update()
 {
-    // interpolate here
+    // controlling neccessary?
 }
 
 int16_t base_position()

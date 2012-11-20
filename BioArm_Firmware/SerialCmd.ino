@@ -1,3 +1,6 @@
+/**
+ * SerialCmd.ino
+ */
 #include <SerialCommand.h>
 SerialCommand serialCommand;
 

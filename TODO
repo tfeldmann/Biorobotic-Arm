@@ -5,7 +5,7 @@
  ☐ control elbow
  ☐ collision detection
  ☐ implement holding a flat level in wrist
- ☐ interpolate base movement
+ ☐ accelerate base movement
 
 # software
  ☐ "hold level"-button
@@ -14,6 +14,7 @@
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ interpolate base movement @done (12-11-20 18:22)
  ✔ add logo @done (12-11-20 16:30)
  ✔ base turns in wrong direction @done (12-11-20 15:52)
  ✔ grip open @done (12-11-15 21:49)

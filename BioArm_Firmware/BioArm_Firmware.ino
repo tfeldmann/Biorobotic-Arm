@@ -38,7 +38,7 @@ void loop()
         4. Grip
      */
     static uint32_t timestamp = millis();
-    if (millis() - timestamp > 50) // every 50ms
+    if (millis() - timestamp > 50) // circa every 50ms
     {
         const String separator = String(';');
         String status =
