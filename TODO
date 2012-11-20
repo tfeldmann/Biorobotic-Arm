@@ -1,19 +1,20 @@
 # firmware
- ☐ send shoulder angle
+ ☐ send shoulder position
  ☐ control shoulder
- ☐ send elbow angle
+ ☐ send elbow position
  ☐ control elbow
  ☐ collision detection
  ☐ implement holding a flat level in wrist
+ ☐ interpolate base movement
 
 # software
- ☐ base turns in wrong direction
  ☐ "hold level"-button
  ☐ logging panel
  ☐ run a given program
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ base turns in wrong direction @done (12-11-20 15:52)
  ✔ grip open @done (12-11-15 21:49)
  ✔ grip close @done (12-11-15 21:49)
  ✔ wrist angle @done (12-11-15 21:49)
