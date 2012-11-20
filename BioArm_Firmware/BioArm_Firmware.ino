@@ -14,13 +14,12 @@ void setup()
     // serial connection (115200, 8N1)
     Serial.begin(115200);
     scmd_init();
-
     base_init();
-    base_set_desired_pos(512); // init on middle position
-
     hand_init();
+
+    base_set_desired_pos(512); // init on middle position
     wrist_set_angle(90);
-    grip_close();
+    grip_open();
 
     start_control_tick(50); // 50Hz
 }
@@ -32,11 +31,11 @@ void loop()
     /*
         send current positions to PC
         The values are separated as defined in 'separator'
-        1. Base
-        2. Shoulder
-        3. Elbow
-        4. Wrist
-        5. Grip
+        0. Base
+        1. Shoulder
+        2. Elbow
+        3. Wrist
+        4. Grip
      */
     static uint32_t timestamp = millis();
     if (millis() - timestamp > 50) // every 50ms
@@ -47,7 +46,7 @@ void loop()
             0 + separator +
             0 + separator +
             wrist_angle() + separator +
-            grip_angle();
+            grip_is_open();
         Serial.println(status);
 
         timestamp = millis();

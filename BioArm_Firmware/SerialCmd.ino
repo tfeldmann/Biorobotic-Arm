@@ -83,12 +83,5 @@ void scmd_grip()
             grip_close();
             Serial.println("# GRIP CLOSE");
         }
-        else
-        {
-            uint8_t angle = atoi(arg);
-            grip_set_angle(angle);
-            Serial.print("# GRIP ");
-            Serial.println(angle);
-        }
     }
 }
