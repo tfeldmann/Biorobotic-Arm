@@ -27,10 +27,10 @@ GRIP ["OPEN" | "CLOSE"]
 	The grip can be opened/closed
 </pre>
 
-![Logo](https://raw.github.com/tfeldmann/Biorobotic-Arm/master/RobControl/Logo.png)
-
 ## Contributors
 - Fehmer, Manuel
 - Feldmann, Marlene
 - Feldmann, Thomas
 - Hussmann, Carsten
+
+![Logo](https://raw.github.com/tfeldmann/Biorobotic-Arm/master/RobControl/Logo.png)
