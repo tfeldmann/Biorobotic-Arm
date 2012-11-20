@@ -6,6 +6,7 @@ Serial serial;
 BaseSketch baseSketch = new BaseSketch();
 ArmSketch armSketch = new ArmSketch();
 HandSketch handSketch = new HandSketch();
+LogoSketch logoSketch = new LogoSketch();
 
 void setup()
 {
@@ -31,6 +32,11 @@ void setup()
     add(handSketchPanel);
     handSketch.setIsActive(true);
     handSketch.setParentSketch(this);
+
+    SketchPanel logoSketchPanel = new SketchPanel(this, logoSketch);
+    add(logoSketchPanel);
+    logoSketch.setIsActive(true);
+    logoSketch.setParentSketch(this);
 }
 
 void draw()
