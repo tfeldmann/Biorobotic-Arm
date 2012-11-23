@@ -72,7 +72,7 @@ void scmd_grip()
     char *arg = serialCommand.next();
     if (arg == NULL)
     {
-        Serial.println("# GRIP [OPEN|CLOSE]");
+        Serial.println("# GRIP [OPEN|CLOSE|TOGGLE]");
     }
     else
     {
@@ -85,6 +85,11 @@ void scmd_grip()
         {
             grip_close();
             Serial.println("# GRIP CLOSE");
+        }
+        else if (strcmp(arg, "TOGGLE") == 0)
+        {
+            grip_is_open() ? grip_close() : grip_open();
+            Serial.println("# GRIP TOGGLE");
         }
     }
 }

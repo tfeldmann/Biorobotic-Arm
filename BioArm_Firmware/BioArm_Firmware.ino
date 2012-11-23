@@ -48,7 +48,6 @@ void loop()
             wrist_angle() + separator +
             grip_is_open();
         Serial.println(status);
-
         timestamp = millis();
     }
 }

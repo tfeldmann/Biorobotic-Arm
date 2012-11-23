@@ -61,18 +61,6 @@ class HandSketch extends EmbeddedSketch
         sendSerial("WRIST "+(new Integer(constrain(round(angle), 0, 180))).toString());
     }
 
-    void toggleGrip()
-    {
-        if (grip_is_open)
-        {
-            sendSerial("GRIP CLOSE");
-        }
-        else
-        {
-            sendSerial("GRIP OPEN");
-        }
-    }
-
     void mouseDragged()
     {
         // set grip when clicked on center
@@ -89,7 +77,7 @@ class HandSketch extends EmbeddedSketch
         PVector d = new PVector(mouseX - width / 2, mouseY - height / 2);
         if (d.mag() < 20)
         {
-            toggleGrip();
+            sendSerial("GRIP TOGGLE");
         }
         else
         {

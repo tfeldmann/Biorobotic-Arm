@@ -1,8 +1,10 @@
+import oscP5.*;
 import java.awt.*;
 import processing.serial.*;
 import org.gicentre.utils.multisketch.*;
 
 Serial serial;
+OscP5 oscP5;
 BaseSketch baseSketch = new BaseSketch();
 ArmSketch armSketch = new ArmSketch();
 HandSketch handSketch = new HandSketch();
@@ -15,6 +17,8 @@ void setup()
     String portName = Serial.list()[4];
     serial = new Serial(this, portName, 115200);
     serial.clear();
+
+    oscP5 = new OscP5(this, 5001);
 
     setLayout(new GridLayout(2, 2));
 
@@ -85,4 +89,16 @@ void sendSerial(String cmd)
     if (serial == null) return;
     serial.write(cmd);
     serial.write("\n");
+}
+
+void oscEvent(OscMessage theOscMessage)
+{
+    println(theOscMessage);
+    if(theOscMessage.checkAddrPattern("/gyro"))
+    {
+        float p1 = theOscMessage.get(3).floatValue();
+        sendSerial("WRIST "+(new Integer(constrain(round(p1), 0, 180))).toString());
+        //p2 = theOscMessage.get(4).floatValue();
+        //p3 = theOscMessage.get(5).floatValue();
+    }
 }
