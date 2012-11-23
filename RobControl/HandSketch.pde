@@ -55,9 +55,13 @@ class HandSketch extends EmbeddedSketch
     {
         // abort if clicked in unavailable position to avoid instant jump from 180° to 0°
         if (mouseX < width / 2) return;
-
         PVector dirVect = new PVector(mouseX - width / 2, (height - mouseY) - height / 2);
         float angle = degrees(atan2(dirVect.x, dirVect.y));
+        setWristAngle(angle);
+    }
+
+    void setWristAngle(float angle)
+    {
         sendSerial("WRIST "+(new Integer(constrain(round(angle), 0, 180))).toString());
     }
 

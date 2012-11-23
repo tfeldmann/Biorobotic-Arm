@@ -97,7 +97,8 @@ void oscEvent(OscMessage theOscMessage)
     if (theOscMessage.checkAddrPattern("/gyro"))
     {
         float wrist_osc = theOscMessage.get(3).floatValue();
-        sendSerial("WRIST "+(new Integer(round(map(round(wrist_osc), 0, 180, 180, 0)))).toString());
+        handSketch.setWristAngle(map(round(wrist_osc), 0, 180, 180, 0));
+
         float base_osc = theOscMessage.get(5).floatValue();
         baseSketch.setDesiredAngle(map(base_osc, 0, 180, 270, 0));
     }
