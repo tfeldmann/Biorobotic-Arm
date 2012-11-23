@@ -93,12 +93,16 @@ void sendSerial(String cmd)
 
 void oscEvent(OscMessage theOscMessage)
 {
-    println(theOscMessage);
-    if(theOscMessage.checkAddrPattern("/gyro"))
+    // println(theOscMessage);
+    if (theOscMessage.checkAddrPattern("/gyro"))
     {
-        float p1 = theOscMessage.get(3).floatValue();
-        sendSerial("WRIST "+(new Integer(constrain(round(p1), 0, 180))).toString());
-        //p2 = theOscMessage.get(4).floatValue();
-        //p3 = theOscMessage.get(5).floatValue();
+        float wrist_osc = theOscMessage.get(3).floatValue();
+        sendSerial("WRIST "+(new Integer(round(map(round(wrist_osc), 0, 180, 180, 0)))).toString());
+        float base_osc = theOscMessage.get(5).floatValue();
+        baseSketch.setDesiredAngle(map(base_osc, 0, 180, 270, 0));
+    }
+    if (theOscMessage.checkAddrPattern("/grip"))
+    {
+        sendSerial("GRIP TOGGLE");
     }
 }
