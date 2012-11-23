@@ -29,6 +29,7 @@ pages = [[
     "color": "#0000aa",
     "stroke": "#aaaaaa",
     "isLocal": true,
+    "label": "Zero",
     "ontouchstart": "interfaceManager.refreshInterface()",
 },
 
@@ -36,29 +37,12 @@ pages = [[
     "name": "gyroSliders",
     "type": "MultiSlider",
     "numberOfSliders": 2,
-    "min":0,
-    "max":127,
-    "x": .0,
-    "y": .05,
+    "min":0, "max":180,
+    "x": .0, "y": .05,
     "width": .99,
     "height": .15,
     "isLocal":true,
 },
-
-{
-    "name": "gyroSpeed",
-    "type": "Slider",
-    "x": .0,
-    "y": .275,
-    "width": .99,
-    "height": .075,
-    "isLocal": true,
-    "min": 1,
-    "max": 100,
-    "startingValue": 50,
-    "ontouchend": "gyro.setUpdateRate(this.value); gyroSpeedLabel.changeValue(\'Update Rate : \' + (Math.round(this.value*10) / 10) +\'Hz\')",
-},
-
 
 /** GRIP **/
 {
@@ -90,7 +74,7 @@ pages = [[
     "name": "gyro",
     "type": "Gyro",
     "min":0,
-    "max":127,
+    "max":180,
     "midiNumber":3,
     "updateRate":40,
     "isLocal":false,
