@@ -23,8 +23,8 @@ WRIST    [ANGLE]
 	desired angle. ANGLE can be any number between 0 and 255.
 </pre>
 <pre>
-GRIP ["OPEN" | "CLOSE"]
-	The grip can be opened/closed
+GRIP ["OPEN" | "CLOSE" | "TOGGLE"]
+	The grip can be opened/closed.
 </pre>
 
 ## Contributors

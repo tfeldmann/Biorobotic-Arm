@@ -93,7 +93,7 @@ void sendSerial(String cmd)
 
 void oscEvent(OscMessage theOscMessage)
 {
-    // println(theOscMessage);
+    // println(theOscMessage); // debug the messages
     if (theOscMessage.checkAddrPattern("/gyro"))
     {
         float wrist_osc = theOscMessage.get(3).floatValue();
