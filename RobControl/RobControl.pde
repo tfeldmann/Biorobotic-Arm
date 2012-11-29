@@ -9,10 +9,12 @@ BaseSketch baseSketch = new BaseSketch();
 ArmSketch armSketch = new ArmSketch();
 HandSketch handSketch = new HandSketch();
 LogoSketch logoSketch = new LogoSketch();
+ProgrammingSketch programmingSketch = new ProgrammingSketch();
+
 
 void setup()
 {
-    size(600, 600);
+    size(900, 600);
 
     String portName = Serial.list()[4];
     serial = new Serial(this, portName, 115200);
@@ -20,7 +22,7 @@ void setup()
 
     oscP5 = new OscP5(this, 5001);
 
-    setLayout(new GridLayout(2, 2));
+    setLayout(new GridLayout(2, 3));
 
     SketchPanel baseSketchPanel = new SketchPanel(this, baseSketch);
     add(baseSketchPanel);
@@ -32,15 +34,20 @@ void setup()
     armSketch.setIsActive(true);
     armSketch.setParentSketch(this);
 
+    SketchPanel logoSketchPanel = new SketchPanel(this, logoSketch);
+    add(logoSketchPanel);
+    logoSketch.setIsActive(true);
+    logoSketch.setParentSketch(this);
+
     SketchPanel handSketchPanel = new SketchPanel(this, handSketch);
     add(handSketchPanel);
     handSketch.setIsActive(true);
     handSketch.setParentSketch(this);
 
-    SketchPanel logoSketchPanel = new SketchPanel(this, logoSketch);
-    add(logoSketchPanel);
-    logoSketch.setIsActive(true);
-    logoSketch.setParentSketch(this);
+    // SketchPanel programmingSketchPanel = new SketchPanel(this, programmingSketch);
+    // add(programmingSketchPanel);
+    // programmingSketch.setIsActive(true);
+    // programmingSketch.setParentSketch(this);
 }
 
 void draw()
