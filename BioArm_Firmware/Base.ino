@@ -15,9 +15,9 @@
  *  +5V -------- red
  */
 
-const uint8_t BASE_POT = A0;
-const uint8_t BASE_DIR = 52;
-const uint8_t BASE_PWM = 4;  // uses timer0
+const uint8_t BASE_POT = A3;
+const uint8_t BASE_DIR = 12;
+const uint8_t BASE_PWM = 13;  // uses timer0
 
 const int8_t BASE_TOLERANCE = 1;
 const uint16_t BASE_PWM_MIN = 50;  // 0...255

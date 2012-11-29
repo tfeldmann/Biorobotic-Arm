@@ -9,6 +9,7 @@ void scmd_init()
     serialCommand.addCommand("?",        scmd_identify);
     serialCommand.addCommand("BASE",     scmd_base);
     serialCommand.addCommand("SHOULDER", scmd_shoulder);
+    serialCommand.addCommand("ELBOW",    scmd_elbow);
     serialCommand.addCommand("WRIST",    scmd_wrist);
     serialCommand.addCommand("GRIP",     scmd_grip);
     serialCommand.setDefaultHandler(scmd_unknown);
@@ -49,6 +50,22 @@ void scmd_base()
 void scmd_shoulder()
 {
     Serial.println("# SHOULDER [ANGLE]");
+}
+
+void scmd_elbow()
+{
+    char *arg = serialCommand.next();
+    if (arg == NULL)
+    {
+        Serial.println("# ELBOW [ANGLE]");
+    }
+    else
+    {
+        int16_t angle = atoi(arg);
+        elbow_set_desired_pos(angle);
+        Serial.print("# ELBOW ");
+        Serial.println(angle);
+    }
 }
 
 void scmd_wrist()

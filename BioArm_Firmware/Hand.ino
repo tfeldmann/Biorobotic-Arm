@@ -56,8 +56,3 @@ uint8_t wrist_angle()
 {
     return wrist_servo.read();
 }
-
-uint8_t grip_angle()
-{
-    return grip_servo.read();
-}
