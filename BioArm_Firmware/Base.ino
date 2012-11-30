@@ -28,14 +28,7 @@ const uint16_t BASE_PWM_MAX = 150; // 0...255
 
 typedef struct
 {
-    // actual position
     volatile int16_t pos_current;
-
-    // interpolated position
-    volatile int16_t pos_start_i;
-    volatile int16_t pos_current_i;
-
-    // desired position
     volatile int16_t pos_desired;
 } Base;
 static Base base;
@@ -65,11 +58,6 @@ void base_control()
 
     digitalWrite(BASE_DIR, dir);
     analogWrite(BASE_PWM, speed);
-}
-
-void base_update()
-{
-    // controlling neccessary?
 }
 
 int16_t base_position()
