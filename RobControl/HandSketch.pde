@@ -1,30 +1,30 @@
 
 class HandSketch extends EmbeddedSketch
 {
-    int current_angle;
+    int pos_current;
     boolean grip_is_open;
 
     void setup()
     {
         size(300, 300);
+        noLoop();
         smooth();
         ellipseMode(CENTER);
     }
 
     void draw()
     {
-        super.draw();
         background(220);
 
         fill(0);
         text("Hand", 10, height - 10);
-        text(round(current_angle) + "°", 15, 20);
+        text(round(pos_current) + "°", 10, 20);
 
         translate(width / 2, height / 2);
 
         // wrist
         pushMatrix();
-            rotate(radians(current_angle) - HALF_PI);
+            rotate(radians(pos_current) - HALF_PI);
             stroke(0);
             if (grip_is_open)
             {

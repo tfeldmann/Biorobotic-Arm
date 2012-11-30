@@ -7,7 +7,9 @@ class BaseSketch extends EmbeddedSketch
     void setup()
     {
         size(300, 300);
+        noLoop();
         smooth();
+
         ellipseMode(CENTER);
         rectMode(CENTER);
 
@@ -16,7 +18,6 @@ class BaseSketch extends EmbeddedSketch
 
     void draw()
     {
-        super.draw();
         background(255);
 
         float current_angle = positionToAngle(pos_current);
@@ -24,9 +25,9 @@ class BaseSketch extends EmbeddedSketch
 
         fill(0);
         text("Base", 10, height - 10);
-        text(round(current_angle) + "°", 15, 35);
+        text(round(current_angle) + "°", 10, 35);
         fill(0, 180, 0);
-        text(round(desired_angle) + "°", 15, 20);
+        text(round(desired_angle) + "°", 10, 20);
         translate(width / 2, height / 2);
 
         // show robot
@@ -45,7 +46,6 @@ class BaseSketch extends EmbeddedSketch
             rotate(radians(desired_angle) + 0.375 * TWO_PI);
             fill(0, 180, 0, 100); // green
             stroke(0, 180, 0, 100);
-            //ellipse(130, 0, 20, 20);
             strokeWeight(2);
             line(20, 0, 130, 0);
         popMatrix();
@@ -85,11 +85,13 @@ class BaseSketch extends EmbeddedSketch
     void mouseDragged()
     {
         setPositionByMouse();
+        redraw();
     }
 
     void mousePressed()
     {
         setPositionByMouse();
+        redraw();
     }
 }
 

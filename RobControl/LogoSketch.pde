@@ -7,13 +7,14 @@ class LogoSketch extends EmbeddedSketch
     {
         size(300, 300);
         smooth();
+        noLoop();
+
         imageMode(CENTER);
         logo = loadImage("Logo.png");
     }
 
     void draw()
     {
-        super.draw();
         background(214);
         image(logo, width / 2, height / 2);
     }

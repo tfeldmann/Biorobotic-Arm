@@ -9,12 +9,12 @@ BaseSketch baseSketch = new BaseSketch();
 ArmSketch armSketch = new ArmSketch();
 HandSketch handSketch = new HandSketch();
 LogoSketch logoSketch = new LogoSketch();
-ProgrammingSketch programmingSketch = new ProgrammingSketch();
 
 
 void setup()
 {
-    size(900, 600);
+    size(600, 600);
+    noLoop();
 
     String portName = Serial.list()[4];
     serial = new Serial(this, portName, 115200);
@@ -22,7 +22,7 @@ void setup()
 
     oscP5 = new OscP5(this, 5001);
 
-    setLayout(new GridLayout(2, 3));
+    setLayout(new GridLayout(2, 2));
 
     SketchPanel baseSketchPanel = new SketchPanel(this, baseSketch);
     add(baseSketchPanel);
@@ -34,20 +34,15 @@ void setup()
     armSketch.setIsActive(true);
     armSketch.setParentSketch(this);
 
-    SketchPanel logoSketchPanel = new SketchPanel(this, logoSketch);
-    add(logoSketchPanel);
-    logoSketch.setIsActive(true);
-    logoSketch.setParentSketch(this);
-
     SketchPanel handSketchPanel = new SketchPanel(this, handSketch);
     add(handSketchPanel);
     handSketch.setIsActive(true);
     handSketch.setParentSketch(this);
 
-    // SketchPanel programmingSketchPanel = new SketchPanel(this, programmingSketch);
-    // add(programmingSketchPanel);
-    // programmingSketch.setIsActive(true);
-    // programmingSketch.setParentSketch(this);
+    SketchPanel logoSketchPanel = new SketchPanel(this, logoSketch);
+    add(logoSketchPanel);
+    logoSketch.setIsActive(true);
+    logoSketch.setParentSketch(this);
 }
 
 void draw()
@@ -57,10 +52,10 @@ void draw()
 
 void serialEvent(Serial serial)
 {
-    String msg = serial.readStringUntil('\n');
-    if (msg != null)
+    try
     {
-        try
+        String msg = serial.readStringUntil('\n');
+        if (msg != null)
         {
             msg = trim(msg);
 
@@ -80,14 +75,20 @@ void serialEvent(Serial serial)
             if (args.length == 5)
             {
                 baseSketch.pos_current = Integer.parseInt(args[0]);
-                handSketch.current_angle = Integer.parseInt(args[3]);
+                armSketch.pos_current_shoulder = Integer.parseInt(args[1]);
+                armSketch.pos_current_elbow = Integer.parseInt(args[2]);
+                handSketch.pos_current = Integer.parseInt(args[3]);
                 handSketch.grip_is_open = Integer.parseInt(args[4]) != 0;
+
+                baseSketch.redraw();
+                armSketch.redraw();
+                handSketch.redraw();
             }
         }
-        catch (Exception ex)
-        {
-            println(ex.getMessage());
-        }
+    }
+    catch (Exception ex)
+    {
+        println(ex.getMessage());
     }
 }
 

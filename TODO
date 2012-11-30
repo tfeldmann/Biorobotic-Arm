@@ -1,8 +1,6 @@
 # firmware
  ☐ send shoulder position
  ☐ control shoulder
- ☐ send elbow position
- ☐ control elbow
  ☐ collision detection
  ☐ implement holding a flat level in wrist
  ☐ accelerate base movement
@@ -18,6 +16,8 @@
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ send elbow position @done (12-11-30 09:05)
+ ✔ control elbow @done (12-11-30 09:05)
  ✔ toggle grip @done (12-11-23 09:28)
  ✔ interpolate base movement @done (12-11-20 18:22)
  ✔ add logo @done (12-11-20 16:30)
