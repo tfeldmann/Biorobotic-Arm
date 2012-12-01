@@ -21,32 +21,32 @@ As the connection is established you will receive monitoring data from the robot
 </pre>
 
 ### Commands
+Use this commands to control the DC-Motors in the base, the shoulders and
+the elbow. "POS" can be any integer value from 0 to 1023. Mechanically,
+not all positions are possible.
 <pre>
 BASE [POS]
 SHOULDER [POS]
 ELBOW [POS]
 </pre>
-Use this commands to control the DC-Motors in the base, the shoulders and
-the elbow. "POS" can be any integer value from 0 to 1023. Mechanically,
-not all positions are possible.
 
+Controls the robot's wrist. You can either set an angle directly or toggle
+the hold-flat-automatic.
 <pre>
 WRIST [ANGLE | "FLAT"]
 </pre>
-Controls the robot's wrist. You can either set an angle directly or toggle
-the hold-flat-automatic.
 
+The grip can be opened/closed. Toggle switches between open and closed
+state.
 <pre>
 GRIP ["OPEN" | "CLOSE" | "TOGGLE"]
 </pre>
-The grip can be opened/closed. Toggle switches between open and closed
-state.
 
+This is the identify command. The robot answers with "BIOROBOTIC_ARM_1.0
+where 1.0 is the firmware version.
 <pre>
 ?
 </pre>
-This is the identify command. The robot answers with "BIOROBOTIC_ARM_1.0
-where 1.0 is the firmware version.
 
 
 ## Building the software
