@@ -19,22 +19,27 @@ BASE [POS]
 SHOULDER [POS]
 ELBOW [POS]
 
-	Use this commands to control the DC-Motors in the base, the shoulders and the elbow. "POS" can be any integer value from 0 to 1023. Mechanically, not all positions are possible.
+	Use this commands to control the DC-Motors in the base, the shoulders and
+	the elbow. "POS" can be any integer value from 0 to 1023. Mechanically,
+	not all positions are possible.
 </pre>
 <pre>
 WRIST [ANGLE | "FLAT"]
 
-	Controls the robot's wrist. You can either set an angle directly or toggle the hold-flat-automatic.
+	Controls the robot's wrist. You can either set an angle directly or toggle
+	the hold-flat-automatic.
 </pre>
 <pre>
 GRIP ["OPEN" | "CLOSE" | "TOGGLE"]
 
-	The grip can be opened/closed. Toggle switches between open and closed state.
+	The grip can be opened/closed. Toggle switches between open and closed
+	state.
 </pre>
 <pre>
 ?
 
-	This is the identify command. The robot answers with "BIOROBOTIC_ARM_1.0" where 1.0 is the firmware version.
+	This is the identify command. The robot answers with "BIOROBOTIC_ARM_1.0
+	where 1.0 is the firmware version.
 </pre>
 
 ## Building the software
