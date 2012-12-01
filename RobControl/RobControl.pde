@@ -21,7 +21,6 @@ void setup()
     serial.clear();
 
     oscP5 = new OscP5(this, 5001);
-
     setLayout(new GridLayout(2, 2));
 
     SketchPanel baseSketchPanel = new SketchPanel(this, baseSketch);
@@ -101,7 +100,6 @@ void sendSerial(String cmd)
 
 void oscEvent(OscMessage theOscMessage)
 {
-    // println(theOscMessage); // debug the messages
     if (theOscMessage.checkAddrPattern("/gyro"))
     {
         float wrist_osc = theOscMessage.get(3).floatValue();
