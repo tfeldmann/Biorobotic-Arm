@@ -49,7 +49,18 @@ void scmd_base()
 
 void scmd_shoulder()
 {
-    Serial.println("# SHOULDER [ANGLE]");
+    char *arg = serialCommand.next();
+    if (arg == NULL)
+    {
+        Serial.println("# SHOULDER [ANGLE]");
+    }
+    else
+    {
+        int16_t angle = atoi(arg);
+        shoulder_set_desired_pos(angle);
+        Serial.print("# SHOULDER ");
+        Serial.println(angle);
+    }
 }
 
 void scmd_elbow()

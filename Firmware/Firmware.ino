@@ -14,12 +14,15 @@ void setup()
     // serial connection (115200, 8N1)
     Serial.begin(115200);
     scmd_init();
+
     base_init();
     elbow_init();
+    shoulder_init();
     hand_init();
 
     base_set_desired_pos(512); // init on middle position
     elbow_set_desired_pos(804);
+    shoulder_set_desired_pos(0);
     wrist_set_angle(90);
     grip_open();
 
@@ -45,7 +48,7 @@ void loop()
         const String separator = String(';');
         String status =
             base_position() + separator +
-            0 + separator +
+            shoulder_position() + separator +
             elbow_position() + separator +
             wrist_angle() + separator +
             grip_is_open();
@@ -70,5 +73,6 @@ void start_control_tick(uint8_t freq)
 ISR(TIMER1_COMPA_vect)
 {
     base_control();
+    shoulder_control();
     elbow_control();
 }
