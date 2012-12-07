@@ -1,17 +1,41 @@
 # Biorobotic Arm
-
 This is a collaborative project for the course "biorobotics and locomotion".
-It contains the source files for the firmware, control-software and remote software.
+It contains the source files for the firmware, graphical control software, scripting software and remote software as well as the driver.
+
+
+## Driver
+This folder contains the driver which is needed on windows ([installation instructions](http://arduino.cc/en/Guide/windows#toc4)).
+
+On Mac OS X the device is recognized automatically. It should work on Linux, too - but we did not test that.
+
+
+## Firmware
+Here you find the robot's firmware. It is written for an Arduino Mega 2560 R3.
+To compile and upload, simply use the Arduino Software ([link](http://arduino.cc)).
+The [SerialCommand](https://github.com/kroimon/Arduino-SerialCommand) library needs to be installed.
+
+
+## RemoteInterface
+This folder contains the setup file for the remote interface (iOS / Android).
+You will need the software "[Control](http://charlie-roberts.com/Control/)".
+
+Make sure that you are in the same network as the PC running the RobControl-software and enter the given IP-adress as destination. Install and start the RobControl Remote interface (the website shows how it's done).
+
+
+## RobControl
+The graphical robot control software. Start it after you connected the robot to the PC, select the right port and you're good to go.
+
+You can control the robot by clicking and dragging. Everything should be quite self-explanatory.
+
+
+## Scripter
+The programmatical robot control software. Here you can enter any command from the section "API" as well as the command "PAUSE [seconds]". Click on start to run the script. Additionally you can send single commands in the entry field on the bottom.
+
 
 ## API
-The robot is controlled by an Arduino Mega 2560 which has an built-in serial->USB converter. To connect the robot, simply plug in a USB-cable.
-If Windows doesn't recognize the controller board install the driver from the "Driver" directory.
-
-Connect to the robot via a 115200 baud, 8N1 serial connection.
-Commands are sent in plain ASCII.
-
 ### Monitoring data
-As the connection is established you will receive monitoring data from the robot. Every 20ms (50Hz) you will get five integers separated by ';'.
+Connect to the robot via a 115200 baud, 8N1 serial connection.
+As the connection is established you will receive monitoring data from the robot in plain ASCII. Every 20ms (50Hz) you will get five integers separated by ';'.
 <pre>
 1. base          (0..1023)
 2. arm->shoulder (0..1023)
@@ -47,18 +71,6 @@ where 1.0 is the firmware version.
 <pre>
 ?
 </pre>
-
-
-## Building the software
-
-### Desktop-Software "RobControl":
-The easiest way to build the software is via Processing (processing.org).
-Needed libraries:
- - GiCentreUtils
- - oscP5.
-
-### Robot Firmware "BioArm_Firmware":
-Compile and upload via the Arduino Software. You will need the "SerialCommand" library.
 
 
 ## Contributors
