@@ -12,6 +12,7 @@ void scmd_init()
     serialCommand.addCommand("ELBOW",    scmd_elbow);
     serialCommand.addCommand("WRIST",    scmd_wrist);
     serialCommand.addCommand("GRIP",     scmd_grip);
+    serialCommand.addCommand("STOP",     scmd_stop);
     serialCommand.setDefaultHandler(scmd_unknown);
 }
 
@@ -120,4 +121,11 @@ void scmd_grip()
             Serial.println("# GRIP TOGGLE");
         }
     }
+}
+
+void scmd_stop()
+{
+    base_set_desired_pos(base_position());
+    shoulder_set_desired_pos(shoulder_position());
+    elbow_set_desired_pos(elbow_position());
 }
