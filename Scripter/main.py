@@ -25,10 +25,9 @@ class App(object):
 
         self.command_entry = Entry(self.control_frame)
         self.command_entry.pack(side=LEFT)
+        self.command_entry.bind("<Return>", self.send_command)
 
-        self.send_button = Button(self.control_frame,
-                                  text="Send",
-                                  command=lambda: self.send(self.command_entry.get()))
+        self.send_button = Button(self.control_frame, text="Send", command=self.send_command)
         self.send_button.pack(side=LEFT)
 
         self.start_button = Button(self.control_frame, text="Start")
@@ -37,8 +36,10 @@ class App(object):
         self.cancel_button = Button(self.control_frame, text="Cancel")
         self.cancel_button.pack(side=RIGHT)
 
-    def send(self, str):
+    def send_command(self, event=null):
+        str = self.command_entry.get()
         str = str.upper()
+        self.command_entry.delete(0, END)
 
 
 def main():
