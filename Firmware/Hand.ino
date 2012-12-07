@@ -2,22 +2,25 @@
  * Hand.ino
  *
  * Arduino    Wrist Servo
- *   44 --------- orange
+ *  WRIST_PWM --------- orange
  *  GND --------- black
  *  +5V --------- red
  *
  * Arduino    Hand Servo
- *   46 --------- orange
+ *   GRIP_PWM --------- orange
  *  GND --------- black
  *  +5V --------- red
  */
 #include <Servo.h>
 
-const uint8_t WRIST_PWM = 44;
-const uint8_t GRIP_PWM = 46;
+const uint8_t WRIST_PWM = 46;
+const uint8_t GRIP_PWM = 44;
 
 const uint8_t GRIP_MAX = 25;
 const uint8_t GRIP_MIN = 0;
+
+const uint8_t WRIST_MIN = 0;
+const uint8_t WRIST_MAX = 170; // todo limit!
 
 static Servo wrist_servo;
 static Servo grip_servo;
@@ -32,7 +35,7 @@ void hand_init()
 
 void wrist_set_angle(uint8_t angle)
 {
-    wrist_servo.write(constrain(angle, 0, 180));
+    wrist_servo.write(constrain(angle, WRIST_MIN, WRIST_MAX));
 }
 
 void grip_open()
