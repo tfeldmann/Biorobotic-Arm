@@ -11,8 +11,7 @@
 
 void setup()
 {
-    // serial connection (115200, 8N1)
-    Serial.begin(115200);
+    Serial.begin(115200);  // 8N1
     scmd_init();
 
     base_init();
@@ -20,7 +19,8 @@ void setup()
     shoulder_init();
     hand_init();
 
-    base_set_desired_pos(512); // init on middle position
+    // init component positions
+    base_set_desired_pos(512);
     elbow_set_desired_pos(804);
     shoulder_set_desired_pos(0);
     wrist_set_angle(90);
