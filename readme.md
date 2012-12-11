@@ -54,16 +54,20 @@ SHOULDER [POS]
 ELBOW [POS]
 </pre>
 
-Controls the robot's wrist. You can either set an angle directly or toggle
-the hold-flat-automatic.
+Controls the robot's wrist. You can set the angle with the WRIST command.
 <pre>
-WRIST [ANGLE | "FLAT"]
+WRIST [ANGLE]
 </pre>
 
 The grip can be opened/closed. Toggle switches between open and closed
 state.
 <pre>
 GRIP ["OPEN" | "CLOSE" | "TOGGLE"]
+</pre>
+
+The robot is able to hold the wrist horizontal to the ground automatically. To enable this use the AUTOLEVEL command.
+<pre>
+AUTOLEVEL ["ON" | "OFF" | "TOGGLE"]
 </pre>
 
 This is the identify command. The robot answers with "BIOROBOTIC_ARM_1.0
