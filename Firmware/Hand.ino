@@ -63,15 +63,21 @@ uint8_t wrist_angle()
     return wrist_servo.read();
 }
 
-void wrist_autolevel()
+bool wrist_is_autolevel()
 {
-    wrist_autolevel_flag = !wrist_autolevel_flag;
+    return wrist_autolevel_flag;
+}
+
+void wrist_set_autolevel(bool flag)
+{
+    wrist_autolevel_flag = flag;
 }
 
 void hand_control()
 {
-    if (wrist_autolevel_flag)
+    if (wrist_is_autolevel())
     {
-        // @todo: implementation
+        // @todo: this doesn't seem to work yet.
+        wrist_set_angle(90 - (shoulder_angle() + elbow_angle()));
     }
 }

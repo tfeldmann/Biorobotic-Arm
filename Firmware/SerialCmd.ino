@@ -103,7 +103,7 @@ void scmd_grip()
     char *arg = serialCommand.next();
     if (arg == NULL)
     {
-        Serial.println("# GRIP [\"OPEN\"|\"CLOSE\"|\"TOGGLE\"]");
+        Serial.println("# GRIP [OPEN|CLOSE|TOGGLE]");
     }
     else
     {
@@ -134,5 +134,27 @@ void scmd_stop()
 
 void scmd_autolevel()
 {
-    wrist_autolevel();
+    char *arg = serialCommand.next();
+    if (arg == NULL)
+    {
+        Serial.println("# AUTOLEVEL [ON|OFF|TOGGLE]");
+    }
+    else
+    {
+        if (strcmp(arg, "ON") == 0)
+        {
+            wrist_set_autolevel(true);
+            Serial.println("# AUTOLEVEL ON");
+        }
+        else if (strcmp(arg, "OFF") == 0)
+        {
+            wrist_set_autolevel(false);
+            Serial.println("# AUTOLEVEL OFF");
+        }
+        else if (strcmp(arg, "TOGGLE") == 0)
+        {
+            wrist_set_autolevel(!wrist_is_autolevel());
+            Serial.println("# AUTOLEVEL TOGGLE");
+        }
+    }
 }
