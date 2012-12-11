@@ -21,7 +21,7 @@ const uint8_t BASE_PWM = 13;  // uses timer0
 
 const int8_t BASE_TOLERANCE = 1;
 const uint16_t BASE_PWM_MIN = 60;  // 0...255
-const uint16_t BASE_PWM_MAX = 150; // 0...255
+const uint16_t BASE_PWM_MAX = 150;  // 0...255
 
 // controller settings
 #define BASE_CONTROLLER_P 5
@@ -53,7 +53,9 @@ void base_control()
     int16_t diff = base.pos_desired - base.pos_current;
 
     bool dir = (diff > 0);
-    uint8_t speed = constrain(abs(diff) * BASE_CONTROLLER_P, BASE_PWM_MIN, BASE_PWM_MAX);
+    uint8_t speed = constrain(abs(diff) * BASE_CONTROLLER_P,
+        BASE_PWM_MIN,
+        BASE_PWM_MAX);
     if (abs(diff) <= BASE_TOLERANCE) speed = 0;
 
     digitalWrite(BASE_DIR, dir);

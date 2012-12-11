@@ -70,6 +70,7 @@ int16_t shoulder_position()
 int16_t shoulder_angle()
 {
     // if the shoulder is perfectly horizontal we read 50 on the potentiometer.
-    // The rest can be calculated as we know that have 1024 steps / 270 degrees.
+    // The other values can be calculated as we know that have 1024 steps / 270
+    // degrees.
     return map(shoulder.pos_current, 50, 1023, 0, 256);
 }

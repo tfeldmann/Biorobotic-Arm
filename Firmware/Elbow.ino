@@ -70,7 +70,7 @@ int16_t elbow_position()
 int16_t elbow_angle()
 {
     // when the elbow is perfectly in line with the shoulder we read 810 on the
-    // potentiometer. The rest can be calculated as we know that have
+    // potentiometer. The other values can be calculated as we know that have
     // 1024 steps / 270 degrees.
     return map(elbow.pos_current, 810, 0, 0, 213);
 }
