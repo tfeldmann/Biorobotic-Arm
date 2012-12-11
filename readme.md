@@ -79,4 +79,4 @@ where 1.0 is the firmware version.
 - Feldmann, Thomas
 - Hussmann, Carsten
 
-![Logo](https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/Roboterfabrik.png)
+<p align="center">![Logo](https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/Roboterfabrik.png)</p>
