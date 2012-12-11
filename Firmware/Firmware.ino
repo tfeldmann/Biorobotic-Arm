@@ -26,12 +26,12 @@ void setup()
     wrist_set_angle(90);
     grip_open();
 
-    start_control_tick(50); // 50Hz
+    start_control_tick(50);  // 50Hz
 }
 
 void loop()
 {
-    scmd_update(); // listen for commands
+    scmd_update();  // listen for commands
 
     /*
         send current positions to PC
@@ -43,7 +43,7 @@ void loop()
         4. Grip
      */
     static uint32_t timestamp = millis();
-    if (millis() - timestamp > 50) // circa every 50ms
+    if (millis() - timestamp > 50)  // circa every 50ms
     {
         const String separator = String(';');
         String status =
@@ -60,12 +60,12 @@ void loop()
 void start_control_tick(uint8_t freq)
 {
     cli();
-    TCCR1A = 0; // set entire TCCRA register to 0
-    TCCR1B = 0; // same for TCCRB
-    TCNT1  = 0; // initialize counter value to 0
+    TCCR1A = 0;  // set entire TCCRA register to 0
+    TCCR1B = 0;  // same for TCCRB
+    TCNT1  = 0;  // initialize counter value to 0
     OCR1A  = 15625 / freq;
     TCCR1B |= (1 << WGM12);  // turn on CTC mode
-    TIMSK1 |= (1 << OCIE1A); // enable timer compare interrupt
+    TIMSK1 |= (1 << OCIE1A);  // enable timer compare interrupt
     TCCR1B |= (1 << CS12) | (1 << CS10); // 1024 prescaler
     sei();
 }
@@ -75,4 +75,5 @@ ISR(TIMER1_COMPA_vect)
     base_control();
     shoulder_control();
     elbow_control();
+    hand_control();
 }

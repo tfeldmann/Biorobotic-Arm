@@ -6,13 +6,14 @@ SerialCommand serialCommand;
 
 void scmd_init()
 {
-    serialCommand.addCommand("?",        scmd_identify);
-    serialCommand.addCommand("BASE",     scmd_base);
-    serialCommand.addCommand("SHOULDER", scmd_shoulder);
-    serialCommand.addCommand("ELBOW",    scmd_elbow);
-    serialCommand.addCommand("WRIST",    scmd_wrist);
-    serialCommand.addCommand("GRIP",     scmd_grip);
-    serialCommand.addCommand("STOP",     scmd_stop);
+    serialCommand.addCommand("?",         scmd_identify);
+    serialCommand.addCommand("BASE",      scmd_base);
+    serialCommand.addCommand("SHOULDER",  scmd_shoulder);
+    serialCommand.addCommand("ELBOW",     scmd_elbow);
+    serialCommand.addCommand("WRIST",     scmd_wrist);
+    serialCommand.addCommand("GRIP",      scmd_grip);
+    serialCommand.addCommand("STOP",      scmd_stop);
+    serialCommand.addCommand("AUTOLEVEL", scmd_autolevel);
     serialCommand.setDefaultHandler(scmd_unknown);
 }
 
@@ -89,6 +90,7 @@ void scmd_wrist()
     }
     else
     {
+
         uint8_t angle = atoi(arg);
         wrist_set_angle(angle);
         Serial.print("# WRIST ");
@@ -101,7 +103,7 @@ void scmd_grip()
     char *arg = serialCommand.next();
     if (arg == NULL)
     {
-        Serial.println("# GRIP [OPEN|CLOSE|TOGGLE|FLAT]");
+        Serial.println("# GRIP [\"OPEN\"|\"CLOSE\"|\"TOGGLE\"]");
     }
     else
     {
@@ -128,4 +130,9 @@ void scmd_stop()
     base_set_desired_pos(base_position());
     shoulder_set_desired_pos(shoulder_position());
     elbow_set_desired_pos(elbow_position());
+}
+
+void scmd_autolevel()
+{
+    wrist_autolevel();
 }
