@@ -1,18 +1,19 @@
 /**
  * Elbow.ino
  *
- * Arduino      H-Bridge
+ * Arduino      H-Bridge IC4 (see schematic)
  *  ELBOW_PWM -- 5
  *  ELBOW_DIR -- 3
  *
  * H-Bridge     Motor
- *  Plus ------- Plus
- *  Minus ------ Minus
+ *  plus ------- red
+ *  minus ------ black
  *
  * Arduino      Potentiometer
- *  ELBOW_POT -- yellow
+ *  ELBOW_POT -- green
  *  GND -------- black
  *  +5V -------- red
+ *
  */
 
 const uint8_t ELBOW_POT = A5;

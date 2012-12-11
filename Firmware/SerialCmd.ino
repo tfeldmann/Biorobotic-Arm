@@ -30,7 +30,7 @@ void scmd_unknown(const char *command)
 
 void scmd_identify()
 {
-    Serial.println("BIOROBOTIC_ARM_1.0");
+    Serial.println("BIOROBOTIC_ARM");
 }
 
 void scmd_base()

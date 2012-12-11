@@ -1,17 +1,17 @@
 # Biorobotic Arm
 This is a collaborative project for the course "biorobotics and locomotion".
-It contains the source files for the firmware, graphical control software, scripting software and remote software as well as the driver.
+It contains the source files for the firmware, graphical control software, scripting (automation) software and remote software as well as the driver.
 
 
 ## Driver
-This folder contains the driver which is needed on windows ([installation instructions](http://arduino.cc/en/Guide/windows#toc4)).
+This folder contains the driver which is needed on older windows versions ([installation instructions](http://arduino.cc/en/Guide/windows#toc4)). As of Windows Vista the Arduino is recognized automatically.
 
-On Mac OS X the device is recognized automatically. It should work on Linux, too - but we did not test that.
+On Mac OS X everything should work out of the box. It should work on Linux, too (although this is yet untested).
 
 
 ## Firmware
 Here you find the robot's firmware. It is written for an Arduino Mega 2560 R3.
-To compile and upload, simply use the Arduino Software ([link](http://arduino.cc)).
+To compile and upload, simply use the [Arduino Software](http://arduino.cc/en/Main/Software).
 The [SerialCommand](https://github.com/kroimon/Arduino-SerialCommand) library needs to be installed.
 
 
@@ -21,11 +21,8 @@ You will need the software "[Control](http://charlie-roberts.com/Control/)".
 
 Make sure that you are in the same network as the PC running the RobControl-software and enter the given IP-adress as destination. Install and start the RobControl Remote interface (the website shows how it's done).
 
-
 ## RobControl
-The graphical robot control software. Start it after you connected the robot to the PC, select the right port and you're good to go.
-
-You can control the robot by clicking and dragging. Everything should be quite self-explanatory.
+The graphical robot control software. Start it after you connected the robot to the PC, select the right port and you're good to go. You can control the robot by clicking and dragging. Everything should be quite self-explanatory.
 
 
 ## Scripter
@@ -33,54 +30,113 @@ The programmatical robot control software. Here you can enter any command from t
 
 
 ## API
+
+### Connection
+Connect to the robot via a ```115200 baud, 8N1``` serial connection. Monitoring data as well as commands must be sent in plain uppercase ASCII.
+
 ### Monitoring data
-Connect to the robot via a 115200 baud, 8N1 serial connection.
-As the connection is established you will receive monitoring data from the robot in plain ASCII. Every 20ms (50Hz) you will get five integers separated by ';'.
-<pre>
-1. base          (0..1023)
-2. arm->shoulder (0..1023)
-3. arm->elbow    (0..1023)
-4. hand->wrist   (0..180)
-5. hand->grip    (0, 1)
-</pre>
+Ca. every 20ms (50Hz) you will receive five integers separated by ```;``` that describe the robot's position.
+For example:
+
+    512;200;632;90;1
+     |   |   |  |  |
+     |   |   |  |  + - grip opened/closed
+     |   |   |  +- - - wrist angle
+     |   |   + - - - - elbow position
+     |   + - - - - - - shoulder position
+     + - - - - - - - - base position
+
+Base, shoulder and elbow position are the raw potentiometer values. The potentiometers are mechanically limited from 0 to 270 degrees. We read these values with a 10 bit ADC so we get 1024 steps on this range.
+
 
 ### Commands
-Use this commands to control the DC-Motors in the base, the shoulders and
-the elbow. "POS" can be any integer value from 0 to 1023. Mechanically,
-not all positions are possible.
-<pre>
-BASE [POS]
-SHOULDER [POS]
-ELBOW [POS]
-</pre>
 
-Controls the robot's wrist. You can set the angle with the WRIST command.
-<pre>
-WRIST [ANGLE]
-</pre>
+#### Base
+Controls the DC-Motor in the base. ```POSITION``` can be any integer value between 0 and 1023.
+Send only the command name to see how it is used.
 
-The grip can be opened/closed. Toggle switches between open and closed
-state.
-<pre>
-GRIP ["OPEN" | "CLOSE" | "TOGGLE"]
-</pre>
+    >> BASE
+    # BASE [POSITION]
 
-The robot is able to hold the wrist horizontal to the ground automatically. To enable this use the AUTOLEVEL command.
-<pre>
-AUTOLEVEL ["ON" | "OFF" | "TOGGLE"]
-</pre>
+Example usage:
 
-This is the identify command. The robot answers with "BIOROBOTIC_ARM_1.0
-where 1.0 is the firmware version.
-<pre>
-?
-</pre>
+    >> BASE 0    <-- turn base counterclockwise as much as possible
+    >> BASE 512  <-- sets base to center position
+
+#### Shoulder
+Controls the DC-Motor for the shoulder joint. ```POSITION``` can be any integer value between 0 and ???
+Send only the command name to see how it is used.
+
+    >> SHOULDER
+    # SHOULDER [POSITION]
+
+Example usage:
+
+    >> SHOULDER 50   <-- sets the shoulder perfectly horizontal
+    >> SHOULDER 200
+
+#### Elbow
+Controls the DC-Motor in the base. ```POSITION``` can be any integer value between ??? and ???
+Send only the command name to see how it is used.
+
+    >> ELBOW
+    # ELBOW [POSITION]
+
+Example usage:
+
+    >> ELBOW 810  <-- sets the elbow in line with the shoulder
+    >> ELBOW 300
+
+#### Wrist
+Controls the robot's wrist. ```ANGLE``` can be any integer value between 0 and 170. Send only the command name to see a overview:
+
+    >> WRIST
+    # WRIST [ANGLE]
+
+Example usage:
+
+    >> WRIST 60   <-- sets wrist to 60 degrees
+    >> WRIST -45  <-- sets wrist to 45 degrees in the other direction
+
+#### Grip
+Control the robot's grip with the grip command. You can send the command name to see a overview:
+
+    >> GRIP
+    # GRIP ["OPEN" | "CLOSE" | "TOGGLE"]
+
+Example usage:
+
+    >> GRIP OPEN
+    >> GRIP CLOSE
+    >> GRIP TOGGLE
+
+#### Autolevel
+The robot is able to hold the wrist horizontal to the ground automatically. To enable this use the autolevel command.
+
+    >> AUTOLEVEL
+    # AUTOLEVEL ["ON" | "OFF" | "TOGGLE"]
+
+Example usage:
+
+    >> AUTOLEVEL ON
+    >> AUTOLEVEL OFF
+    >> AUTOLEVEL TOGGLE
+
+#### Identify
+A single question mark is the identify command. You can use this to check your connection settings and whether you're talking to the correct device.
+
+    >> ?
+    BIOROBOTIC_ARM
 
 
 ## Contributors
-- Fehmer, Manuel
-- Feldmann, Marlene
-- Feldmann, Thomas
-- Hussmann, Carsten
-
-<p align="center"><img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/Roboterfabrik.png" alt="Logo"></p>
+<p align="center">
+    Fehmer, Manuel <br>
+    Feldmann, Marlene <br>
+    Feldmann, Thomas <br>
+    Hussmann, Carsten <br>
+    Neuhaus, Alexander
+<p>
+<p align="center">
+    <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/Roboterfabrik.png" alt="Logo">
+</p>

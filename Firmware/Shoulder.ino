@@ -1,18 +1,19 @@
 /**
  * Shoulder.ino
  *
- * Arduino         H-Bridge
+ * Arduino         H-Bridge IC3 (see schematic)
  *  SHOULDER_PWM -- 5
  *  SHOULDER_DIR -- 3
  *
- * H-Bridge     Motor
- *  Plus ------- Plus
- *  Minus ------ Minus
+ * H-Bridge        Motor
+ *  plus ---------- red
+ *  minus --------- black
  *
  * Arduino         Potentiometer
- *  SHOULDER_POT -- yellow
+ *  SHOULDER_POT -- orange
  *  GND ----------- black
  *  +5V ----------- red
+ *
  */
 
 const uint8_t SHOULDER_POT = A4;

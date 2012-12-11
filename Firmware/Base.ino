@@ -1,18 +1,19 @@
 /**
  * Base.ino
  *
- * Arduino      H-Bridge
+ * Arduino      H-Bridge IC2 (see schematic)
  *  BASE_PWM --- 5
  *  BASE_DIR --- 3
  *
  * H-Bridge     Motor
- *  OUTPUT1 ---- blue
- *  OUTPUT2 ---- white
+ *  plus ------- red
+ *  minus ------ black
  *
  * Arduino      Potentiometer
  *  BASE_POT --- yellow
  *  GND -------- black
  *  +5V -------- red
+ *
  */
 
 const uint8_t BASE_POT = A3;
