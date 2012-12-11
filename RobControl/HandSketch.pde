@@ -6,7 +6,7 @@ class HandSketch extends EmbeddedSketch
 
     void setup()
     {
-        size(300, 300);
+        size(350, 350);
         noLoop();
         smooth();
         ellipseMode(CENTER);

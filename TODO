@@ -1,7 +1,7 @@
 # firmware
  ☐ collision detection
  ☐ implement holding a flat level in wrist
- ☐ accelerate base movement
+ ☐ PI controller in base
 
 # software
  ☐ "hold level"-button

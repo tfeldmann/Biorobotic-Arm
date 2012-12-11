@@ -4,11 +4,11 @@
 class ArmSketch extends EmbeddedSketch
 {
     // constants (robot geometry)
-    public static final int ARM_LENGTH = 120;
+    public static final int ARM_LENGTH = 150;
     public static final float SHOULDER_ANGLE_MIN = -20;
-    public static final float SHOULDER_ANGLE_MAX = 70;
-    public static final float ELBOW_ANGLE_MIN = -90;
-    public static final float ELBOW_ANGLE_MAX = 90;
+    public static final float SHOULDER_ANGLE_MAX = 85;
+    public static final float ELBOW_ANGLE_MIN = -160;
+    public static final float ELBOW_ANGLE_MAX = 0;
 
     // variables
     PVector shoulder;
@@ -22,7 +22,7 @@ class ArmSketch extends EmbeddedSketch
 
     void setup()
     {
-        size(300, 300);
+        size(350, 350);
         noLoop();
         smooth();
 
@@ -63,28 +63,75 @@ class ArmSketch extends EmbeddedSketch
             line(shoulder.x, height - shoulder.y, elbow.x, height - elbow.y);
             line(elbow.x, height - elbow.y, pos_desired.x, height - pos_desired.y);
         }
+
+        // show actual robot position
+        stroke(0);
+        strokeWeight(2);
+        pushMatrix();
+            // shoulder
+            translate(shoulder.x, height - shoulder.y);
+            rotate(-shoulder_pos2angle(pos_current_shoulder));
+            line(0, 0, ARM_LENGTH, 0);
+
+            // elbow
+            translate(ARM_LENGTH, 0);
+            rotate(-elbow_pos2angle(pos_current_elbow));
+            line(0, 0, ARM_LENGTH, 0);
+        popMatrix();
+    }
+
+    float shoulder_pos2angle(int position)
+    {
+        // measured: p50 = 0 degree
+        float angle = map(position, 50, 1023, 0, 256);
+        return radians(angle);
+    }
+
+    float elbow_pos2angle(int position)
+    {
+        // measured: p810 = 0 degree
+        float angle = map(position, 810, 0, 0, -213);
+        return radians(angle);
+    }
+
+    int shoulder_angle2pos(float angle)
+    {
+        return round(map(angle, 0, 256, 50, 1023));
+    }
+
+    int elbow_angle2pos(float angle)
+    {
+        return round(map(angle, 0, -213, 810, 0));
     }
 
     void mouseDragged()
     {
         pos_desired = new PVector(mouseX, height - mouseY);
-        PVector[] intersections = circleIntersections(shoulder, ARM_LENGTH, pos_desired, ARM_LENGTH);
+        PVector intersection = circleIntersection(shoulder, ARM_LENGTH, pos_desired, ARM_LENGTH);
 
-        // check if chosen position is mechanically possible
-        for (PVector intersection : intersections)
+        // check if mechanically possible
+        float shoulder_angle = degrees(atan2(intersection.y - shoulder.y, intersection.x - shoulder.x));
+        float elbow_angle = degrees(atan2(pos_desired.y - intersection.y, pos_desired.x - intersection.x)) - shoulder_angle;
+        if (shoulder_angle > SHOULDER_ANGLE_MIN && shoulder_angle < SHOULDER_ANGLE_MAX
+            && elbow_angle > ELBOW_ANGLE_MIN && elbow_angle < ELBOW_ANGLE_MAX)
         {
-            float shoulder_angle = degrees(atan2(intersection.y - shoulder.y, intersection.x - shoulder.x));
-            float elbow_angle = degrees(atan2(pos_desired.y - intersection.y, pos_desired.x - intersection.x)) - shoulder_angle;
-            if (shoulder_angle > SHOULDER_ANGLE_MIN && shoulder_angle < SHOULDER_ANGLE_MAX
-                && elbow_angle > ELBOW_ANGLE_MIN && elbow_angle < ELBOW_ANGLE_MAX)
-            {
-                elbow = intersection;
-            }
+            elbow = intersection;
+            sendPositionCommand(shoulder_angle2pos(shoulder_angle), elbow_angle2pos(elbow_angle));
+        }
+        else
+        {
+            elbow = null;
         }
         redraw();
     }
 
-    PVector[] circleIntersections(PVector p1, float r1, PVector p2, float r2)
+    void sendPositionCommand(int shoulder_pos, int elbow_pos)
+    {
+        sendSerial("SHOULDER "+(new Integer(shoulder_pos)).toString());
+        sendSerial("ELBOW "+(new Integer(elbow_pos)).toString());
+    }
+
+    PVector circleIntersection(PVector p1, float r1, PVector p2, float r2)
     {
         float dx = p2.x - p1.x;
         float dy = p2.y - p1.y;
@@ -94,20 +141,14 @@ class ArmSketch extends EmbeddedSketch
         float a = (r1 * r1 - r2 * r2 + d * d) / (2 * d);
         float h = sqrt(r1 * r1 - a * a);
 
-        // lower intersection
+        // upper intersection
         PVector sp1 = new PVector();
-        sp1.x = p1.x + (a/d) * dx + (h/d) * dy;
-        sp1.y = p1.y + (a/d) * dy - (h/d) * dx;
+        sp1.x = p1.x + (a/d) * dx - (h/d) * dy;
+        sp1.y = p1.y + (a/d) * dy + (h/d) * dx;
         sp1.z = p1.z; // z-coordinate is not used
 
-        // upper intersection
-        PVector sp2 = new PVector();
-        sp2.x = p1.x + (a/d) * dx - (h/d) * dy;
-        sp2.y = p1.y + (a/d) * dy + (h/d) * dx;
-        sp2.z = p1.z; // z-coordinate is not used
-
-        // return both intersection points in an array
-        return new PVector[] {sp1, sp2};
+        // return only upper intersection
+        return sp1;
     }
 }
 

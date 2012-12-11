@@ -21,8 +21,8 @@ void setup()
 
     // init component positions
     base_set_desired_pos(512);
-    elbow_set_desired_pos(804);
-    shoulder_set_desired_pos(0);
+    elbow_set_desired_pos(700);
+    shoulder_set_desired_pos(150);
     wrist_set_angle(90);
     grip_open();
 

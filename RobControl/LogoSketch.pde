@@ -5,7 +5,7 @@ class LogoSketch extends EmbeddedSketch
 
     void setup()
     {
-        size(300, 300);
+        size(350, 350);
         smooth();
         noLoop();
 
@@ -17,5 +17,8 @@ class LogoSketch extends EmbeddedSketch
     {
         background(214);
         image(logo, width / 2, height / 2);
+        fill(0);
+        textAlign(CENTER);
+        text("Server: "+oscP5.ip()+":5001", width / 2, height - 10);
     }
 }

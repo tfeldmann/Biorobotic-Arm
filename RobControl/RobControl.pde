@@ -13,7 +13,7 @@ LogoSketch logoSketch = new LogoSketch();
 
 void setup()
 {
-    size(600, 600);
+    size(700, 700);
     noLoop();
 
     String portName = Serial.list()[4];
@@ -21,6 +21,7 @@ void setup()
     serial.clear();
 
     oscP5 = new OscP5(this, 5001);
+    println(oscP5.ip());
     setLayout(new GridLayout(2, 2));
 
     SketchPanel baseSketchPanel = new SketchPanel(this, baseSketch);

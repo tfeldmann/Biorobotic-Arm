@@ -24,7 +24,7 @@ const uint16_t SHOULDER_PWM_MIN = 50;  // 0...255
 const uint16_t SHOULDER_PWM_MAX = 255; // 0...255
 
 // controller settings
-#define SHOULDER_CONTROLLER_P 1
+#define SHOULDER_CONTROLLER_P 20
 
 typedef struct
 {
