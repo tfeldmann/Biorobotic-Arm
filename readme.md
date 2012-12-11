@@ -34,7 +34,9 @@ The programmatical robot control software. Here you can enter any command from t
 ### Connection
 Connect to the robot via a ```115200 baud, 8N1``` serial connection. Monitoring data as well as commands must be sent in plain uppercase ASCII.
 
-### Monitoring data
+### Receiving data
+
+#### Position monitoring
 Ca. every 50ms (20Hz) you will receive five integers separated by ```;``` that describe the robot's position.
 For example:
 
@@ -47,6 +49,18 @@ For example:
      + - - - - - - - - base position
 
 Base, shoulder and elbow position are the raw potentiometer values. The potentiometers are mechanically limited from 0 to 270 degrees. We read these values with a 10 bit ADC so we get 1024 steps on this range.
+
+#### Control characters
+A hash indicates that a output is for logging purposes only and can be dismissed. Example:
+
+    # Starting up.
+    # All systems ready.
+
+An exclamation mark indicates an error and should always be shown to the user. For example:
+
+    ! E01: Collision detected
+    ! E02: Position mechanically not possible
+    ! E03: Position out of range
 
 
 ### Commands
