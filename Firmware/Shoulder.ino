@@ -53,7 +53,9 @@ void shoulder_control()
     int16_t diff = shoulder.pos_desired - shoulder.pos_current;
 
     bool dir = (diff > 0);
-    uint8_t speed = constrain(abs(diff) * SHOULDER_CONTROLLER_P, SHOULDER_PWM_MIN, SHOULDER_PWM_MAX);
+    uint8_t speed = constrain(abs(diff) * SHOULDER_CONTROLLER_P,
+        SHOULDER_PWM_MIN,
+        SHOULDER_PWM_MAX);
     if (abs(diff) <= SHOULDER_TOLERANCE) speed = 0;
 
     digitalWrite(SHOULDER_DIR, dir);
@@ -63,4 +65,11 @@ void shoulder_control()
 int16_t shoulder_position()
 {
     return shoulder.pos_current;
+}
+
+int16_t shoulder_angle()
+{
+    // if the shoulder is perfectly horizontal we read 50 on the potentiometer.
+    // The rest can be calculated as we know that have 1024 steps / 270 degrees.
+    return map(shoulder.pos_current, 50, 1023, 0, 256);
 }
