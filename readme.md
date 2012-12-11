@@ -30,8 +30,6 @@ The programmatical robot control software. Here you can enter any command from t
 
 
 ## API
-
-### Connection
 Connect to the robot via a ```115200 baud, 8N1``` serial connection. Monitoring data as well as commands must be sent in plain uppercase ASCII.
 
 ### Receiving data
@@ -61,9 +59,12 @@ An exclamation mark indicates an error and should always be shown to the user. F
     ! E01: Collision detected
     ! E02: Position mechanically not possible
     ! E03: Position out of range
+    ! E04: Unkown command
 
 
 ### Commands
+A short introduction to the commands the robot supports.
+Please notice that every line beginning with ```>>``` is the command you entered. You do not need to enter ```>>```.
 
 #### Base
 Controls the DC-Motor in the base. ```POSITION``` can be any integer value between 0 and 1023.
