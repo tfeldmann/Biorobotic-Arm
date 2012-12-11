@@ -35,7 +35,7 @@ The programmatical robot control software. Here you can enter any command from t
 Connect to the robot via a ```115200 baud, 8N1``` serial connection. Monitoring data as well as commands must be sent in plain uppercase ASCII.
 
 ### Monitoring data
-Ca. every 20ms (50Hz) you will receive five integers separated by ```;``` that describe the robot's position.
+Ca. every 50ms (20Hz) you will receive five integers separated by ```;``` that describe the robot's position.
 For example:
 
     512;200;632;90;1
