@@ -24,6 +24,10 @@ const int8_t ELBOW_TOLERANCE = 1;
 const uint16_t ELBOW_PWM_MIN = 50;  // 0...255
 const uint16_t ELBOW_PWM_MAX = 255; // 0...255
 
+// mechanical limits
+const int16_t ELBOW_POS_MIN = 55;
+const int16_t ELBOW_POS_MAX = 1023;
+
 // controller settings
 #define ELBOW_CONTROLLER_P 20
 
@@ -44,7 +48,7 @@ void elbow_init()
 
 void elbow_set_desired_pos(int16_t pos)
 {
-    elbow.pos_desired = pos;
+    elbow.pos_desired = constrain(pos, ELBOW_POS_MIN, ELBOW_POS_MAX);
 }
 
 void elbow_control()

@@ -24,6 +24,10 @@ const int8_t SHOULDER_TOLERANCE = 1;
 const uint16_t SHOULDER_PWM_MIN = 50;  // 0...255
 const uint16_t SHOULDER_PWM_MAX = 255; // 0...255
 
+// mechanical limits
+const int16_t SHOULDER_POS_MIN = 0;
+const int16_t SHOULDER_POS_MAX = 350;
+
 // controller settings
 #define SHOULDER_CONTROLLER_P 20
 
@@ -44,7 +48,7 @@ void shoulder_init()
 
 void shoulder_set_desired_pos(int16_t pos)
 {
-    shoulder.pos_desired = pos;
+    shoulder.pos_desired = constrain(pos, SHOULDER_POS_MIN, SHOULDER_POS_MAX);
 }
 
 void shoulder_control()
