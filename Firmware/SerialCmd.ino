@@ -12,6 +12,7 @@ void scmd_init()
     serialCommand.addCommand("ELBOW",     scmd_elbow);
     serialCommand.addCommand("WRIST",     scmd_wrist);
     serialCommand.addCommand("GRIP",      scmd_grip);
+    serialCommand.addCommand("MOVE",      scmd_move);
     serialCommand.addCommand("STOP",      scmd_stop);
     serialCommand.addCommand("AUTOLEVEL", scmd_autolevel);
     serialCommand.addCommand("RESET",     init_position);
@@ -124,6 +125,17 @@ void scmd_grip()
             Serial.println("# GRIP TOGGLE");
         }
     }
+}
+
+void scmd_move()
+{
+    char *arg = serialCommand.next();
+    if (arg == NULL)
+    {
+        Serial.println("# MOVE [BASE] [SHOULDER] [ELBOW] [WRIST] [GRIP]");
+        Serial.println("# Using dot "." will not alter the value");
+    }
+    // @todo: implementation
 }
 
 void scmd_stop()
