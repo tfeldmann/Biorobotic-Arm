@@ -14,6 +14,7 @@ void scmd_init()
     serialCommand.addCommand("GRIP",      scmd_grip);
     serialCommand.addCommand("STOP",      scmd_stop);
     serialCommand.addCommand("AUTOLEVEL", scmd_autolevel);
+    serialCommand.addCommand("RESET",     init_position);
     serialCommand.setDefaultHandler(scmd_unknown);
 }
 

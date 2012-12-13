@@ -18,15 +18,18 @@ void setup()
     elbow_init();
     shoulder_init();
     hand_init();
+    init_position();
 
-    // init component positions
+    start_control_tick(50);  // 50Hz
+}
+
+void init_position()
+{
     base_set_desired_pos(512);
     elbow_set_desired_pos(700);
     shoulder_set_desired_pos(150);
     wrist_set_angle(90);
     grip_open();
-
-    start_control_tick(50);  // 50Hz
 }
 
 void loop()
