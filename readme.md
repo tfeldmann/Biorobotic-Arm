@@ -65,6 +65,7 @@ An exclamation mark indicates an error and should always be shown to the user. F
 ### Commands
 A short introduction to the commands the robot supports.
 Please notice that every line beginning with ```>>``` is the command you entered. You do not need to enter ```>>```.
+If the number you entered is out of range the robot constrain this number to mechanically possible values.
 
 #### Base
 Controls the DC-Motor in the base. ```POSITION``` can be any integer value between 0 and 1023.
@@ -79,7 +80,7 @@ Example usage:
     >> BASE 512  <-- sets base to center position
 
 #### Shoulder
-Controls the DC-Motor for the shoulder joint. ```POSITION``` can be any integer value between 0 and ???
+Controls the DC-Motor for the shoulder joint. ```POSITION``` can be any integer value between 0 and 350
 Send only the command name to see how it is used.
 
     >> SHOULDER
@@ -91,7 +92,7 @@ Example usage:
     >> SHOULDER 200
 
 #### Elbow
-Controls the DC-Motor in the base. ```POSITION``` can be any integer value between ??? and ???
+Controls the DC-Motor in the base. ```POSITION``` can be any integer value between 55 and 1023
 Send only the command name to see how it is used.
 
     >> ELBOW
