@@ -1,17 +1,22 @@
-# firmware
- ☐ implement holding a flat level in wrist
+# Firmware
+ ☐ runtime monitoring
+ ☐ implement AUTOLEVEL ANGLE
+ ☐ send measured current
 
-# software
+# RobControl
  ☐ "hold level"-button
  ☐ logging panel
  ☐ run a given program
  ☐ COM-port selection
- ☐ show osc server ip on start
+ ☐ show measured current
 
-# remote
+# RemoteInterface
  ☐ add a option which arm to control
  ☐ add "hold wrist flat" button
 
+# Scripter
+ ☐ Send commands
+ ☐ Implement pause command
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
  ✔ keep shoulder and elbow in initial position on startup @done (12-12-14 09:07)
