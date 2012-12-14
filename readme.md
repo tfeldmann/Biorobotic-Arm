@@ -61,7 +61,9 @@ An exclamation mark indicates an error and should always be shown to the user. F
     !E03: Position out of range
     !E04: Unkown command
 
-The question mark is only used for the identifier (see
+The question mark is only used for the identifier (see chapter "Identify").
+
+    ?BIOROBOTIC_ARM
 
 
 ### Commands
@@ -146,7 +148,7 @@ Example usage:
 A single question mark is the identify command. You can use this to check your connection settings and whether you're talking to the correct device.
 
     >> ?
-    BIOROBOTIC_ARM
+    ?BIOROBOTIC_ARM
 
 
 ## Contributors
