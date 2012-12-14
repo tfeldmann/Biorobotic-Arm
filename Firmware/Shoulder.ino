@@ -44,6 +44,11 @@ void shoulder_init()
     pinMode(SHOULDER_POT, INPUT);
     pinMode(SHOULDER_DIR, OUTPUT);
     pinMode(SHOULDER_PWM, OUTPUT);
+    digitalWrite(SHOULDER_DIR, LOW);
+    digitalWrite(SHOULDER_PWM, LOW);
+
+    shoulder.pos_current = analogRead(SHOULDER_POT);
+    shoulder.pos_desired = shoulder.pos_current;
 }
 
 void shoulder_set_desired_pos(int16_t pos)

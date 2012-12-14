@@ -1,7 +1,6 @@
 # firmware
  ☐ collision detection
  ☐ implement holding a flat level in wrist
- ☐ PI controller in base
 
 # software
  ☐ "hold level"-button
@@ -16,6 +15,8 @@
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ keep shoulder and elbow in initial position on startup @done (12-12-14 09:07)
+ ✘ PI controller in base @cancelled (12-12-13 12:01)
  ✔ send shoulder position @done (12-12-07 14:08)
  ✔ control shoulder @done (12-12-07 14:08)
  ✔ send elbow position @done (12-11-30 09:05)

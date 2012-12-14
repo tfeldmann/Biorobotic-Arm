@@ -44,6 +44,11 @@ void elbow_init()
     pinMode(ELBOW_POT, INPUT);
     pinMode(ELBOW_DIR, OUTPUT);
     pinMode(ELBOW_PWM, OUTPUT);
+    digitalWrite(ELBOW_DIR, LOW);
+    digitalWrite(ELBOW_PWM, LOW);
+
+    elbow.pos_current = analogRead(ELBOW_POT);
+    elbow.pos_desired = elbow.pos_current;
 }
 
 void elbow_set_desired_pos(int16_t pos)

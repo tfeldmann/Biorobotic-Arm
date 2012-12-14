@@ -40,6 +40,11 @@ void base_init()
     pinMode(BASE_POT, INPUT);
     pinMode(BASE_DIR, OUTPUT);
     pinMode(BASE_PWM, OUTPUT);
+    digitalWrite(BASE_DIR, LOW);
+    digitalWrite(BASE_PWM, LOW);
+
+    base.pos_current = analogRead(BASE_POT);
+    base.pos_desired = base.pos_current;
 }
 
 void base_set_desired_pos(int16_t pos)
