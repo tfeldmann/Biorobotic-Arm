@@ -18,18 +18,27 @@ void setup()
     elbow_init();
     shoulder_init();
     hand_init();
-    init_position();
 
     start_control_tick(50);  // 50Hz
+    Serial.println("# READY");
 }
 
-void init_position()
+void reset()
 {
+    Serial.println("# RESET");
     base_set_desired_pos(512);
     elbow_set_desired_pos(700);
     shoulder_set_desired_pos(150);
     wrist_set_angle(90);
     grip_open();
+}
+
+void stop()
+{
+    Serial.println("# STOP");
+    base_set_desired_pos(base_position());
+    shoulder_set_desired_pos(shoulder_position());
+    elbow_set_desired_pos(elbow_position());
 }
 
 void loop()
