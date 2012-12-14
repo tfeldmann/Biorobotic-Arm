@@ -59,7 +59,7 @@ void base_control()
 
     // control
     int16_t delta = base.pos_desired - base.pos_current;
-    int16_t speed = BASE_CONTROLLER_KP * diff;
+    int16_t speed = BASE_CONTROLLER_KP * delta;
 
     // output
     bool dir = (speed > 0);

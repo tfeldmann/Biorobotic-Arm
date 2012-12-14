@@ -20,6 +20,8 @@ void setup()
     hand_init();
 
     start_control_tick(50);  // 50Hz
+
+    tone_ready();
     Serial.println("# READY");
 }
 
