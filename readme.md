@@ -49,10 +49,10 @@ For example:
 Base, shoulder and elbow position are the raw potentiometer values. The potentiometers are mechanically limited from 0 to 270 degrees. We read these values with a 10 bit ADC so we get 1024 steps on this range.
 
 #### Control characters
-A hash indicates that a output is for logging purposes only and can be dismissed. Example:
+A hash indicates that a output is for logging purposes only and can be dismissed. Examples:
 
-    # Starting up.
-    # All systems ready.
+    # Accelerometer found
+    # Ready
 
 An exclamation mark indicates an error and should always be shown to the user. For example:
 
@@ -92,7 +92,7 @@ Send only the command name to see how it is used.
 
 Example usage:
 
-    >> SHOULDER 50   <-- sets the shoulder perfectly horizontal
+    >> SHOULDER 45   <-- sets the shoulder perfectly horizontal
     >> SHOULDER 200
 
 #### Elbow
@@ -135,11 +135,11 @@ Example usage:
 The robot is able to automatically maintain a specific wrist angle. To enable this use the autolevel command.
 
     >> AUTOLEVEL
-    # AUTOLEVEL ["ON" | "OFF" | "TOGGLE" | "H" | "V"]
+    # AUTOLEVEL ["ON" | "OFF" | "H" | "V"]
 
 Example usage:
 
-    >> AUTOLEVEL ON      <-- hold the angle you currently have
+    >> AUTOLEVEL ON      <-- keep the angle the wrist currently has
     >> AUTOLEVEL OFF     <-- disables autolevel
     >> AUTOLEVEL H       <-- Keep the wrist parallel to the ground
     >> AUTOLEVEL V       <-- Keep the wrist orthogonal to the ground
