@@ -108,15 +108,16 @@ Example usage:
     >> ELBOW 300
 
 #### Wrist
-Controls the robot's wrist. ```ANGLE``` can be any integer value between 0 and 170. Send only the command name to see a overview:
+Controls the robot's wrist. ```ANGLE``` can be any integer value between -80 and 90. Send only the command name to see a overview:
 
     >> WRIST
     # WRIST [ANGLE]
 
 Example usage:
 
-    >> WRIST 60   <-- sets wrist to 60 degrees
-    >> WRIST -45  <-- sets wrist to 45 degrees in the other direction
+    >> WRIST 60   <-- sets wrist to 60 degrees up
+    >> WRIST 0    <-- sets wrist in line with the underarm
+    >> WRIST -50  <-- sets wrist 50 degrees down
 
 #### Grip
 Control the robot's grip with the grip command. You can send the command name to see a overview:
@@ -140,7 +141,6 @@ Example usage:
 
     >> AUTOLEVEL ON      <-- hold the angle you currently have
     >> AUTOLEVEL OFF     <-- disables autolevel
-    >> AUTOLEVEL TOGGLE  <-- toggles between ON and OFF
     >> AUTOLEVEL H       <-- Keep the wrist parallel to the ground
     >> AUTOLEVEL V       <-- Keep the wrist orthogonal to the ground
 

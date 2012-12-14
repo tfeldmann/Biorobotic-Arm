@@ -1,12 +1,10 @@
 # Firmware
  ☐ runtime monitoring
- ☐ implement AUTOLEVEL ANGLE
  ☐ send measured current
 
 # RobControl
  ☐ "hold level"-button
  ☐ logging panel
- ☐ run a given program
  ☐ COM-port selection
  ☐ show measured current
 
@@ -19,6 +17,8 @@
  ☐ Implement pause command
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✘ run a given program @cancelled (12-12-14 17:00)
+ ✔ implement AUTOLEVEL ANGLE @done (12-12-14 17:00)
  ✔ keep shoulder and elbow in initial position on startup @done (12-12-14 09:07)
  ✔ collision detection @done (12-12-14 08:54)
  ✘ PI controller in base @cancelled (12-12-13 12:01)

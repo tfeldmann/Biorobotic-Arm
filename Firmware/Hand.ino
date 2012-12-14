@@ -15,16 +15,20 @@
 
 static Servo wrist_servo;
 static Servo grip_servo;
+
+// hardware connections
 const uint8_t WRIST_PWM = 46;
 const uint8_t GRIP_PWM = 44;
 
+// mechanical limits
 const uint8_t GRIP_CLOSE = 0;
 const uint8_t GRIP_OPEN = 25;
-const uint8_t WRIST_MIN = 0;
-const uint8_t WRIST_MAX = 170;
+const int16_t WRIST_MIN = -80;
+const int16_t WRIST_MAX = 90;
 
 static bool grip_open_flag;
-static bool wrist_autolevel_flag;
+volatile bool wrist_autolevel_enabled;
+volatile int16_t wrist_autolevel_angle;
 
 
 void hand_init()
@@ -33,13 +37,9 @@ void hand_init()
     grip_servo.attach(GRIP_PWM);
     grip_open();
 
-    wrist_autolevel_flag = false;
+    wrist_autolevel_enabled = false;
 }
 
-void wrist_set_angle(uint8_t angle)
-{
-    wrist_servo.write(constrain(angle, WRIST_MIN, WRIST_MAX));
-}
 
 void grip_open()
 {
@@ -58,26 +58,52 @@ bool grip_is_open()
     return grip_open_flag;
 }
 
-uint8_t wrist_angle()
+
+void wrist_set_angle(int16_t angle)
 {
-    return wrist_servo.read();
+    angle = constrain(angle, WRIST_MIN, WRIST_MAX);
+    wrist_servo.write(wrist_angle2pos(angle));
 }
 
-bool wrist_is_autolevel()
+int16_t wrist_angle()
 {
-    return wrist_autolevel_flag;
+    return wrist_pos2angle(wrist_servo.read());
 }
 
-void wrist_set_autolevel(bool flag)
+int16_t wrist_angle2pos(int16_t angle)
 {
-    wrist_autolevel_flag = flag;
+    int16_t pos = map(angle, 90, 0, 7, 98);
+    return pos;
 }
+
+int16_t wrist_pos2angle(int16_t pos)
+{
+    int16_t angle = map(pos, 7, 98, 90, 0);
+    return angle;
+}
+
+
+void wrist_autolevel_on()
+{
+    wrist_autolevel_enabled = true;
+}
+
+void wrist_autolevel_off()
+{
+    wrist_autolevel_enabled = false;
+}
+
+void wrist_autolevel_set(int16_t angle)
+{
+    wrist_autolevel_angle = angle;
+}
+
 
 void hand_control()
 {
-    if (wrist_is_autolevel())
+    if (wrist_autolevel_enabled)
     {
-        // @todo: this doesn't seem to work yet.
-        wrist_set_angle(90 - (shoulder_angle() + elbow_angle()));
+        int16_t angle = - shoulder_angle() - elbow_angle() + wrist_autolevel_angle;
+        wrist_set_angle(angle);
     }
 }

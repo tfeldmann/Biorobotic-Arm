@@ -21,8 +21,8 @@ const uint8_t SHOULDER_DIR = 7;
 const uint8_t SHOULDER_PWM = 9;
 
 const int8_t SHOULDER_TOLERANCE = 1;
-const uint16_t SHOULDER_PWM_MIN = 50;  // 0...255
-const uint16_t SHOULDER_PWM_MAX = 255; // 0...255
+const int16_t SHOULDER_PWM_MIN = 50;  // 0...255
+const int16_t SHOULDER_PWM_MAX = 255; // 0...255
 
 // mechanical limits
 const int16_t SHOULDER_POS_MIN = 0;
@@ -63,7 +63,7 @@ void shoulder_control()
     int16_t diff = shoulder.pos_desired - shoulder.pos_current;
 
     bool dir = (diff > 0);
-    uint8_t speed = constrain(abs(diff) * SHOULDER_CONTROLLER_P,
+    int16_t speed = constrain(abs(diff) * SHOULDER_CONTROLLER_P,
         SHOULDER_PWM_MIN,
         SHOULDER_PWM_MAX);
     if (abs(diff) <= SHOULDER_TOLERANCE) speed = 0;
@@ -82,5 +82,7 @@ int16_t shoulder_angle()
     // if the shoulder is perfectly horizontal we read 50 on the potentiometer.
     // The other values can be calculated as we know that have 1024 steps / 270
     // degrees.
-    return map(shoulder.pos_current, 50, 1023, 0, 256);
+    // 45° -> P260
+    // 0°  -> P45
+    return map(shoulder.pos_current, 45, 260, 0, 45);
 }

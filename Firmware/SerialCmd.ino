@@ -91,8 +91,7 @@ void scmd_wrist()
     }
     else
     {
-
-        uint8_t angle = atoi(arg);
+        int16_t angle = atoi(arg);
         wrist_set_angle(angle);
         Serial.print("# WRIST ");
         Serial.println(angle);
@@ -131,24 +130,33 @@ void scmd_autolevel()
     char *arg = serialCommand.next();
     if (arg == NULL)
     {
-        Serial.println("# AUTOLEVEL [ON|OFF|TOGGLE]");
+        Serial.println("# AUTOLEVEL [ON|OFF|H|V]");
     }
     else
     {
         if (strcmp(arg, "ON") == 0)
         {
-            wrist_set_autolevel(true);
+            int16_t angle = shoulder_angle() + elbow_angle() + wrist_angle();
+            wrist_autolevel_set(angle);
+            wrist_autolevel_on();
             Serial.println("# AUTOLEVEL ON");
         }
         else if (strcmp(arg, "OFF") == 0)
         {
-            wrist_set_autolevel(false);
+            wrist_autolevel_off();
             Serial.println("# AUTOLEVEL OFF");
         }
-        else if (strcmp(arg, "TOGGLE") == 0)
+        else if (strcmp(arg, "H") == 0)
         {
-            wrist_set_autolevel(!wrist_is_autolevel());
-            Serial.println("# AUTOLEVEL TOGGLE");
+            wrist_autolevel_on();
+            wrist_autolevel_set(0);
+            Serial.println("# AUTOLEVEL H");
+        }
+        else if (strcmp(arg, "V") == 0)
+        {
+            wrist_autolevel_set(-90);
+            wrist_autolevel_on();
+            Serial.println("# AUTOLEVEL V");
         }
     }
 }

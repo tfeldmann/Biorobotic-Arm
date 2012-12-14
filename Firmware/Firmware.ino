@@ -32,7 +32,7 @@ void reset()
     base_set_desired_pos(512);
     elbow_set_desired_pos(700);
     shoulder_set_desired_pos(150);
-    wrist_set_angle(90);
+    wrist_set_angle(0);
     grip_open();
 }
 
