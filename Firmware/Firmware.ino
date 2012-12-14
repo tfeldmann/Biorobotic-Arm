@@ -18,6 +18,7 @@ void setup()
     elbow_init();
     shoulder_init();
     hand_init();
+    collision_init();
 
     start_control_tick(50);  // 50Hz
 
@@ -69,6 +70,13 @@ void loop()
             grip_is_open();
         Serial.println(status);
         timestamp = millis();
+    }
+
+    static uint32_t collision_timestamp = millis();
+    if (millis() - collision_timestamp > 100)
+    {
+        collision_update();
+        collision_timestamp = millis();
     }
 }
 

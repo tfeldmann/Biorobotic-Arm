@@ -29,8 +29,8 @@ const uint16_t BASE_PWM_MAX = 255;  // 0...255
 
 typedef struct
 {
-    int16_t pos_current;
-    int16_t pos_desired;
+    volatile int16_t pos_current;
+    volatile int16_t pos_desired;
 } Base;
 static Base base;
 

@@ -1,5 +1,4 @@
 # firmware
- ☐ collision detection
  ☐ implement holding a flat level in wrist
 
 # software
@@ -16,7 +15,9 @@
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
  ✔ keep shoulder and elbow in initial position on startup @done (12-12-14 09:07)
+ ✔ collision detection @done (12-12-14 08:54)
  ✘ PI controller in base @cancelled (12-12-13 12:01)
+ ✔ show osc server ip on start @done (12-12-14 08:52)
  ✔ send shoulder position @done (12-12-07 14:08)
  ✔ control shoulder @done (12-12-07 14:08)
  ✔ send elbow position @done (12-11-30 09:05)
