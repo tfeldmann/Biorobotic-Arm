@@ -9,6 +9,7 @@
  ☐ logging panel
  ☐ COM-port selection
  ☐ show measured current
+ ☐ NullPointer Exception while drawing elbow
 
 # RemoteInterface
  ☐ add a option which arm to control
