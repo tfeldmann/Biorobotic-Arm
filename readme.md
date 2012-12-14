@@ -1,6 +1,16 @@
 # Biorobotic Arm
 This is a collaborative project for the course "biorobotics and locomotion".
 It contains the source files for the firmware, graphical control software, scripting (automation) software and remote software as well as the driver.
+<p align="center">
+    <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/Geometry.png" alt="geometry">
+</p>
+
+Mechanical limits:
+
+      -5° ≤ α ≤ 60°
+    -165° ≤ β ≤ 40°
+     -80° ≤ γ ≤ 90°
+     ??   ≤ Δ ≤ ??
 
 
 ## Driver
@@ -76,7 +86,7 @@ Controls the DC-Motor in the base. ```POSITION``` can be any integer value betwe
 Send only the command name to see how it is used.
 
     >> BASE
-    # BASE [POSITION]
+    # BASE [ANGLE]
 
 Example usage:
 
@@ -88,7 +98,7 @@ Controls the DC-Motor for the shoulder joint. ```POSITION``` can be any integer 
 Send only the command name to see how it is used.
 
     >> SHOULDER
-    # SHOULDER [POSITION]
+    # SHOULDER [ANGLE]
 
 Example usage:
 
@@ -135,14 +145,16 @@ Example usage:
 The robot is able to automatically maintain a specific wrist angle. To enable this use the autolevel command.
 
     >> AUTOLEVEL
-    # AUTOLEVEL ["ON" | "OFF" | "H" | "V"]
+    # AUTOLEVEL ["ON" | "H" | "V" | "OFF"]
 
 Example usage:
 
-    >> AUTOLEVEL ON      <-- keep the angle the wrist currently has
-    >> AUTOLEVEL OFF     <-- disables autolevel
-    >> AUTOLEVEL H       <-- Keep the wrist parallel to the ground
-    >> AUTOLEVEL V       <-- Keep the wrist orthogonal to the ground
+    >> AUTOLEVEL ON   <-- keep the angle the wrist currently has
+    >> AUTOLEVEL H    <-- Keep the wrist parallel to the ground (horizontal)
+    >> AUTOLEVEL V    <-- Keep the wrist orthogonal to the ground (vertical)
+    >> AUTOLEVEL OFF  <-- disables autolevel
+
+The ```H``` and ```V``` options enable autolevel automatically.
 
 #### Identify
 A single question mark is the identify command. You can use this to check your connection settings and whether you're talking to the correct device.
