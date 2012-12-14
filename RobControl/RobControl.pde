@@ -63,26 +63,32 @@ void serialEvent(Serial serial)
             if (msg.length() <= 0) return;
             if (msg.charAt(0) == '#') return;
 
-            /*
-                position data comes in this order:
-                0. Base
-                1. Shoulder
-                2. Elbow
-                3. Wrist
-                4. Grip
-            */
-            String args[] = msg.split(";");
-            if (args.length == 5)
+            if (msg.charAt(0) == 'P')
             {
-                baseSketch.pos_current = Integer.parseInt(args[0]);
-                armSketch.pos_current_shoulder = Integer.parseInt(args[1]);
-                armSketch.pos_current_elbow = Integer.parseInt(args[2]);
-                handSketch.pos_current = Integer.parseInt(args[3]);
-                handSketch.grip_is_open = Integer.parseInt(args[4]) != 0;
+                // remove 'P'
+                msg = msg.substring(1, msg.length());
 
-                baseSketch.redraw();
-                armSketch.redraw();
-                handSketch.redraw();
+                /*
+                    position data comes in this order:
+                    0. Base
+                    1. Shoulder
+                    2. Elbow
+                    3. Wrist
+                    4. Grip
+                */
+                String args[] = msg.split(";");
+                if (args.length == 5)
+                {
+                    baseSketch.pos_current = Integer.parseInt(args[0]);
+                    armSketch.pos_current_shoulder = Integer.parseInt(args[1]);
+                    armSketch.pos_current_elbow = Integer.parseInt(args[2]);
+                    handSketch.pos_current = Integer.parseInt(args[3]);
+                    handSketch.grip_is_open = Integer.parseInt(args[4]) != 0;
+
+                    baseSketch.redraw();
+                    armSketch.redraw();
+                    handSketch.redraw();
+                }
             }
         }
     }
