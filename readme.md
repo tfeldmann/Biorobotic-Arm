@@ -1,16 +1,6 @@
 # Biorobotic Arm
 This is a collaborative project for the course "biorobotics and locomotion".
 It contains the source files for the firmware, graphical control software, scripting (automation) software and remote software as well as the driver.
-<p align="center">
-    <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/Geometry.png" alt="geometry">
-</p>
-
-Mechanical limits:
-
-      -5° ≤ α ≤ 60°
-    -165° ≤ β ≤ 40°
-     -80° ≤ γ ≤ 90°
-     ??   ≤ Δ ≤ ??
 
 
 ## Driver
@@ -44,54 +34,62 @@ Connect to the robot via a ```115200 baud, 8N1``` serial connection. Monitoring 
 
 ### Receiving data
 
-#### Position monitoring
-Ca. every 50ms (20Hz) you will receive a ```P``` following five integers separated by ```;``` that describe the robot's position.
-For example:
-
-    P512;200;632;90;1
-      |   |   |  |  |
-      |   |   |  |  + - grip opened/closed
-      |   |   |  +- - - wrist angle
-      |   |   + - - - - elbow position
-      |   + - - - - - - shoulder position
-      + - - - - - - - - base position
-
-Base, shoulder and elbow position are the raw potentiometer values. The potentiometers are mechanically limited from 0 to 270 degrees. We read these values with a 10 bit ADC so we get 1024 steps on this range.
-
 #### Control characters
-A hash indicates that a output is for logging purposes only and can be dismissed. Examples:
+A hash (#) indicates that a output is for logging purposes only and can be dismissed. Examples:
 
     # Accelerometer found
     # Ready
 
-An exclamation mark indicates an error and should always be shown to the user. For example:
+An exclamation mark (!) indicates an error and should always be shown to the user. For example:
 
     !E01: Collision detected
     !E02: Position mechanically not possible
     !E03: Position out of range
     !E04: Unkown command
 
-The question mark is only used for the identifier (see chapter "Identify").
+The question mark (?) is used for the identifier (see chapter "Identify").
 
     ?BIOROBOTIC_ARM
 
 
+#### Position monitoring
+Ca. every 50ms (20Hz) the robot send ```P``` following five integers separated by ```;``` that describe the robot's position.
+For example:
+
+    P130;45;-90;30;1
+      |  |   |  |  |
+      |  |   |  |  + - grip opened/closed
+      |  |   |  +- - - wrist angle
+      |  |   + - - - - elbow angle
+      |  + - - - - - - shoulder angle
+      +- - - - - - - - base angle
+
+The angles for the base (∆), shoulder (α), elbow (β) and wrist (γ) are shown in the picture below. The API automatically constrains sent values to mechanically possible angles.
+
+      -5° ≤ α ≤ 60°
+    -165° ≤ β ≤ 40°
+     -80° ≤ γ ≤ 90°
+       ?? ≤ Δ ≤ ??
+
+<p align="center">
+    <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/Geometry.png" width="75%" alt="geometry">
+</p>
+
+
 ### Commands
 A short introduction to the commands the robot supports.
-Please notice that every line beginning with ```>>``` is the command you entered. You do not need to enter ```>>```.
-If the number you entered is out of range the robot constrain this number to mechanically possible values.
+Please notice that every line beginning with ```>>``` indicates a command you can send. Do not send ```>>```.
 
 #### Base
-Controls the DC-Motor in the base. ```POSITION``` can be any integer value between 0 and 1023.
-Send only the command name to see how it is used.
+Controls the angle of the base. Send only the command name to see how it is used.
 
     >> BASE
     # BASE [ANGLE]
 
 Example usage:
 
-    >> BASE 0    <-- turn base counterclockwise as much as possible
-    >> BASE 512  <-- sets base to center position
+    >> BASE -30  <-- turn base 30 degrees counterclockwise (seen from above)
+    >> BASE 0    <-- sets base to center position
 
 #### Shoulder
 Controls the DC-Motor for the shoulder joint. ```POSITION``` can be any integer value between 0 and 350
@@ -110,7 +108,7 @@ Controls the DC-Motor in the base. ```POSITION``` can be any integer value betwe
 Send only the command name to see how it is used.
 
     >> ELBOW
-    # ELBOW [POSITION]
+    # ELBOW [ANGLE]
 
 Example usage:
 
