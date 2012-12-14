@@ -1,6 +1,8 @@
 # Firmware
  ☐ runtime monitoring
  ☐ send measured current
+ ☐ use angles instead positions
+   ☐ base
 
 # RobControl
  ☐ "hold level"-button
@@ -15,8 +17,11 @@
 # Scripter
  ☐ Send commands
  ☐ Implement pause command
+
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ shoulder @done (12-12-14 18:29)
+ ✔ elbow @done (12-12-14 18:29)
  ✘ run a given program @cancelled (12-12-14 17:00)
  ✔ implement AUTOLEVEL ANGLE @done (12-12-14 17:00)
  ✔ keep shoulder and elbow in initial position on startup @done (12-12-14 09:07)

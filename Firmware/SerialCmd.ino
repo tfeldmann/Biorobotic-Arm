@@ -60,7 +60,7 @@ void scmd_shoulder()
     else
     {
         int16_t angle = atoi(arg);
-        shoulder_set_desired_pos(angle);
+        shoulder_set_angle(angle);
         Serial.print("# SHOULDER ");
         Serial.println(angle);
     }
@@ -76,7 +76,7 @@ void scmd_elbow()
     else
     {
         int16_t angle = atoi(arg);
-        elbow_set_desired_pos(angle);
+        elbow_set_angle(angle);
         Serial.print("# ELBOW ");
         Serial.println(angle);
     }

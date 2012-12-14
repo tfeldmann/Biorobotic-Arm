@@ -21,12 +21,12 @@ const uint8_t SHOULDER_DIR = 7;
 const uint8_t SHOULDER_PWM = 9;
 
 const int8_t SHOULDER_TOLERANCE = 1;
-const int16_t SHOULDER_PWM_MIN = 50;  // 0...255
+const int16_t SHOULDER_PWM_MIN = 0;  // 0...255
 const int16_t SHOULDER_PWM_MAX = 255; // 0...255
 
 // mechanical limits
-const int16_t SHOULDER_POS_MIN = 0;
-const int16_t SHOULDER_POS_MAX = 350;
+const int16_t SHOULDER_MIN = -5;
+const int16_t SHOULDER_MAX = 61;
 
 // controller settings
 #define SHOULDER_CONTROLLER_P 20
@@ -51,9 +51,9 @@ void shoulder_init()
     shoulder.pos_desired = shoulder.pos_current;
 }
 
-void shoulder_set_desired_pos(int16_t pos)
+void shoulder_set_angle(int16_t angle)
 {
-    shoulder.pos_desired = constrain(pos, SHOULDER_POS_MIN, SHOULDER_POS_MAX);
+    shoulder.pos_desired = shoulder_angle2pos(constrain(angle, SHOULDER_MIN, SHOULDER_MAX));
 }
 
 void shoulder_control()
@@ -79,10 +79,20 @@ int16_t shoulder_position()
 
 int16_t shoulder_angle()
 {
-    // if the shoulder is perfectly horizontal we read 50 on the potentiometer.
-    // The other values can be calculated as we know that have 1024 steps / 270
-    // degrees.
-    // 45° -> P260
-    // 0°  -> P45
-    return map(shoulder.pos_current, 45, 260, 0, 45);
+    return shoulder_pos2angle(shoulder.pos_current);
+}
+
+/*
+ * For conversion we measured these values:
+ *
+ *      45° -> 260
+ *       0° -> 45
+ */
+static int16_t shoulder_angle2pos(int16_t angle)
+{
+    return map(angle, 0, 45, 45, 260);
+}
+static int16_t shoulder_pos2angle(int16_t pos)
+{
+    return map(pos, 45, 260, 0, 45);
 }

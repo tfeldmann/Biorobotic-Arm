@@ -21,12 +21,12 @@ const uint8_t ELBOW_DIR = 2;
 const uint8_t ELBOW_PWM = 4;
 
 const int8_t ELBOW_TOLERANCE = 1;
-const int16_t ELBOW_PWM_MIN = 50;  // 0...255
+const int16_t ELBOW_PWM_MIN = 0;  // 0...255
 const int16_t ELBOW_PWM_MAX = 255;  // 0...255
 
 // mechanical limits
-const int16_t ELBOW_POS_MIN = 55;
-const int16_t ELBOW_POS_MAX = 1023;
+const int16_t ELBOW_MIN = -165;
+const int16_t ELBOW_MAX =  40;
 
 // controller settings
 #define ELBOW_CONTROLLER_P 20
@@ -51,9 +51,9 @@ void elbow_init()
     elbow.pos_desired = elbow.pos_current;
 }
 
-void elbow_set_desired_pos(int16_t pos)
+void elbow_set_angle(int16_t angle)
 {
-    elbow.pos_desired = constrain(pos, ELBOW_POS_MIN, ELBOW_POS_MAX);
+    elbow.pos_desired = elbow_angle2pos(constrain(angle, ELBOW_MIN, ELBOW_MAX));
 }
 
 void elbow_control()
@@ -72,17 +72,23 @@ void elbow_control()
     analogWrite(ELBOW_PWM, speed);
 }
 
-int16_t elbow_position()
-{
-    return elbow.pos_current;
-}
-
 int16_t elbow_angle()
 {
-    // when the elbow is perfectly in line with the shoulder we read 810 on the
-    // potentiometer. The other values can be calculated as we know that have
-    // 1024 steps / 270 degrees.
-    // 0°   -> 810
-    // -90° -> 397
-    return map(elbow.pos_current, 810, 397, 0, -90);
+    return elbow_pos2angle(elbow.pos_current);
+}
+
+
+/*
+ * For conversion we measured these values:
+ *
+ *       0° -> 810
+ *     -90° -> 397
+ */
+static int16_t elbow_angle2pos(int16_t angle)
+{
+    return map(angle, 0, -90, 810, 397);
+}
+static int16_t elbow_pos2angle(int16_t pos)
+{
+    return map(pos, 810, 397, 0, -90);
 }

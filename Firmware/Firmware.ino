@@ -20,7 +20,7 @@ void setup()
     hand_init();
     collision_init();
 
-    start_control_tick(50);  // 50Hz
+    start_control_tick(100);  // 100Hz
 
     tone_ready();
     Serial.println("# READY");
@@ -30,8 +30,8 @@ void reset()
 {
     Serial.println("# RESET");
     base_set_desired_pos(512);
-    elbow_set_desired_pos(700);
-    shoulder_set_desired_pos(150);
+    elbow_set_angle(-45);
+    shoulder_set_angle(45);
     wrist_set_angle(0);
     grip_open();
 }
@@ -40,8 +40,8 @@ void stop()
 {
     Serial.println("# STOP");
     base_set_desired_pos(base_position());
-    shoulder_set_desired_pos(shoulder_position());
-    elbow_set_desired_pos(elbow_position());
+    shoulder_set_angle(shoulder_angle());
+    elbow_set_angle(elbow_angle());
 }
 
 void loop()
@@ -63,14 +63,25 @@ void loop()
         const String separator = String(';');
         String status =
             String('P') +
-            base_position() + separator +
-            shoulder_position() + separator +
-            elbow_position() + separator +
+            base_position() + separator + // @todo: base_angle
+            shoulder_angle() + separator +
+            elbow_angle() + separator +
             wrist_angle() + separator +
             grip_is_open();
         Serial.println(status);
         timestamp = millis();
     }
+
+    // static uint32_t timestamp = millis();
+    // if (millis() - timestamp > 50)
+    // {
+    //     Serial.print(analogRead(A0));
+    //     Serial.print(",");
+    //     Serial.print(analogRead(A1));
+    //     Serial.print(",");
+    //     Serial.println(analogRead(A2));
+    //     timestamp = millis();
+    // }
 
     static uint32_t collision_timestamp = millis();
     if (millis() - collision_timestamp > 100)
