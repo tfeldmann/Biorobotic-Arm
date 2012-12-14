@@ -38,6 +38,7 @@ Connect to the robot via a ```115200 baud, 8N1``` serial connection. Monitoring 
 Ca. every 50ms (20Hz) you will receive a ```P``` following five integers separated by ```;``` that describe the robot's position.
 For example:
 
+    P512;200;632;90;1
       |   |   |  |  |
       |   |   |  |  + - grip opened/closed
       |   |   |  +- - - wrist angle
@@ -55,10 +56,12 @@ A hash indicates that a output is for logging purposes only and can be dismissed
 
 An exclamation mark indicates an error and should always be shown to the user. For example:
 
-    ! E01: Collision detected
-    ! E02: Position mechanically not possible
-    ! E03: Position out of range
-    ! E04: Unkown command
+    !E01: Collision detected
+    !E02: Position mechanically not possible
+    !E03: Position out of range
+    !E04: Unkown command
+
+The question mark is only used for the identifier (see
 
 
 ### Commands
@@ -126,16 +129,18 @@ Example usage:
     >> GRIP TOGGLE
 
 #### Autolevel
-The robot is able to hold the wrist horizontal to the ground automatically. To enable this use the autolevel command.
+The robot is able to automatically maintain a specific wrist angle. To enable this use the autolevel command.
 
     >> AUTOLEVEL
-    # AUTOLEVEL ["ON" | "OFF" | "TOGGLE"]
+    # AUTOLEVEL ["ON" | "OFF" | "TOGGLE" | "H" | "V"]
 
 Example usage:
 
-    >> AUTOLEVEL ON
-    >> AUTOLEVEL OFF
-    >> AUTOLEVEL TOGGLE
+    >> AUTOLEVEL ON      <-- hold the angle you currently have
+    >> AUTOLEVEL OFF     <-- disables autolevel
+    >> AUTOLEVEL TOGGLE  <-- toggles between ON and OFF
+    >> AUTOLEVEL H       <-- Keep the wrist parallel to the ground
+    >> AUTOLEVEL V       <-- Keep the wrist orthogonal to the ground
 
 #### Identify
 A single question mark is the identify command. You can use this to check your connection settings and whether you're talking to the correct device.
