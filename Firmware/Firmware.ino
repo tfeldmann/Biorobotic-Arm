@@ -50,6 +50,7 @@ void loop()
     {
         const String separator = String(';');
         String status =
+            String('P') +
             base_position() + separator +
             shoulder_position() + separator +
             elbow_position() + separator +

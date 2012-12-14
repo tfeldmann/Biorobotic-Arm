@@ -35,16 +35,15 @@ Connect to the robot via a ```115200 baud, 8N1``` serial connection. Monitoring 
 ### Receiving data
 
 #### Position monitoring
-Ca. every 50ms (20Hz) you will receive five integers separated by ```;``` that describe the robot's position.
+Ca. every 50ms (20Hz) you will receive a ```P``` following five integers separated by ```;``` that describe the robot's position.
 For example:
 
-    512;200;632;90;1
-     |   |   |  |  |
-     |   |   |  |  + - grip opened/closed
-     |   |   |  +- - - wrist angle
-     |   |   + - - - - elbow position
-     |   + - - - - - - shoulder position
-     + - - - - - - - - base position
+      |   |   |  |  |
+      |   |   |  |  + - grip opened/closed
+      |   |   |  +- - - wrist angle
+      |   |   + - - - - elbow position
+      |   + - - - - - - shoulder position
+      + - - - - - - - - base position
 
 Base, shoulder and elbow position are the raw potentiometer values. The potentiometers are mechanically limited from 0 to 270 degrees. We read these values with a 10 bit ADC so we get 1024 steps on this range.
 
