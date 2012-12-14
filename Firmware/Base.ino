@@ -29,8 +29,8 @@ const uint16_t BASE_PWM_MAX = 255;  // 0...255
 
 typedef struct
 {
-    volatile int16_t pos_current;
-    volatile int16_t pos_desired;
+    int16_t pos_current;
+    int16_t pos_desired;
 } Base;
 static Base base;
 
@@ -58,13 +58,14 @@ void base_control()
     base.pos_current = analogRead(BASE_POT);
 
     // control
-    int16_t e = base.pos_desired - base.pos_current;
-    int16_t speed = BASE_CONTROLLER_KP * e;
+    int16_t delta = base.pos_desired - base.pos_current;
+    int16_t speed = BASE_CONTROLLER_KP * diff;
 
     // output
     bool dir = (speed > 0);
     speed = constrain(abs(speed), BASE_PWM_MIN, BASE_PWM_MAX);
-    if (abs(e) <= BASE_TOLERANCE) speed = 0;
+    if (abs(delta) <= BASE_TOLERANCE) speed = 0;
+
     digitalWrite(BASE_DIR, dir);
     analogWrite(BASE_PWM, speed);
 }
