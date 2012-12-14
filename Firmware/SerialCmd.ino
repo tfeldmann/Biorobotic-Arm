@@ -12,10 +12,9 @@ void scmd_init()
     serialCommand.addCommand("ELBOW",     scmd_elbow);
     serialCommand.addCommand("WRIST",     scmd_wrist);
     serialCommand.addCommand("GRIP",      scmd_grip);
-    serialCommand.addCommand("MOVE",      scmd_move);
-    serialCommand.addCommand("STOP",      scmd_stop);
+    serialCommand.addCommand("STOP",      stop);
     serialCommand.addCommand("AUTOLEVEL", scmd_autolevel);
-    serialCommand.addCommand("RESET",     init_position);
+    serialCommand.addCommand("RESET",     reset);
     serialCommand.setDefaultHandler(scmd_unknown);
 }
 
@@ -32,7 +31,7 @@ void scmd_unknown(const char *command)
 
 void scmd_identify()
 {
-    Serial.println("BIOROBOTIC_ARM");
+    Serial.println("?BIOROBOTIC_ARM");
 }
 
 void scmd_base()
@@ -125,24 +124,6 @@ void scmd_grip()
             Serial.println("# GRIP TOGGLE");
         }
     }
-}
-
-void scmd_move()
-{
-    char *arg = serialCommand.next();
-    if (arg == NULL)
-    {
-        Serial.println("# MOVE [BASE] [SHOULDER] [ELBOW] [WRIST] [GRIP]");
-        Serial.println("# Using dot "." will not alter the value");
-    }
-    // @todo: implementation
-}
-
-void scmd_stop()
-{
-    base_set_desired_pos(base_position());
-    shoulder_set_desired_pos(shoulder_position());
-    elbow_set_desired_pos(elbow_position());
 }
 
 void scmd_autolevel()
