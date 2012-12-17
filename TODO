@@ -1,15 +1,11 @@
 # Firmware
  ☐ runtime monitoring
- ☐ send measured current
- ☐ use angles instead of positions
-   ☐ base
 
 # RobControl
  ☐ "hold level"-button
  ☐ logging panel
  ☐ COM-port selection
- ☐ show measured current
- ☐ NullPointer Exception while drawing elbow
+ ☐ show measured current <<
 
 # RemoteInterface
  ☐ add a option which arm to control
@@ -21,6 +17,10 @@
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ send measured current @done (12-12-17 16:10)
+ ✔ use angles instead of positions @done (12-12-17 16:10)
+ ✔ base @done (12-12-17 16:10)
+ ✔ NullPointer Exception while drawing elbow @done (12-12-17 16:10)
  ✔ shoulder @done (12-12-14 18:29)
  ✔ elbow @done (12-12-14 18:29)
  ✘ run a given program @cancelled (12-12-14 17:00)

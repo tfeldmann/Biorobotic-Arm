@@ -63,7 +63,9 @@ void serialEvent(Serial serial)
             if (msg.length() <= 0) return;
             if (msg.charAt(0) == '#') return;
 
-            println(msg);
+            // println(msg); // for debugging
+
+            // received position update
             if (msg.charAt(0) == 'P')
             {
                 // remove 'P'
@@ -85,12 +87,32 @@ void serialEvent(Serial serial)
                     armSketch.elbow_angle_current = Integer.parseInt(args[2]);
                     handSketch.angle_current = Integer.parseInt(args[3]);
                     handSketch.grip_is_open = Integer.parseInt(args[4]) != 0;
-
-                    baseSketch.redraw();
-                    armSketch.redraw();
-                    handSketch.redraw();
                 }
             }
+
+            // received status update
+            if (msg.charAt(0) == 'S')
+            {
+                // remove 'S'
+                msg = msg.substring(1, msg.length());
+
+                /*
+                    status data comes in this order:
+                    0. motor 1 current
+                    1. motor 2 current
+                    2. motor 3 current
+                */
+                String args[] = msg.split(";");
+                if (args.length == 3)
+                {
+                    armSketch.shoulder_motor_power = Integer.parseInt(args[1]);
+                    armSketch.elbow_motor_power = Integer.parseInt(args[2]);
+                }
+            }
+
+            baseSketch.redraw();
+            armSketch.redraw();
+            handSketch.redraw();
         }
     }
     catch (Exception ex)

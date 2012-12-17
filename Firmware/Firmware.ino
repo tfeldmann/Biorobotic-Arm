@@ -58,36 +58,31 @@ void loop()
         4. Grip
      */
     static uint32_t timestamp = millis();
-    if (millis() - timestamp > 50)  // circa every 50ms
+    if (millis() - timestamp > 100)  // circa every 100ms
     {
         const String separator = String(';');
-        String status =
+
+        // Send position update
+        String position =
             String('P') +
             base_angle() + separator +
             shoulder_angle() + separator +
             elbow_angle() + separator +
             wrist_angle() + separator +
             grip_is_open();
+        Serial.println(position);
+
+        // Send status update
+        String status =
+            String('S') +
+            analogRead(A0) + separator +
+            analogRead(A1) + separator +
+            analogRead(A2);
         Serial.println(status);
-        timestamp = millis();
-    }
 
-    // static uint32_t timestamp = millis();
-    // if (millis() - timestamp > 50)
-    // {
-    //     Serial.print(analogRead(A0));
-    //     Serial.print(",");
-    //     Serial.print(analogRead(A1));
-    //     Serial.print(",");
-    //     Serial.println(analogRead(A2));
-    //     timestamp = millis();
-    // }
-
-    static uint32_t collision_timestamp = millis();
-    if (millis() - collision_timestamp > 100)
-    {
         collision_update();
-        collision_timestamp = millis();
+
+        timestamp = millis();
     }
 }
 

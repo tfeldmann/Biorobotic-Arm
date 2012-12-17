@@ -19,6 +19,10 @@ class ArmSketch extends EmbeddedSketch
     public int shoulder_angle_current;
     public int elbow_angle_current;
 
+    // measuring motor power
+    public int shoulder_motor_power;
+    public int elbow_motor_power;
+
 
     void setup()
     {
@@ -95,6 +99,10 @@ class ArmSketch extends EmbeddedSketch
             rotate(radians(elbow_angle_current));
             line(0, 0, ARM_LENGTH, 0);
         popMatrix();
+
+        // show motor power
+        line(10, 10, 10 + shoulder_motor_power, 10);
+        line(10, 20, 10 + elbow_motor_power, 20);
     }
 
     void mouseDragged()
