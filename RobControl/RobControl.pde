@@ -17,11 +17,11 @@ void setup()
     noLoop();
 
     String portName = Serial.list()[4];
+    println(portName);
     serial = new Serial(this, portName, 115200);
     serial.clear();
 
     oscP5 = new OscP5(this, 5001);
-    println(oscP5.ip());
     setLayout(new GridLayout(2, 2));
 
     SketchPanel baseSketchPanel = new SketchPanel(this, baseSketch);
@@ -63,6 +63,7 @@ void serialEvent(Serial serial)
             if (msg.length() <= 0) return;
             if (msg.charAt(0) == '#') return;
 
+            println(msg);
             if (msg.charAt(0) == 'P')
             {
                 // remove 'P'
@@ -79,11 +80,10 @@ void serialEvent(Serial serial)
                 String args[] = msg.split(";");
                 if (args.length == 5)
                 {
-                    baseSketch.pos_current = Integer.parseInt(args[0]);
-                    armSketch.pos_current_shoulder = Integer.parseInt(args[1]);
-                    armSketch.pos_current_elbow = Integer.parseInt(args[2]);
-                    handSketch.pos_current = Integer.parseInt(args[3]);
                     baseSketch.angle_current = Integer.parseInt(args[0]);
+                    armSketch.shoulder_angle_current = Integer.parseInt(args[1]);
+                    armSketch.elbow_angle_current = Integer.parseInt(args[2]);
+                    handSketch.angle_current = Integer.parseInt(args[3]);
                     handSketch.grip_is_open = Integer.parseInt(args[4]) != 0;
 
                     baseSketch.redraw();
@@ -111,10 +111,10 @@ void oscEvent(OscMessage theOscMessage)
     if (theOscMessage.checkAddrPattern("/gyro"))
     {
         float wrist_osc = theOscMessage.get(3).floatValue();
-        handSketch.setWristAngle(map(round(wrist_osc), 0, 180, 180, 0));
+        handSketch.setWristAngle(180-round(wrist_osc));
 
         float base_osc = theOscMessage.get(5).floatValue();
-        baseSketch.setDesiredAngle(map(base_osc, 0, 180, 270, 0));
+        baseSketch.setDesiredAngle(round(map(base_osc, 0, 180, 270, 0)));
     }
     if (theOscMessage.checkAddrPattern("/grip"))
     {

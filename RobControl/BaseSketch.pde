@@ -1,8 +1,10 @@
 
 class BaseSketch extends EmbeddedSketch
 {
-    public int pos_current; // 0 .. 1023
-    public int pos_desired;
+    private final static int BASE_ANGLE_MIN = -135;
+    private final static int BASE_ANGLE_MAX = 135;
+    public int angle_current;
+    public int angle_desired;
 
     void setup()
     {
@@ -12,30 +14,28 @@ class BaseSketch extends EmbeddedSketch
 
         ellipseMode(CENTER);
         rectMode(CENTER);
-
-        pos_desired = 512; // set to middle
     }
 
     void draw()
     {
         background(255);
 
-        float current_angle = positionToAngle(pos_current);
-        float desired_angle = positionToAngle(pos_desired);
-
         fill(0);
         text("Base", 10, height - 10);
-        text(round(current_angle) + "°", 10, 35);
+        text(round(angle_current) + "°", 10, 35);
         fill(0, 180, 0);
-        text(round(desired_angle) + "°", 10, 20);
+        text(round(angle_desired) + "°", 10, 20);
+
+        scale(1, -1);
+        translate(0, -height);
         translate(width / 2, height / 2);
 
-        // show robot
+        // show current
         stroke(0);
         strokeWeight(1);
         fill(220);
         pushMatrix();
-            rotate(radians(current_angle) + 0.375 * TWO_PI);
+            rotate(radians(90 - angle_current));
             rect(0, 0, 150, 150);
             strokeWeight(10);
             line(30, 0, 120, 0);
@@ -43,7 +43,7 @@ class BaseSketch extends EmbeddedSketch
 
         // show desired position
         pushMatrix();
-            rotate(radians(desired_angle) + 0.375 * TWO_PI);
+            rotate(radians(90 - angle_desired));
             fill(0, 180, 0, 100); // green
             stroke(0, 180, 0, 100);
             strokeWeight(2);
@@ -54,32 +54,19 @@ class BaseSketch extends EmbeddedSketch
     void setPositionByMouse()
     {
         PVector dirVect = new PVector(mouseX - width / 2, (height - mouseY) - height / 2);
-        float angle = degrees(atan2(dirVect.x, dirVect.y)) + 135;
+        int angle = round(90 - degrees(atan2(dirVect.y, dirVect.x)));
         setDesiredAngle(angle);
     }
 
-    void setDesiredAngle(float angle)
+    void setDesiredAngle(int angle)
     {
-        angle = constrain(angle, 0, 270);
-        pos_desired = angleToPos(angle);
-        sendPositionCommand(pos_desired);
+        angle_desired = angle;
+        sendPositionCommand(round(angle));
     }
 
-
-    void sendPositionCommand(int position)
+    void sendPositionCommand(int angle)
     {
-        sendSerial("BASE "+(new Integer(position)).toString());
-    }
-
-
-    float positionToAngle(int pos)
-    {
-        return (1023 - pos) * 270.0 / 1023.0;
-    }
-
-    int angleToPos(float angle)
-    {
-        return round(1023 - angle * 1023.0 / 270.0);
+        sendSerial("BASE "+(new Integer(angle)).toString());
     }
 
     void mouseDragged()

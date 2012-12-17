@@ -1,7 +1,10 @@
 
 class HandSketch extends EmbeddedSketch
 {
-    int pos_current;
+    final static int WRIST_MIN_ANGLE = -80;
+    final static int WRIST_MAX_ANGLE = 90;
+
+    int angle_current;
     boolean grip_is_open;
 
     void setup()
@@ -18,13 +21,15 @@ class HandSketch extends EmbeddedSketch
 
         fill(0);
         text("Hand", 10, height - 10);
-        text(round(pos_current) + "°", 10, 20);
+        text(round(angle_current) + "°", 10, 20);
 
+        scale(1, -1);
+        translate(0, -height);
         translate(width / 2, height / 2);
 
         // wrist
         pushMatrix();
-            rotate(radians(pos_current) - HALF_PI);
+            rotate(radians(angle_current));
             stroke(0);
             if (grip_is_open)
             {
@@ -56,13 +61,13 @@ class HandSketch extends EmbeddedSketch
         // abort if clicked in unavailable position to avoid instant jump from 180° to 0°
         if (mouseX < width / 2) return;
         PVector dirVect = new PVector(mouseX - width / 2, (height - mouseY) - height / 2);
-        float angle = degrees(atan2(dirVect.x, dirVect.y));
+        int angle = round(degrees(atan2(dirVect.y, dirVect.x)));
         setWristAngle(angle);
     }
 
-    void setWristAngle(float angle)
+    void setWristAngle(int angle)
     {
-        sendSerial("WRIST "+(new Integer(constrain(round(angle), 0, 180))).toString());
+        sendSerial("WRIST "+(new Integer(constrain(angle, WRIST_MIN_ANGLE, WRIST_MAX_ANGLE))).toString());
     }
 
     void mouseDragged()

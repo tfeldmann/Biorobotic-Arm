@@ -3,21 +3,21 @@
  */
 class ArmSketch extends EmbeddedSketch
 {
-    // constants (robot geometry)
+    // drawing parameters (robot geometry)
     public static final int ARM_LENGTH = 150;
-    public static final float SHOULDER_ANGLE_MIN = -20;
-    public static final float SHOULDER_ANGLE_MAX = 85;
-    public static final float ELBOW_ANGLE_MIN = -160;
-    public static final float ELBOW_ANGLE_MAX = 0;
+    public static final float SHOULDER_ANGLE_MIN = -5;
+    public static final float SHOULDER_ANGLE_MAX = 60;
+    public static final float ELBOW_ANGLE_MIN = -165;
+    public static final float ELBOW_ANGLE_MAX = 40;
+    PVector shoulder = new PVector(30, 100);
 
-    // variables
-    PVector shoulder;
-    PVector elbow;
-    PVector pos_desired;
+    // desired values
+    private int shoulder_angle_desired;
+    private int elbow_angle_desired;
 
-    // we receive these values from the robot as raw potentiometer values (0...1023)
-    public int pos_current_shoulder;
-    public int pos_current_elbow;
+    // we receive these values from the robot [degrees]
+    public int shoulder_angle_current;
+    public int elbow_angle_current;
 
 
     void setup()
@@ -25,11 +25,6 @@ class ArmSketch extends EmbeddedSketch
         size(350, 350);
         noLoop();
         smooth();
-
-        shoulder = new PVector(30, 100);
-        pos_desired = new PVector(100, 100);
-        ellipseMode(CENTER);
-        elbow = new PVector(0, 0);
     }
 
     void draw()
@@ -44,91 +39,91 @@ class ArmSketch extends EmbeddedSketch
         fill(0);
         text("Arms", 10, height - 10);
 
-        if (elbow != null)
+        // if not yet initialisied take received values
+        if (shoulder_angle_desired == 0 && elbow_angle_desired == 0)
         {
-            // draw shoulder min / max angle
-            // rotation is negative because 0|0 is top left.
-            fill(0, 200, 0, 30);
-            noStroke();
-            arc(shoulder.x, height - shoulder.y, 80, 80, -radians(SHOULDER_ANGLE_MAX), -radians(SHOULDER_ANGLE_MIN));
-            pushMatrix();
-                translate(elbow.x, height - elbow.y);
-                rotate(-atan2(elbow.y - shoulder.y, elbow.x - shoulder.x));
-                arc(0, 0, 80, 80, -radians(ELBOW_ANGLE_MAX), -radians(ELBOW_ANGLE_MIN));
-            popMatrix();
-
-            // desired arm position
-            stroke(255, 170, 60);
-            strokeWeight(7);
-            line(shoulder.x, height - shoulder.y, elbow.x, height - elbow.y);
-            line(elbow.x, height - elbow.y, pos_desired.x, height - pos_desired.y);
+            shoulder_angle_desired = shoulder_angle_current;
+            elbow_angle_desired = elbow_angle_current;
         }
+
+        // draw shoulder min / max angle
+        // rotation is negative because 0|0 is top left.
+        // fill(0, 200, 0, 30);
+        // noStroke();
+        // arc(shoulder.x, height - shoulder.y, 80, 80, -radians(SHOULDER_ANGLE_MAX), -radians(SHOULDER_ANGLE_MIN));
+        // pushMatrix();
+        //     translate(elbow.x, height - elbow.y);
+        //     rotate(-atan2(elbow.y - shoulder.y, elbow.x - shoulder.x));
+        //     arc(0, 0, 80, 80, -radians(ELBOW_ANGLE_MAX), -radians(ELBOW_ANGLE_MIN));
+        // popMatrix();
+
+        // desired arm position
+        stroke(255, 170, 60);
+        strokeWeight(7);
+        pushMatrix();
+            // flip everything upside down
+            scale(1, -1);
+            translate(0, -height);
+
+            // shoulder
+            translate(shoulder.x, shoulder.y);
+            rotate(radians(shoulder_angle_desired));
+            line(0, 0, ARM_LENGTH, 0);
+
+            // elbow
+            translate(ARM_LENGTH, 0);
+            rotate(radians(elbow_angle_desired));
+            line(0, 0, ARM_LENGTH, 0);
+        popMatrix();
+
 
         // show actual robot position
         stroke(0);
         strokeWeight(2);
         pushMatrix();
+            // flip everything upside down
+            scale(1, -1);
+            translate(0, -height);
+
             // shoulder
-            translate(shoulder.x, height - shoulder.y);
-            rotate(-shoulder_pos2angle(pos_current_shoulder));
+            translate(shoulder.x, shoulder.y);
+            rotate(radians(shoulder_angle_current));
             line(0, 0, ARM_LENGTH, 0);
 
             // elbow
             translate(ARM_LENGTH, 0);
-            rotate(-elbow_pos2angle(pos_current_elbow));
+            rotate(radians(elbow_angle_current));
             line(0, 0, ARM_LENGTH, 0);
         popMatrix();
     }
 
-    float shoulder_pos2angle(int position)
-    {
-        // measured: p50 = 0 degree
-        float angle = map(position, 50, 1023, 0, 256);
-        return radians(angle);
-    }
-
-    float elbow_pos2angle(int position)
-    {
-        // measured: p810 = 0 degree
-        float angle = map(position, 810, 0, 0, -213);
-        return radians(angle);
-    }
-
-    int shoulder_angle2pos(float angle)
-    {
-        return round(map(angle, 0, 256, 50, 1023));
-    }
-
-    int elbow_angle2pos(float angle)
-    {
-        return round(map(angle, 0, -213, 810, 0));
-    }
-
     void mouseDragged()
     {
-        pos_desired = new PVector(mouseX, height - mouseY);
-        PVector intersection = circleIntersection(shoulder, ARM_LENGTH, pos_desired, ARM_LENGTH);
+        PVector mouse_pos = new PVector(mouseX, height - mouseY);
+        PVector intersection = circleIntersection(shoulder, ARM_LENGTH, mouse_pos, ARM_LENGTH);
 
-        // check if mechanically possible
-        float shoulder_angle = degrees(atan2(intersection.y - shoulder.y, intersection.x - shoulder.x));
-        float elbow_angle = degrees(atan2(pos_desired.y - intersection.y, pos_desired.x - intersection.x)) - shoulder_angle;
-        if (shoulder_angle > SHOULDER_ANGLE_MIN && shoulder_angle < SHOULDER_ANGLE_MAX
-            && elbow_angle > ELBOW_ANGLE_MIN && elbow_angle < ELBOW_ANGLE_MAX)
+        int shoulder_angle = round(degrees(atan2(intersection.y - shoulder.y, intersection.x - shoulder.x)));
+        int elbow_angle = round(degrees(atan2(mouse_pos.y - intersection.y, mouse_pos.x - intersection.x)) - shoulder_angle_desired);
+
+        if (shoulder_angle >= SHOULDER_ANGLE_MIN && shoulder_angle <= SHOULDER_ANGLE_MAX &&
+            elbow_angle >= ELBOW_ANGLE_MIN && elbow_angle <= ELBOW_ANGLE_MAX)
         {
-            elbow = intersection;
-            sendPositionCommand(shoulder_angle2pos(shoulder_angle), elbow_angle2pos(elbow_angle));
+            shoulder_angle_desired = shoulder_angle;
+            elbow_angle_desired = elbow_angle;
         }
-        else
-        {
-            elbow = null;
-        }
+        sendMoveCommand(shoulder_angle_desired, elbow_angle_desired);
         redraw();
     }
 
-    void sendPositionCommand(int shoulder_pos, int elbow_pos)
+    void mousePressed()
     {
-        sendSerial("SHOULDER "+(new Integer(shoulder_pos)).toString());
-        sendSerial("ELBOW "+(new Integer(elbow_pos)).toString());
+        mouseDragged();
+    }
+
+    void sendMoveCommand(int shoulder_angle, int elbow_angle)
+    {
+        sendSerial("SHOULDER "+(new Integer(shoulder_angle)).toString());
+        sendSerial("ELBOW "+(new Integer(elbow_angle)).toString());
     }
 
     PVector circleIntersection(PVector p1, float r1, PVector p2, float r2)
