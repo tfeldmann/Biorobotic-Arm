@@ -39,9 +39,9 @@ void reset()
 void stop()
 {
     Serial.println("# STOP");
-    base_set_desired_pos(base_position());
-    shoulder_set_angle(shoulder_angle());
-    elbow_set_angle(elbow_angle());
+    base_stop();
+    shoulder_stop();
+    elbow_stop();
 }
 
 void loop()

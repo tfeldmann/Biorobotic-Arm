@@ -56,6 +56,11 @@ void shoulder_set_angle(int16_t angle)
     shoulder.pos_desired = shoulder_angle2pos(constrain(angle, SHOULDER_MIN, SHOULDER_MAX));
 }
 
+void shoulder_stop()
+{
+    shoulder.pos_desired = shoulder.pos_current;
+}
+
 void shoulder_control()
 {
     shoulder.pos_current = analogRead(SHOULDER_POT);

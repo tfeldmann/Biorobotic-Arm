@@ -56,6 +56,11 @@ void elbow_set_angle(int16_t angle)
     elbow.pos_desired = elbow_angle2pos(constrain(angle, ELBOW_MIN, ELBOW_MAX));
 }
 
+void elbow_stop()
+{
+    elbow.pos_desired = elbow.pos_current;
+}
+
 void elbow_control()
 {
     elbow.pos_current = analogRead(ELBOW_POT);
