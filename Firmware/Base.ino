@@ -22,7 +22,7 @@ const uint8_t BASE_PWM = 13;  // uses timer0
 
 const int8_t BASE_TOLERANCE = 1;
 const uint16_t BASE_PWM_MIN = 80;  // 0...255
-const uint16_t BASE_PWM_MAX = 255;  // 0...255
+const uint16_t BASE_PWM_MAX = 150;  // 0...255
 
 // controller settings
 #define BASE_CONTROLLER_KP 5
