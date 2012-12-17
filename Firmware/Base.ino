@@ -47,9 +47,14 @@ void base_init()
     base.pos_desired = base.pos_current;
 }
 
-void base_set_desired_pos(int16_t pos)
+void base_set_angle(int16_t angle)
 {
-    base.pos_desired = pos;
+    base.pos_desired = base_angle2pos(angle);
+}
+
+void base_stop()
+{
+    base.pos_desired = base.pos_current;
 }
 
 void base_control()
@@ -70,7 +75,23 @@ void base_control()
     analogWrite(BASE_PWM, speed);
 }
 
-int16_t base_position()
+
+int16_t base_angle()
 {
-    return base.pos_current;
+    return base_pos2angle(base.pos_current);
+}
+
+/*
+ * For conversion we measured these values:
+ *
+ *       -135° -> 1023
+ *        135° -> 0
+ */
+static int16_t base_angle2pos(int16_t angle)
+{
+    return map(angle, -135, 135, 1023, 0);
+}
+static int16_t base_pos2angle(int16_t pos)
+{
+    return map(pos, 1023, 0, -135, 135);
 }

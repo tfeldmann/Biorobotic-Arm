@@ -43,10 +43,10 @@ void scmd_base()
     }
     else
     {
-        int16_t desired_pos = atoi(arg);
-        base_set_desired_pos(desired_pos);
+        int16_t desired_angle = atoi(arg);
+        base_set_angle(desired_angle);
         Serial.print("# BASE ");
-        Serial.println(desired_pos);
+        Serial.println(desired_angle);
     }
 }
 

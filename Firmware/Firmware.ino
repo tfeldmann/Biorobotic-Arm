@@ -29,7 +29,7 @@ void setup()
 void reset()
 {
     Serial.println("# RESET");
-    base_set_desired_pos(512);
+    base_set_angle(0);
     elbow_set_angle(-45);
     shoulder_set_angle(45);
     wrist_set_angle(0);
@@ -63,7 +63,7 @@ void loop()
         const String separator = String(';');
         String status =
             String('P') +
-            base_position() + separator + // @todo: base_angle
+            base_angle() + separator +
             shoulder_angle() + separator +
             elbow_angle() + separator +
             wrist_angle() + separator +

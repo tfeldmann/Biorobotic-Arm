@@ -83,6 +83,7 @@ void serialEvent(Serial serial)
                     armSketch.pos_current_shoulder = Integer.parseInt(args[1]);
                     armSketch.pos_current_elbow = Integer.parseInt(args[2]);
                     handSketch.pos_current = Integer.parseInt(args[3]);
+                    baseSketch.angle_current = Integer.parseInt(args[0]);
                     handSketch.grip_is_open = Integer.parseInt(args[4]) != 0;
 
                     baseSketch.redraw();
