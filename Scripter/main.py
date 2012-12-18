@@ -62,7 +62,7 @@ class App(object):
 
             if (cmd[:4] == "WAIT"):
                 time.sleep(float(cmd.split(" ")[1]))
-            elif (cmd is "" or cmd[0] is "#"):
+            elif (cmd is "" or cmd[:1] is "#"):
                 pass
             else:
                 self.scon.send(cmd)
@@ -190,6 +190,7 @@ class App(object):
         # disable all controls that cannot be used at programm start
         #
         self.disable_serial_controls()
+
 
 def main():
     root = Tk()
