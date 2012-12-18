@@ -56,15 +56,16 @@ class App(object):
     def push_start_script(self):
         text = self.text_area.get(1.0, END)
         cmds = text.split('\n')
+
         for i, cmd in enumerate(cmds):
             cmd = cmd.upper()
+
             if (cmd[:4] == "WAIT"):
                 time.sleep(float(cmd.split(" ")[1]))
+            elif (cmd is "" or cmd[0] is "#"):
+                pass
             else:
                 self.scon.send(cmd)
-
-    def push_stop(self):
-        pass
 
     def push_new(self):
         self.text_area.delete(1.0, END)
@@ -125,16 +126,6 @@ class App(object):
             command=self.push_connect)
         self.connect_button.pack(side=LEFT)
 
-        # send button
-        self.send_button = Button(self.connect_frame, text="Send",
-            command=lambda: self.push_send(null))
-        self.send_button.pack(side=RIGHT)
-
-        # command input
-        self.command_entry = Entry(self.connect_frame)
-        self.command_entry.pack(side=RIGHT)
-        self.command_entry.bind("<Return>", self.push_send)
-
         #
         # Text areas
         #
@@ -160,6 +151,16 @@ class App(object):
         #
         self.control_frame = Frame(root)
         self.control_frame.pack(padx=15, pady=(0, 15), fill=X)
+
+        # command input
+        self.command_entry = Entry(self.control_frame)
+        self.command_entry.pack(side=LEFT)
+        self.command_entry.bind("<Return>", self.push_send)
+
+        # send button
+        self.send_button = Button(self.control_frame, text="Send",
+            command=lambda: self.push_send(null))
+        self.send_button.pack(side=LEFT)
 
         self.start_button = Button(self.control_frame, text="Go",
             command=self.push_start_script, width=10)
