@@ -1,9 +1,7 @@
 # Firmware
- ☐ runtime monitoring
 
 # RobControl
  ☐ "hold level"-button
- ☐ logging panel
  ☐ COM-port selection
  ☐ show measured current <<
 
@@ -12,11 +10,15 @@
  ☐ add "hold wrist flat" button
 
 # Scripter
- ☐ Send commands
- ☐ Implement pause command
+ ☐ save / load button
+ ☐ Logging panel
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ Send commands @done (12-12-18 16:30)
+ ✔ Implement wait command @done (12-12-18 16:30)
+ ✘ runtime monitoring @cancelled (12-12-18 12:25)
+ ✘ logging panel @cancelled (12-12-18 12:25)
  ✔ send measured current @done (12-12-17 16:10)
  ✔ use angles instead of positions @done (12-12-17 16:10)
  ✔ base @done (12-12-17 16:10)
