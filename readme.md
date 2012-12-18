@@ -69,7 +69,7 @@ The angles for the base (∆), shoulder (α), elbow (β) and wrist (γ) are show
       -5° ≤ α ≤ 60°
     -165° ≤ β ≤ 40°
      -80° ≤ γ ≤ 90°
-       ?? ≤ Δ ≤ ??
+     -135 ≤ Δ ≤ 135
 
 <p align="center">
     <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/Geometry.png" alt="geometry">
