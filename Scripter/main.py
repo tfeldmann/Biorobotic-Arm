@@ -63,15 +63,15 @@ class App(object):
         filename = tkFileDialog.asksaveasfilename(
             initialfile='script.hlf',
             title="Save script")
-
         f = gzip.open(filename, 'wb')
         f.write(self.text_area.get(1.0, END))
         f.close()
 
-        tkMessageBox.showinfo("Finished", "The file " + filename + " has been successfully saved.")
-
     def push_open(self):
-        pass
+        with gzip.open(tkFileDialog.askopenfilename(), 'rb') as f:
+            file_content = f.read()
+            self.text_area.delete(1.0, END)
+            self.text_area.insert(1.0, file_content)
 
     def serial_event(self, str):
         # logging
@@ -149,7 +149,6 @@ class App(object):
         filemenu.add_command(label="Save", command=self.push_save)
 
         filemenu.add_separator()
-
         filemenu.add_command(label="Exit", command=root.quit)
         menubar.add_cascade(label="File", menu=filemenu)
 
