@@ -18,6 +18,16 @@ import gzip
 
 
 class App(object):
+    def enable_serial_controls(self):
+        self.port_option_menu.config(state=DISABLED)
+        self.send_button.config(state=NORMAL)
+        self.start_button.config(state=NORMAL)
+
+    def disable_serial_controls(self):
+        self.port_option_menu.config(state=NORMAL)
+        self.send_button.config(state=DISABLED)
+        self.start_button.config(state=DISABLED)
+
     def push_connect(self):
         try:
             port = self.selectedPort.get()
@@ -26,7 +36,7 @@ class App(object):
             self.connect_button.configure(
                 text="Disconnect",
                 command=self.push_disconnect)
-            self.port_option_menu.config(state=DISABLED)
+            self.enable_serial_controls()
         except Exception, e:
             tkMessageBox.showerror("Error", e.message)
 
@@ -35,7 +45,7 @@ class App(object):
         self.connect_button.configure(
             text="Connect",
             command=self.push_connect)
-        self.port_option_menu.config(state=NORMAL)
+        self.disable_serial_controls()
 
     def push_send(self, event):
         str = self.command_entry.get()
@@ -43,7 +53,7 @@ class App(object):
         self.scon.send(str)
         self.command_entry.delete(0, END)
 
-    def push_start(self):
+    def push_start_script(self):
         text = self.text_area.get(1.0, END)
         cmds = text.split('\n')
         for i, cmd in enumerate(cmds):
@@ -74,9 +84,17 @@ class App(object):
             self.text_area.insert(1.0, file_content)
 
     def serial_event(self, str):
+        def log(str):
+            """Display a logging message in the text field"""
+            log_area = self.log_text
+            log_area.config(state=NORMAL)
+            log_area.insert(END, str + "\n")
+            log_area.config(state=DISABLED)
+            log_area.see(END)
+
         # logging
         if (str[0] == '#'):
-            self.log(str)
+            log(str)
 
         # infos
         elif (str[0] == '?'):
@@ -118,14 +136,22 @@ class App(object):
         self.command_entry.bind("<Return>", self.push_send)
 
         #
-        # Text area
+        # Text areas
         #
         self.text_frame = Frame(root)
         self.text_frame.pack(padx=15, pady=(0, 15))
-        self.text_area = Text(self.text_frame, bd=1, relief=GROOVE)
-        self.scrollbar = Scrollbar(self.text_frame)
+
+        self.log_text = Text(self.text_frame, width=50, state=DISABLED,
+            bg="gray", bd=3)
+        self.log_text.pack(side=RIGHT)
+
+        self.text_area = Text(self.text_frame, bd=1, relief=GROOVE, width=50)
         self.text_area.pack(side=LEFT)
+        self.text_area.focus_set()
+
+        self.scrollbar = Scrollbar(self.text_frame)
         self.scrollbar.pack(side=RIGHT, fill=Y)
+
         self.scrollbar.config(command=self.text_area.yview)
         self.text_area.config(yscrollcommand=self.scrollbar.set)
 
@@ -135,8 +161,8 @@ class App(object):
         self.control_frame = Frame(root)
         self.control_frame.pack(padx=15, pady=(0, 15), fill=X)
 
-        self.start_button = Button(self.control_frame, text="Start",
-            command=self.push_start)
+        self.start_button = Button(self.control_frame, text="Go",
+            command=self.push_start_script, width=10)
         self.start_button.pack(side=RIGHT)
 
         #
@@ -159,10 +185,10 @@ class App(object):
 
         root.config(menu=menubar)
 
-
-def donothing():
-    pass
-
+        #
+        # disable all controls that cannot be used at programm start
+        #
+        self.disable_serial_controls()
 
 def main():
     root = Tk()
