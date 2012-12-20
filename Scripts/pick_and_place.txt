@@ -4,21 +4,42 @@
 
 # reset robot to default position
 reset
-wait 10
+wait 6
 
-# hold wrist horizontally
+# hold wrist vertically
+autolevel v
+
+# move as near to base as possible
+shoulder 60
+elbow -180
+wait 6
+
+# elbow a bit forward, hand horizontal
+shoulder 40
+elbow -150
+wait 2
 autolevel h
+wait 1
+shoulder 35
+elbow -125
+
+wait 1
+
+# play with grip
+grip toggle
+wait 0.4
+grip toggle
+wait 0.4
+
+elbow -100
+wait 2
 
 # pick up object
-elbow -45
-shoulder 20
-wait 5
-
 grip close
 wait 1
 
+# pick up
 elbow 0
-shoulder 45
-wait 5
+wait 10
 
-grip open
+
