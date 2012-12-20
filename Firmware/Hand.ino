@@ -22,7 +22,7 @@ const uint8_t GRIP_PWM = 44;
 
 // mechanical limits
 const uint8_t GRIP_CLOSE = 0;
-const uint8_t GRIP_OPEN = 25;
+const uint8_t GRIP_OPEN = 40;
 const int16_t WRIST_MIN = -80;
 const int16_t WRIST_MAX = 90;
 
