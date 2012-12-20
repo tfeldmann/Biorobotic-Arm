@@ -11,9 +11,10 @@ Westfälische Hochschule
 from Tkinter import *
 import tkMessageBox
 import tkFileDialog
+import time
+import thread
 from serial.tools import list_ports
 from SerialConnection import *
-import time
 
 
 class App(object):
@@ -21,11 +22,13 @@ class App(object):
         self.port_option_menu.config(state=DISABLED)
         self.send_button.config(state=NORMAL)
         self.start_button.config(state=NORMAL)
+        self.stop_button.config(state=NORMAL)
 
     def disable_serial_controls(self):
         self.port_option_menu.config(state=NORMAL)
         self.send_button.config(state=DISABLED)
         self.start_button.config(state=DISABLED)
+        self.stop_button.config(state=DISABLED)
 
     def push_connect(self):
         try:
@@ -55,29 +58,43 @@ class App(object):
     def push_start_script(self):
         text = self.text_area.get(1.0, END)
         cmds = text.split('\n')
+        thread.start_new_thread(self.start_automation_thread, (cmds,))
+        self._stop_automation_thread = False
 
-        for i, cmd in enumerate(cmds):
+    def start_automation_thread(self, cmds):
+        for cmd in cmds:
+
+            # close thread when flag is set
+            if self._stop_automation_thread:
+                thread.exit()
+
+            # handle command
             cmd = cmd.upper()
 
-            # wait command
-            if (cmd[:4] == "WAIT"):
+            if cmd[:4] == "WAIT":
+                # wait command
                 time.sleep(float(cmd.split(" ")[1]))
-
-            # comment or empty line
-            elif (cmd is "" or cmd[:1] is "#"):
+            elif cmd == "" or cmd[:1] == "#":
+                # comment or empty line
                 pass
-
-            # robot command
             else:
+                # send cmd to robot
                 self.scon.send(cmd)
                 time.sleep(0.1)  # wait 1/10s after every command
+
+        # all commands send - done.
+        thread.exit()
+
+    def stop_automation_thread(self):
+        self.scon.send("STOP")
+        self._stop_automation_thread = True
 
     def push_new(self):
         self.text_area.delete(1.0, END)
 
     def push_save(self):
         filename = tkFileDialog.asksaveasfilename(
-            initialfile='script.hlf',
+            initialfile='script.txt',
             title="Save script")
         f = open(filename, 'wb')
         f.write(self.text_area.get(1.0, END))
@@ -110,6 +127,14 @@ class App(object):
         elif (str[0] == '?'):
             tkMessageBox.showinfo("Info", str[2:])
 
+        # position data
+        elif (str[0] == "P"):
+            p = str[1:].split(";")
+            self.position_label.config(
+                text="Base %s° Shoulder %s° Elbow %s°\n"
+                "Wrist %s° Grip %s" % (p[0], p[1], p[2], p[3], p[4]),
+                justify=RIGHT)
+
     def __init__(self, root):
         super(App, self).__init__()
         self.root = root
@@ -134,6 +159,12 @@ class App(object):
         self.connect_button = Button(self.connect_frame, text="Connect",
             command=self.push_connect)
         self.connect_button.pack(side=LEFT)
+
+        #
+        # Position label
+        #
+        self.position_label = Label(self.connect_frame)
+        self.position_label.pack(side=RIGHT)
 
         #
         # Text areas
@@ -169,12 +200,18 @@ class App(object):
 
         # send button
         self.send_button = Button(self.control_frame, text="Send",
-            command=lambda: self.push_send(null))
+            command=lambda: self.push_send(None))
         self.send_button.pack(side=LEFT)
 
-        self.start_button = Button(self.control_frame, text="Go",
+        # start button
+        self.start_button = Button(self.control_frame, text="Start",
             command=self.push_start_script, width=10)
         self.start_button.pack(side=RIGHT)
+
+        # stop button
+        self.stop_button = Button(self.control_frame, text="Stop",
+            command=self.stop_automation_thread, width=10)
+        self.stop_button.pack(side=RIGHT)
 
         #
         # Menu
