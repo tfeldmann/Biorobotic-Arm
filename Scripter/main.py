@@ -14,7 +14,6 @@ import tkFileDialog
 from serial.tools import list_ports
 from SerialConnection import *
 import time
-import gzip
 
 
 class App(object):
@@ -60,12 +59,18 @@ class App(object):
         for i, cmd in enumerate(cmds):
             cmd = cmd.upper()
 
+            # wait command
             if (cmd[:4] == "WAIT"):
                 time.sleep(float(cmd.split(" ")[1]))
+
+            # comment or empty line
             elif (cmd is "" or cmd[:1] is "#"):
                 pass
+
+            # robot command
             else:
                 self.scon.send(cmd)
+                time.sleep(0.1)  # wait 1/10s after every command
 
     def push_new(self):
         self.text_area.delete(1.0, END)
@@ -74,32 +79,36 @@ class App(object):
         filename = tkFileDialog.asksaveasfilename(
             initialfile='script.hlf',
             title="Save script")
-        f = gzip.open(filename, 'wb')
+        f = open(filename, 'wb')
         f.write(self.text_area.get(1.0, END))
         f.close()
 
     def push_open(self):
-        with gzip.open(tkFileDialog.askopenfilename(), 'rb') as f:
+        with open(tkFileDialog.askopenfilename(), 'rb') as f:
             file_content = f.read()
             self.text_area.delete(1.0, END)
             self.text_area.insert(1.0, file_content)
 
     def serial_event(self, str):
-        def log(str):
+        def log(str, tags):
             """Display a logging message in the text field"""
             log_area = self.log_text
             log_area.config(state=NORMAL)
-            log_area.insert(END, str + "\n")
+            log_area.insert(END, str + "\n", tags)
             log_area.config(state=DISABLED)
             log_area.see(END)
 
         # logging
         if (str[0] == '#'):
-            log(str)
+            log(str, ())
+
+        # warning
+        elif (str[0] == '!'):
+            log(str, ('warning'))
 
         # infos
         elif (str[0] == '?'):
-            tkMessageBox.showinfo("Info", str[1:])
+            tkMessageBox.showinfo("Info", str[2:])
 
     def __init__(self, root):
         super(App, self).__init__()
@@ -134,9 +143,10 @@ class App(object):
 
         self.log_text = Text(self.text_frame, width=50, state=DISABLED,
             bg="gray", bd=3)
+        self.log_text.tag_configure('warning', background='yellow')
         self.log_text.pack(side=RIGHT)
 
-        self.text_area = Text(self.text_frame, bd=1, relief=GROOVE, width=50)
+        self.text_area = Text(self.text_frame, bd=1, width=50)
         self.text_area.pack(side=LEFT)
         self.text_area.focus_set()
 
