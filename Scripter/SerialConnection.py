@@ -14,7 +14,7 @@ class SerialConnection(object):
         self._observers.append(observer)
 
     def startUpdateSerial(self, myPort):
-        self.ser = serial.Serial(port=myPort, baudrate=115200)
+        self.ser = serial.Serial(port=myPort, baudrate=19200)
         thread.start_new_thread(self.updateSerial, ())
         self._stop_serial_update_flag = False
 

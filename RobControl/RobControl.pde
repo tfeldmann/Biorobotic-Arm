@@ -18,7 +18,7 @@ void setup()
 
     String portName = Serial.list()[4];
     println(portName);
-    serial = new Serial(this, portName, 115200);
+    serial = new Serial(this, portName, 19200);
     serial.clear();
 
     oscP5 = new OscP5(this, 5001);

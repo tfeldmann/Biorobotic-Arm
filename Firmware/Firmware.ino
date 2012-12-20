@@ -11,7 +11,7 @@
 
 void setup()
 {
-    Serial.begin(115200);  // 8N1
+    Serial.begin(19200);  // 8N1
     scmd_init();
 
     base_init();
