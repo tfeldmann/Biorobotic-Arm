@@ -30,30 +30,29 @@ The programmatical robot control software. Here you can enter any command from t
 
 
 ## API
-Connect to the robot via a ```115200 baud, 8N1``` serial connection. Monitoring data as well as commands must be sent in plain uppercase ASCII.
+Connect to the robot via a ```19200 baud, 8N1``` serial connection. Monitoring data as well as commands must be sent in plain uppercase ASCII.
 
 ### Receiving data
 
 #### Control characters
 A hash (#) indicates that a output is for logging purposes only and can be dismissed. Examples:
 
-    # Accelerometer found
+    # Collision sensor found
     # Ready
 
-An exclamation mark (!) indicates an error and should always be shown to the user. For example:
+An exclamation mark (!) indicates an error and should always be shown to the user. The errors are enumerated as such:
 
-    !E01: Collision detected
-    !E02: Position mechanically not possible
-    !E03: Position out of range
-    !E04: Unkown command
+    !01 Unkown command
+    !02 Collision detected [Axis]
+    !03 Could not connect to MMA8452Q
 
 The question mark (?) is used for the identifier (see chapter "Identify").
 
-    ?BIOROBOTIC_ARM
+    ? BIOROBOTIC_ARM
 
 
 #### Position monitoring
-Ca. every 50ms (20Hz) the robot send ```P``` following five integers separated by ```;``` that describe the robot's position.
+Ca. every 50ms (20Hz) the robot sends a ```P``` following five integers separated by ```;``` that describe the robot's position.
 For example:
 
     P130;45;-90;30;1
@@ -112,8 +111,8 @@ Send only the command name to see how it is used.
 
 Example usage:
 
-    >> ELBOW 810  <-- sets the elbow in line with the shoulder
-    >> ELBOW 300
+    >> ELBOW 0    <-- sets the elbow in line with the shoulder
+    >> ELBOW -45
 
 #### Wrist
 Controls the robot's wrist. ```ANGLE``` can be any integer value between -80 and 90. Send only the command name to see a overview:
