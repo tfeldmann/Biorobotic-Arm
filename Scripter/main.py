@@ -12,24 +12,48 @@ from Tkinter import *
 import tkMessageBox
 import tkFileDialog
 import time
-import thread
+import threading
 from serial.tools import list_ports
 from SerialConnection import *
 
 
+class AutomationThread(threading.Thread):
+    def __init__(self, cmds, serial_connection, callback):
+        threading.Thread.__init__(self)
+        self.cmds = cmds
+        self.serial_connection = serial_connection
+        self.callback = callback
+        self._stop_flag = False
+
+    def run(self):
+        for cmd in self.cmds:
+            if self._stop_flag:
+                return
+
+            cmd = cmd.upper()
+            # wait command
+            if cmd[:4] == "WAIT":
+                time.sleep(float(cmd.split(" ")[1]))
+
+            # comment or empty line
+            elif cmd == "" or cmd[:1] == "#":
+                pass
+
+            # send cmd to robot
+            else:
+                self.serial_connection.send(cmd)
+                time.sleep(0.15)  # wait a bit after every command
+        self.callback()
+        return
+
+    def stop(self):
+        self._stop_flag = True
+
+
 class App(object):
-    def enable_serial_controls(self):
-        self.port_option_menu.config(state=DISABLED)
-        self.send_button.config(state=NORMAL)
-        self.start_button.config(state=NORMAL)
-        self.stop_button.config(state=NORMAL)
-
-    def disable_serial_controls(self):
-        self.port_option_menu.config(state=NORMAL)
-        self.send_button.config(state=DISABLED)
-        self.start_button.config(state=DISABLED)
-        self.stop_button.config(state=DISABLED)
-
+    #
+    # Buttons
+    #
     def push_connect(self):
         try:
             port = self.selectedPort.get()
@@ -55,39 +79,19 @@ class App(object):
         self.scon.send(str)
         self.command_entry.delete(0, END)
 
-    def push_start_script(self):
+    def push_start(self):
         text = self.text_area.get(1.0, END)
         cmds = text.split('\n')
-        thread.start_new_thread(self.start_automation_thread, (cmds,))
-        self._stop_automation_thread = False
+        self.automation_thread = AutomationThread(cmds,
+            self.scon,
+            self.automation_thread_callback)
+        self.automation_thread.start()
+        self.start_button.config(text="Stop", command=self.push_stop)
 
-    def start_automation_thread(self, cmds):
-        for cmd in cmds:
-
-            # close thread when flag is set
-            if self._stop_automation_thread:
-                thread.exit()
-
-            # handle command
-            cmd = cmd.upper()
-
-            if cmd[:4] == "WAIT":
-                # wait command
-                time.sleep(float(cmd.split(" ")[1]))
-            elif cmd == "" or cmd[:1] == "#":
-                # comment or empty line
-                pass
-            else:
-                # send cmd to robot
-                self.scon.send(cmd)
-                time.sleep(0.1)  # wait 1/10s after every command
-
-        # all commands send - done.
-        thread.exit()
-
-    def stop_automation_thread(self):
+    def push_stop(self):
+        self.automation_thread.stop()
         self.scon.send("STOP")
-        self._stop_automation_thread = True
+        self.start_button.config(text="Start", command=self.push_start)
 
     def push_new(self):
         self.text_area.delete(1.0, END)
@@ -105,6 +109,13 @@ class App(object):
             file_content = f.read()
             self.text_area.delete(1.0, END)
             self.text_area.insert(1.0, file_content)
+
+    def push_clear_log(self):
+        log_area = self.log_text
+        log_area.config(state=NORMAL)
+        log_area.delete("1.0", END)
+        log_area.config(state=DISABLED)
+        log_area.see(END)
 
     def serial_event(self, str):
         def log(str, tags):
@@ -135,13 +146,32 @@ class App(object):
                 "Wrist %s° Grip %s" % (p[0], p[1], p[2], p[3], p[4]),
                 justify=RIGHT)
 
+    #
+    # General GUI control
+    #
+    def enable_serial_controls(self):
+        self.port_option_menu.config(state=DISABLED)
+        self.send_button.config(state=NORMAL)
+        self.start_button.config(state=NORMAL)
+
+    def disable_serial_controls(self):
+        self.port_option_menu.config(state=NORMAL)
+        self.send_button.config(state=DISABLED)
+        self.start_button.config(state=DISABLED)
+
+    def automation_thread_callback(self):
+        tkMessageBox.showinfo("Info", "Finished")
+        self.start_button.config(text="Start", command=self.push_start)
+
     def __init__(self, root):
         super(App, self).__init__()
         self.root = root
+        root.title("BioRob Automation Software")
+        root.geometry("+300+100")
+        root.resizable(0, 0)
 
-        #
         # Connect Frame
-        #
+        # -------------
         self.connect_frame = Frame(root)
         self.connect_frame.pack(padx=15, pady=15, fill=X)
 
@@ -160,15 +190,13 @@ class App(object):
             command=self.push_connect)
         self.connect_button.pack(side=LEFT)
 
-        #
         # Position label
-        #
+        # --------------
         self.position_label = Label(self.connect_frame)
         self.position_label.pack(side=RIGHT)
 
-        #
         # Text areas
-        #
+        # ----------
         self.text_frame = Frame(root)
         self.text_frame.pack(padx=15, pady=(0, 15))
 
@@ -187,9 +215,8 @@ class App(object):
         self.scrollbar.config(command=self.text_area.yview)
         self.text_area.config(yscrollcommand=self.scrollbar.set)
 
-        #
         # Controls
-        #
+        # --------
         self.control_frame = Frame(root)
         self.control_frame.pack(padx=15, pady=(0, 15), fill=X)
 
@@ -205,22 +232,17 @@ class App(object):
 
         # start button
         self.start_button = Button(self.control_frame, text="Start",
-            command=self.push_start_script, width=10)
+            command=self.push_start, width=10)
         self.start_button.pack(side=RIGHT)
 
-        # stop button
-        self.stop_button = Button(self.control_frame, text="Stop",
-            command=self.stop_automation_thread, width=10)
-        self.stop_button.pack(side=RIGHT)
-
-        #
         # Menu
-        #
+        # ----
         menubar = Menu(root)
         filemenu = Menu(menubar, tearoff=0)
         filemenu.add_command(label="New", command=self.push_new)
         filemenu.add_command(label="Open", command=self.push_open)
         filemenu.add_command(label="Save", command=self.push_save)
+        filemenu.add_command(label="Clear Log", command=self.push_clear_log)
 
         filemenu.add_separator()
         filemenu.add_command(label="Exit", command=root.quit)
@@ -233,17 +255,12 @@ class App(object):
 
         root.config(menu=menubar)
 
-        #
         # disable all controls that cannot be used at programm start
-        #
         self.disable_serial_controls()
 
 
 def main():
     root = Tk()
-    root.title("BioRob Automation Software")
-    root.geometry("+300+100")
-    root.resizable(0, 0)
     App(root)
     root.mainloop()
 
