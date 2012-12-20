@@ -1,6 +1,6 @@
-# Pick And Place Presentation
-# Bocholt, 2012
-# ---------------------------
+# Pick And Place Demonstration
+# Feldmann & Co. Roboterfabrik
+# ----------------------------
 
 # reset robot to default position
 reset
