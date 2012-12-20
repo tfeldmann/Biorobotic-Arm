@@ -78,11 +78,11 @@ void collision_init()
     if (c == 0x2A) // WHO_AM_I should always be 0x2A
     {
         initMMA8452(SCALE, dataRate);  // init the accelerometer if communication is OK
-        Serial.println("MMA8452Q is online...");
+        Serial.println("# Collision sensor found");
     }
     else
     {
-        Serial.print("Could not connect to MMA8452Q: 0x");
+        Serial.print("!03 Could not connect to MMA8452Q: 0x");
         Serial.println(c, HEX);
         while (1);  // Loop forever if communication doesn't happen
     }
@@ -153,48 +153,49 @@ void tapHandler()
 {
     byte source = readRegister(0x22);  // Reads the PULSE_SRC register
 
-    if ((source & 0x10)==0x10)  // If AxX bit is set
-    {
-        if ((source & 0x08)==0x08)  // If DPE (double puls) bit is set
-            Serial.print("    Double Tap (2) on X");  // tabbing here for visibility
-        else
-            Serial.print("Single (1) tap on X");
+    // if ((source & 0x10)==0x10)  // If AxX bit is set
+    // {
+    //     if ((source & 0x08)==0x08)  // If DPE (double puls) bit is set
+    //         Serial.print("    Double Tap (2) on X");  // tabbing here for visibility
+    //     else
+    //         Serial.print("Single (1) tap on X");
 
-        if ((source & 0x01)==0x01)  // If PoIX is set
-            Serial.println(" +");
-        else
-            Serial.println(" -");
-    }
+    //     if ((source & 0x01)==0x01)  // If PoIX is set
+    //         Serial.println(" +");
+    //     else
+    //         Serial.println(" -");
+    // }
 
-    if ((source & 0x20)==0x20)  // If AxY bit is set
-    {
-        if ((source & 0x08)==0x08)  // If DPE (double puls) bit is set
-            Serial.print("    Double Tap (2) on Y");
-        else
-            Serial.print("Single (1) tap on Y");
+    // if ((source & 0x20)==0x20)  // If AxY bit is set
+    // {
+    //     if ((source & 0x08)==0x08)  // If DPE (double puls) bit is set
+    //         Serial.print("    Double Tap (2) on Y");
+    //     else
+    //         Serial.print("Single (1) tap on Y");
 
-        if ((source & 0x02)==0x02)  // If PoIY is set
-            Serial.println(" +");
-        else
-            Serial.println(" -");
-    }
+    //     if ((source & 0x02)==0x02)  // If PoIY is set
+    //         Serial.println(" +");
+    //     else
+    //         Serial.println(" -");
+    // }
 
-    if ((source & 0x40)==0x40)  // If AxZ bit is set
-    {
-        if ((source & 0x08)==0x08)  // If DPE (double puls) bit is set
-            Serial.print("    Double Tap (2) on Z");
-        else
-            Serial.print("Single (1) tap on Z");
-        if ((source & 0x04)==0x04)  // If PoIZ is set
-            Serial.println(" +");
-        else
-            Serial.println(" -");
-    }
+    // if ((source & 0x40)==0x40)  // If AxZ bit is set
+    // {
+    //     if ((source & 0x08)==0x08)  // If DPE (double puls) bit is set
+    //         Serial.print("    Double Tap (2) on Z");
+    //     else
+    //         Serial.print("Single (1) tap on Z");
+    //     if ((source & 0x04)==0x04)  // If PoIZ is set
+    //         Serial.println(" +");
+    //     else
+    //         Serial.println(" -");
+    // }
 
     if ((source & 0x40) == 0x40 || (source & 0x20) == 0x20 || (source & 0x10) == 0x10)
     {
         stop();
         tone_collision();
+        Serial.println("!02 Collision detected");
     }
 }
 
@@ -205,26 +206,26 @@ void portraitLandscapeHandler()
 byte pl = readRegister(0x10);  // Reads the PL_STATUS register
 switch((pl&0x06)>>1)  // Check on the LAPO[1:0] bits
 {
-case 0:
-  Serial.print("Portrait up, ");
-  break;
-case 1:
-  Serial.print("Portrait Down, ");
-  break;
-case 2:
-  Serial.print("Landscape Right, ");
-  break;
-case 3:
-  Serial.print("Landscape Left, ");
-  break;
-}
-if (pl&0x01)  // Check the BAFRO bit
-Serial.print("Back");
-else
-Serial.print("Front");
-if (pl&0x40)  // Check the LO bit
-Serial.print(", Z-tilt!");
-Serial.println();
+    case 0:
+        Serial.print("Portrait up, ");
+        break;
+    case 1:
+        Serial.print("Portrait Down, ");
+        break;
+    case 2:
+        Serial.print("Landscape Right, ");
+        break;
+    case 3:
+        Serial.print("Landscape Left, ");
+        break;
+    }
+    if (pl&0x01)  // Check the BAFRO bit
+        Serial.print("Back");
+    else
+        Serial.print("Front");
+    if (pl&0x40)  // Check the LO bit
+        Serial.print(", Z-tilt!");
+    Serial.println();
 }
 
 /* Initialize the MMA8452 registers
@@ -317,8 +318,8 @@ void readRegisters(byte address, int i, byte * dest)
     int j = 0;
     while(Wire.available())    // slave may send less than requested
     {
-    dest[j] = Wire.read();    // receive a byte as character
-    j++;
+        dest[j] = Wire.read();    // receive a byte as character
+        j++;
     }
     Wire.endTransmission();    // stop transmitting
 }

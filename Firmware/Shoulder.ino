@@ -53,7 +53,8 @@ void shoulder_init()
 
 void shoulder_set_angle(int16_t angle)
 {
-    shoulder.pos_desired = shoulder_angle2pos(constrain(angle, SHOULDER_MIN, SHOULDER_MAX));
+    angle = constrain(angle, SHOULDER_MIN, SHOULDER_MAX);
+    shoulder.pos_desired = shoulder_angle2pos(angle);
 }
 
 void shoulder_stop()

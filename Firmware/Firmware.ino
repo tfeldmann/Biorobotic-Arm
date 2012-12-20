@@ -23,12 +23,11 @@ void setup()
     start_control_tick(100);  // 100Hz
 
     tone_ready();
-    Serial.println("# READY");
+    Serial.println("# Ready");
 }
 
 void reset()
 {
-    Serial.println("# RESET");
     base_set_angle(0);
     elbow_set_angle(-45);
     shoulder_set_angle(45);
@@ -38,7 +37,6 @@ void reset()
 
 void stop()
 {
-    Serial.println("# STOP");
     base_stop();
     shoulder_stop();
     elbow_stop();
@@ -58,7 +56,7 @@ void loop()
         4. Grip
      */
     static uint32_t timestamp = millis();
-    if (millis() - timestamp > 100)  // circa every 100ms
+    if (millis() - timestamp > 50)  // circa every 50ms
     {
         const String separator = String(';');
 
@@ -72,13 +70,13 @@ void loop()
             grip_is_open();
         Serial.println(position);
 
-        // Send status update
-        String status =
-            String('S') +
-            analogRead(A0) + separator +
-            analogRead(A1) + separator +
-            analogRead(A2);
-        Serial.println(status);
+        // // Send status update
+        // String status =
+        //     String('S') +
+        //     analogRead(A0) + separator +
+        //     analogRead(A1) + separator +
+        //     analogRead(A2);
+        // Serial.println(status);
 
         collision_update();
 

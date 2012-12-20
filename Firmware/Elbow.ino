@@ -53,7 +53,8 @@ void elbow_init()
 
 void elbow_set_angle(int16_t angle)
 {
-    elbow.pos_desired = elbow_angle2pos(constrain(angle, ELBOW_MIN, ELBOW_MAX));
+    angle = constrain(angle, ELBOW_MIN, ELBOW_MAX);
+    elbow.pos_desired = elbow_angle2pos(angle);
 }
 
 void elbow_stop()

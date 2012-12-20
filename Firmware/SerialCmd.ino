@@ -12,9 +12,9 @@ void scmd_init()
     serialCommand.addCommand("ELBOW",     scmd_elbow);
     serialCommand.addCommand("WRIST",     scmd_wrist);
     serialCommand.addCommand("GRIP",      scmd_grip);
-    serialCommand.addCommand("STOP",      stop);
+    serialCommand.addCommand("STOP",      scmd_stop);
     serialCommand.addCommand("AUTOLEVEL", scmd_autolevel);
-    serialCommand.addCommand("RESET",     reset);
+    serialCommand.addCommand("RESET",     scmd_reset);
     serialCommand.setDefaultHandler(scmd_unknown);
 }
 
@@ -25,13 +25,13 @@ void scmd_update()
 
 void scmd_unknown(const char *command)
 {
-    Serial.print("# UNKNOWN: ");
+    Serial.print("!01 Unknown command: ");
     Serial.println(command);
 }
 
 void scmd_identify()
 {
-    Serial.println("?BIOROBOTIC_ARM");
+    Serial.println("? BIOROBOTIC_ARM");
 }
 
 void scmd_base()
@@ -125,6 +125,12 @@ void scmd_grip()
     }
 }
 
+void scmd_stop()
+{
+    stop();
+    Serial.println("# STOP");
+}
+
 void scmd_autolevel()
 {
     char *arg = serialCommand.next();
@@ -159,4 +165,10 @@ void scmd_autolevel()
             Serial.println("# AUTOLEVEL V");
         }
     }
+}
+
+void scmd_reset()
+{
+    reset();
+    Serial.println("# RESET");
 }

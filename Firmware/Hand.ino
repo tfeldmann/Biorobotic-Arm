@@ -70,6 +70,12 @@ int16_t wrist_angle()
     return wrist_pos2angle(wrist_servo.read());
 }
 
+/*
+ * For conversion we measured these values:
+ *
+ *      90° <-> 7
+ *       0° <-> 98
+ */
 int16_t wrist_angle2pos(int16_t angle)
 {
     int16_t pos = map(angle, 90, 0, 7, 98);
@@ -103,7 +109,10 @@ void hand_control()
 {
     if (wrist_autolevel_enabled)
     {
-        int16_t angle = - shoulder_angle() - elbow_angle() + wrist_autolevel_angle;
+        int16_t angle =
+            wrist_autolevel_angle
+            - shoulder_angle()
+            - elbow_angle();
         wrist_set_angle(angle);
     }
 }
