@@ -84,8 +84,8 @@ int16_t base_angle()
 /*
  * For conversion we measured these values:
  *
- *       -135° -> 1023
- *        135° -> 0
+ *       -135° <-> 1023
+ *        135° <-> 0
  */
 static int16_t base_angle2pos(int16_t angle)
 {

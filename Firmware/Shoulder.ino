@@ -90,8 +90,8 @@ int16_t shoulder_angle()
 /*
  * For conversion we measured these values:
  *
- *      45° -> 260
- *       0° -> 45
+ *      45° <-> 260
+ *       0° <-> 45
  */
 static int16_t shoulder_angle2pos(int16_t angle)
 {

@@ -33,7 +33,7 @@ void tone_play(const int *melody, const int *durations, uint8_t length)
         tone(SPEAKER_PIN, melody[i], note_duration);
 
         // short pause to distinguish the notes.
-        // the note's duration + 30% seems to work well:
+        // the note's duration + 30% seems to work well.
         int pause = note_duration * 1.3;
         delay(pause);
         noTone(SPEAKER_PIN);

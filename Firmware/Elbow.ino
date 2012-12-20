@@ -86,8 +86,8 @@ int16_t elbow_angle()
 /*
  * For conversion we measured these values:
  *
- *       0° -> 810
- *     -90° -> 397
+ *       0° <-> 810
+ *     -90° <-> 397
  */
 static int16_t elbow_angle2pos(int16_t angle)
 {
