@@ -1,0 +1,24 @@
+# Pick And Place Presentation
+# Bocholt, 2012
+# ---------------------------
+
+# reset robot to default position
+reset
+wait 10
+
+# hold wrist horizontally
+autolevel h
+
+# pick up object
+elbow -45
+shoulder 20
+wait 5
+
+grip close
+wait 1
+
+elbow 0
+shoulder 45
+wait 5
+
+grip open
