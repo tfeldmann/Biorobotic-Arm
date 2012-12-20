@@ -4,7 +4,7 @@ import thread
 
 
 class SerialConnection(object):
-    """docstring for SerialConnection"""
+    """receives and sends serial data in a thread"""
     def __init__(self, serialPort):
         self.serialPort = serialPort
         self.startUpdateSerial(self.serialPort)
@@ -15,7 +15,7 @@ class SerialConnection(object):
 
     def startUpdateSerial(self, myPort):
         self.ser = serial.Serial(port=myPort, baudrate=115200)
-        self.serialThread = thread.start_new_thread(self.updateSerial, ())
+        thread.start_new_thread(self.updateSerial, ())
         self._stop_serial_update_flag = False
 
     def stopUpdateSerial(self):
