@@ -2,6 +2,25 @@
 This is a collaborative project for the course "biorobotics and locomotion".
 It contains the source files for the firmware, graphical control software, scripting (automation) software and remote software as well as the driver.
 
+- [Driver](#driver)
+- [Firmware](#firmware)
+- [RemoteInterface](#remoteinterface)
+- [RobControl](#robcontrol)
+- [Scripter](#scripter)
+- [API](#api)
+    - [Receiving data](#receiving-data)
+        - [Control characters](#control-characters)
+        - [Position monitoring](#position-monitoring)
+    - [Commands](#commands)
+        - [Base](#base)
+        - [Shoulder](#shoulder)
+        - [Elbow](#elbow)
+        - [Wrist](#wrist)
+        - [Grip](#grip)
+        - [Autolevel](#autolevel)
+        - [Identify](#identify)
+- [Contributors](#contributors)
+
 
 ## Driver
 This folder contains the driver which is needed on older windows versions ([installation instructions](http://arduino.cc/en/Guide/windows#toc4)). As of Windows Vista the Arduino is recognized automatically.
