@@ -21,11 +21,11 @@ const uint8_t BASE_DIR = 12;
 const uint8_t BASE_PWM = 13;  // uses timer0
 
 const int8_t BASE_TOLERANCE = 1;
-const uint16_t BASE_PWM_MIN = 80;  // 0...255
+const uint16_t BASE_PWM_MIN = 50;  // 0...255
 const uint16_t BASE_PWM_MAX = 200;  // 0...255
 
 // controller settings
-#define BASE_CONTROLLER_KP 5
+#define BASE_CONTROLLER_KP 10
 
 typedef struct
 {
