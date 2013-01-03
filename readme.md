@@ -2,6 +2,7 @@
 This is a collaborative project for the course "biorobotics and locomotion".
 It contains the source files for the firmware, graphical control software, scripting (automation) software and remote software as well as the driver.
 
+- [Documentation](#documentation)
 - [Driver](#driver)
 - [Firmware](#firmware)
 - [RemoteInterface](#remoteinterface)
@@ -22,6 +23,13 @@ It contains the source files for the firmware, graphical control software, scrip
 - [Contributors](#contributors)
 
 
+## Documentation
+The folder "Documentation" contains the screenshots used in the files you are currently seeing as well as the board layout and schematics.
+
+- [Board layout](https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/board-layout.pdf)
+- [Board schematics](https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/board-schematic.pdf)
+
+
 ## Driver
 This folder contains the driver which is needed on older windows versions ([installation instructions](http://arduino.cc/en/Guide/windows#toc4)). As of Windows Vista the Arduino is recognized automatically.
 
@@ -30,22 +38,31 @@ On Mac OS X everything should work out of the box. It should work on Linux, too 
 
 ## Firmware
 Here you find the robot's firmware. It is written for an Arduino Mega 2560 R3.
-To compile and upload, simply use the [Arduino Software](http://arduino.cc/en/Main/Software).
-The [SerialCommand](https://github.com/kroimon/Arduino-SerialCommand) library needs to be installed.
+To compile and upload use the [Arduino Software](http://arduino.cc/en/Main/Software) unless you know what you are doing.
+The [SerialCommand](https://github.com/kroimon/Arduino-SerialCommand) library must be installed. An archive of the SerialCommand library is included in Firmware/libraries.
 
 
 ## RemoteInterface
 This folder contains the setup file for the remote interface (iOS / Android).
 You will need the software "[Control](http://charlie-roberts.com/Control/)".
 
-Make sure that you are in the same network as the PC running the RobControl-software and enter the given IP-adress as destination. Install and start the RobControl Remote interface (the website shows how it's done).
+Make sure that you are in the same network as the PC running the RobControl-software and enter the given IP-adress as destination. Install and start the RobControl Remote interface (the .js file in the folder "RemoteInterface").
+
 
 ## RobControl
+<p align="center">
+    <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/RobControl.png" alt="RobControl">
+</p>
 The graphical robot control software. Start it after you connected the robot to the PC, select the right port and you're good to go. You can control the robot by clicking and dragging. Everything should be quite self-explanatory.
 
 
-## Scripter
+## ScriptingSoftware
+<p align="center">
+    <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/ScriptingSoftware.png" alt="ScriptingSoftware">
+</p>
 The programmatical robot control software. Here you can enter any command from the section "API" as well as the command "PAUSE [seconds]". Click on start to run the script. Additionally you can send single commands in the entry field on the bottom.
+
+The ScriptingSoftware is written in Python 2.7.4 and uses no external modules except for PySerial.
 
 
 ## API
@@ -59,7 +76,7 @@ A hash (#) indicates that a output is for logging purposes only and can be dismi
     # Collision sensor found
     # Ready
 
-An exclamation mark (!) indicates an error and should always be shown to the user. The errors are enumerated as such:
+An exclamation mark (!) indicates an error and should always be shown to the user. Possible errors are:
 
     !01 Unkown command
     !02 Collision detected [Axis]
@@ -118,8 +135,8 @@ Send only the command name to see how it is used.
 
 Example usage:
 
-    >> SHOULDER 45   <-- sets the shoulder perfectly horizontal
-    >> SHOULDER 200
+    >> SHOULDER 0   <-- sets the shoulder perfectly horizontal
+    >> SHOULDER 30  <-- turns the shoulder 30 degrees to ground
 
 #### Elbow
 Controls the DC-Motor in the base. ```POSITION``` can be any integer value between 55 and 1023
@@ -176,7 +193,7 @@ The ```H``` and ```V``` options enable autolevel automatically.
 A single question mark is the identify command. You can use this to check your connection settings and whether you're talking to the correct device.
 
     >> ?
-    ?BIOROBOTIC_ARM
+    ? BIOROBOTIC_ARM
 
 
 ## Contributors
