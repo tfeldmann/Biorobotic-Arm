@@ -13,6 +13,7 @@ import tkMessageBox
 import tkFileDialog
 import time
 import threading
+from string import *
 from serial.tools import list_ports
 from SerialConnection import *
 
@@ -54,6 +55,21 @@ class App(object):
     #
     # Buttons
     #
+    def push_refresh(self):
+        # get active COM-Ports
+        self.selectedPort.set("")
+        portOptions = [port[0] for port in list_ports.comports()]
+        if len(portOptions) == 0:
+            portOptions = ['No COM-Ports available']
+        self.selectedPort.set(portOptions[-1])  # set default value
+
+        # change options
+        m = self.port_option_menu.children['menu']
+        m.delete(0,END)
+        for val in portOptions:
+            m.add_command(label=val,
+                command=lambda v=self.selectedPort,l=val:v.set(l))
+
     def push_connect(self):
         try:
             port = self.selectedPort.get()
@@ -141,10 +157,11 @@ class App(object):
         # position data
         elif (str[0] == "P"):
             p = str[1:].split(";")
-            self.position_label.config(
-                text="Base %s° Shoulder %s° Elbow %s°\n"
-                "Wrist %s° Grip %s" % (p[0], p[1], p[2], p[3], p[4]),
-                justify=RIGHT)
+            if len(p) == 5:
+                self.position_label.config(
+                    text="Base %s° Shoulder %s° Elbow %s°\n"
+                    "Wrist %s° Grip %s" % (p[0], p[1], p[2], p[3], p[4]),
+                    justify=RIGHT)
 
     #
     # General GUI control
@@ -176,14 +193,20 @@ class App(object):
         self.connect_frame.pack(padx=15, pady=15, fill=X)
 
         # port select box
-        self.selectedPort = StringVar(root)
-        portOptions = [port[0] for port in list_ports.comports()]
-        self.selectedPort.set(portOptions[-1])  # set default value
+        portOptions = ["No Com-Port available"]
+        self.selectedPort = StringVar()
+        self.selectedPort.set(portOptions[0])
         self.port_option_menu = OptionMenu(
             self.connect_frame,
             self.selectedPort,
             *portOptions)
         self.port_option_menu.pack(side=LEFT)
+
+        # refresh button
+        refresh_button = Button(self.connect_frame, text="R",
+            command=self.push_refresh)
+        refresh_button.pack(side=LEFT)
+        self.push_refresh()
 
         # connect button
         self.connect_button = Button(self.connect_frame, text="Connect",
@@ -227,7 +250,7 @@ class App(object):
 
         # send button
         self.send_button = Button(self.control_frame, text="Send",
-            command=lambda: self.push_send(None))
+            command=lambda: self.push_send(None),  width=10)
         self.send_button.pack(side=LEFT)
 
         # start button

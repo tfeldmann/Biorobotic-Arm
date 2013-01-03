@@ -1,19 +1,20 @@
-# Firmware
+Firmware:
 
-# RobControl
+RobControl:
  ☐ "hold level"-button
  ☐ COM-port selection
 
-# RemoteInterface
+RemoteInterface:
  ☐ add a option which arm to control
  ☐ add "hold wrist flat" button
 
-# Scripter
+Scripting Software:
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ Sanity checks for incoming data @done (13-01-03 14:55)
  ✔ colour highlight logging panel @done (12-12-20 12:34)
- ✘ Reload COM-ports @cancelled (12-12-18 17:40)
+ ✔ Reload COM-ports @done (13-01-03 14:34)
  ✔ Logging panel @done (12-12-18 17:19)
  ✘ show measured current @cancelled (12-12-18 17:19)
  ✔ save / load button @done (12-12-18 16:49)
