@@ -29,7 +29,7 @@ const int16_t SHOULDER_MIN = -5;
 const int16_t SHOULDER_MAX = 61;
 
 // controller settings
-#define SHOULDER_CONTROLLER_P 20
+#define SHOULDER_CONTROLLER_P 5
 
 typedef struct
 {
