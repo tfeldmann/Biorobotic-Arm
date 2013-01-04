@@ -60,7 +60,7 @@ The graphical robot control software. Start it after you connected the robot to 
 <p align="center">
     <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/ScriptingSoftware.png" alt="ScriptingSoftware">
 </p>
-The programmatical robot control software. Here you can enter any command from the section "API" as well as the command "PAUSE [seconds]". Click on start to run the script. Additionally you can send single commands in the entry field on the bottom.
+The programmatical robot control software. Here you can enter any command from the section "API" as well as the command "WAIT [seconds]". Click on start to run the script. Additionally you can send single commands in the entry field on the bottom.
 
 The ScriptingSoftware is written in Python 2.7.4 and uses no external modules except for PySerial.
 
