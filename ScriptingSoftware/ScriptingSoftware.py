@@ -12,6 +12,7 @@ from Tkinter import *
 import tkMessageBox
 import tkFileDialog
 import time
+import os
 import threading
 from string import *
 from serial.tools import list_ports
@@ -19,11 +20,10 @@ from SerialConnection import *
 
 
 class AutomationThread(threading.Thread):
-    def __init__(self, cmds, serial_connection, callback):
+    def __init__(self, cmds, serial_connection):
         threading.Thread.__init__(self)
         self.cmds = cmds
         self.serial_connection = serial_connection
-        self.callback = callback
         self._stop_flag = False
 
     def run(self):
@@ -44,8 +44,6 @@ class AutomationThread(threading.Thread):
             else:
                 self.serial_connection.send(cmd)
                 time.sleep(0.15)  # wait a bit after every command
-        self.callback()
-        return
 
     def stop(self):
         self._stop_flag = True
@@ -55,12 +53,30 @@ class App(object):
     #
     # Buttons
     #
+    def list_serial_ports(self):
+        # Windows
+        if os.name == 'nt':
+            # Scan for available ports.
+            available = []
+            for i in range(256):
+                try:
+                    s = serial.Serial(i)
+                    available.append('COM'+str(i + 1))
+                    s.close()
+                except serial.SerialException:
+                    pass
+            return available
+        else:
+            # Mac / Linux
+            return [port[0] for port in list_ports.comports()]
+
     def push_refresh(self):
         # get active COM-Ports
         self.selectedPort.set("")
-        portOptions = [port[0] for port in list_ports.comports()]
+
+        portOptions = self.list_serial_ports()
         if len(portOptions) == 0:
-            portOptions = ['No COM-Ports available']
+            portOptions = ["No Port found"]
         self.selectedPort.set(portOptions[-1])  # set default value
 
         # change options
@@ -98,9 +114,7 @@ class App(object):
     def push_start(self):
         text = self.text_area.get(1.0, END)
         cmds = text.split('\n')
-        self.automation_thread = AutomationThread(cmds,
-            self.scon,
-            self.automation_thread_callback)
+        self.automation_thread = AutomationThread(cmds, self.scon)
         self.automation_thread.start()
         self.start_button.config(text="Stop", command=self.push_stop)
 
@@ -170,15 +184,13 @@ class App(object):
         self.port_option_menu.config(state=DISABLED)
         self.send_button.config(state=NORMAL)
         self.start_button.config(state=NORMAL)
+        self.refresh_button.config(state=DISABLED)
 
     def disable_serial_controls(self):
         self.port_option_menu.config(state=NORMAL)
         self.send_button.config(state=DISABLED)
         self.start_button.config(state=DISABLED)
-
-    def automation_thread_callback(self):
-        tkMessageBox.showinfo("Info", "Finished")
-        self.start_button.config(text="Start", command=self.push_start)
+        self.refresh_button.config(state=NORMAL)
 
     def __init__(self, root):
         super(App, self).__init__()
@@ -203,9 +215,9 @@ class App(object):
         self.port_option_menu.pack(side=LEFT)
 
         # refresh button
-        refresh_button = Button(self.connect_frame, text="R",
+        self.refresh_button = Button(self.connect_frame, text="R",
             command=self.push_refresh)
-        refresh_button.pack(side=LEFT)
+        self.refresh_button.pack(side=LEFT)
         self.push_refresh()
 
         # connect button

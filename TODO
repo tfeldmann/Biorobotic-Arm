@@ -5,6 +5,7 @@ RobControl:
  ☐ COM-port selection
 
 RemoteInterface:
+ ☐ control via phone
  ☐ add a option which arm to control
  ☐ add "hold wrist flat" button
 
