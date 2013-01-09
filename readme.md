@@ -1,6 +1,9 @@
 # Biorobotic Arm
 This is a collaborative project for the course "biorobotics and locomotion".
 It contains the source files for the firmware, graphical control software, scripting (automation) software and remote software as well as the driver.
+<p align="center">
+    <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/BioRob.png" alt="BioRoboter">
+</p>
 
 - [Documentation](#documentation)
 - [Driver](#driver)
@@ -203,7 +206,7 @@ A single question mark is the identify command. You can use this to check your c
     Feldmann, Thomas <br>
     Hussmann, Carsten <br>
     Neuhaus, Alexander
-<p>
+</p>
 <p align="center">
     <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/Roboterfabrik.png" alt="Logo">
 </p>
