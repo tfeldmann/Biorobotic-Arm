@@ -13,6 +13,10 @@ const int tone_ready_d[] = {8,       8};
 const int tone_collision_m[] = {NOTE_C6, NOTE_C6};
 const int tone_collision_d[] = {16,      16};
 
+// Melody: "Beep"
+const int tone_beep_m[] = {NOTE_G2};
+const int tone_beep_d[] = {4};
+
 
 void tone_ready()
 {
@@ -22,6 +26,11 @@ void tone_ready()
 void tone_collision()
 {
     tone_play(tone_collision_m, tone_collision_d, 2);
+}
+
+void tone_beep()
+{
+    tone_play(tone_beep_m, tone_beep_d, 1);
 }
 
 void tone_play(const int *melody, const int *durations, uint8_t length)

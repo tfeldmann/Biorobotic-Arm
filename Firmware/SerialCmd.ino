@@ -15,6 +15,8 @@ void scmd_init()
     serialCommand.addCommand("STOP",      scmd_stop);
     serialCommand.addCommand("AUTOLEVEL", scmd_autolevel);
     serialCommand.addCommand("RESET",     scmd_reset);
+    serialCommand.addCommand("STANDBY",   scmd_standby);
+    serialCommand.addCommand("BEEP",      scmd_beep);
     serialCommand.setDefaultHandler(scmd_unknown);
 }
 
@@ -91,6 +93,7 @@ void scmd_wrist()
     }
     else
     {
+        wrist_autolevel_off();
         int16_t angle = atoi(arg);
         wrist_set_angle(angle);
         Serial.print("# WRIST ");
@@ -171,4 +174,16 @@ void scmd_reset()
 {
     reset();
     Serial.println("# RESET");
+}
+
+void scmd_standby()
+{
+    standby();
+    Serial.println("# STANDBY");
+}
+
+void scmd_beep()
+{
+    tone_beep();
+    Serial.println("# BEEP");
 }
