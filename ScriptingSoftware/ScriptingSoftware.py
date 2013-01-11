@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-"""BioRob Scripting Software
+'''BioRob Scripting Software
 
 Repository and readme:
 github.com/tfeldmann/Biorobotic-Arm
 
 Mechatronics Master 2012
 Westfälische Hochschule
-"""
+'''
 
 from Tkinter import *
 import tkMessageBox
@@ -33,11 +33,11 @@ class AutomationThread(threading.Thread):
 
             cmd = cmd.upper()
             # wait command
-            if cmd[:4] == "WAIT":
-                time.sleep(float(cmd.split(" ")[1]))
+            if cmd[:4] == 'WAIT':
+                time.sleep(float(cmd.split(' ')[1]))
 
             # comment or empty line
-            elif cmd == "" or cmd[:1] == "#":
+            elif cmd == '' or cmd[:1] == '#':
                 pass
 
             # send cmd to robot
@@ -72,11 +72,11 @@ class App(object):
 
     def push_refresh(self):
         # get active COM-Ports
-        self.selectedPort.set("")
+        self.selectedPort.set('')
 
         portOptions = self.list_serial_ports()
         if len(portOptions) == 0:
-            portOptions = ["No Port found"]
+            portOptions = ['No Port found']
         self.selectedPort.set(portOptions[-1])  # set default value
 
         # change options
@@ -92,16 +92,16 @@ class App(object):
             self.scon = SerialConnection(port)
             self.scon.add_observer(self.serial_event)
             self.connect_button.configure(
-                text="Disconnect",
+                text='Disconnect',
                 command=self.push_disconnect)
             self.enable_serial_controls()
         except Exception, e:
-            tkMessageBox.showerror("Error", e.message)
+            tkMessageBox.showerror('Error', e.message)
 
     def push_disconnect(self):
         self.scon.stopUpdateSerial()
         self.connect_button.configure(
-            text="Connect",
+            text='Connect',
             command=self.push_connect)
         self.disable_serial_controls()
 
@@ -116,12 +116,12 @@ class App(object):
         cmds = text.split('\n')
         self.automation_thread = AutomationThread(cmds, self.scon)
         self.automation_thread.start()
-        self.start_button.config(text="Stop", command=self.push_stop)
+        self.start_button.config(text='Stop', command=self.push_stop)
 
     def push_stop(self):
         self.automation_thread.stop()
-        self.scon.send("STOP")
-        self.start_button.config(text="Start", command=self.push_start)
+        self.scon.send('STOP')
+        self.start_button.config(text='Start', command=self.push_start)
 
     def push_new(self):
         self.text_area.delete(1.0, END)
@@ -129,7 +129,7 @@ class App(object):
     def push_save(self):
         filename = tkFileDialog.asksaveasfilename(
             initialfile='script.txt',
-            title="Save script")
+            title='Save script')
         f = open(filename, 'wb')
         f.write(self.text_area.get(1.0, END))
         f.close()
@@ -143,16 +143,16 @@ class App(object):
     def push_clear_log(self):
         log_area = self.log_text
         log_area.config(state=NORMAL)
-        log_area.delete("1.0", END)
+        log_area.delete('1.0', END)
         log_area.config(state=DISABLED)
         log_area.see(END)
 
     def serial_event(self, str):
         def log(str, tags):
-            """Display a logging message in the text field"""
+            '''Display a logging message in the text field'''
             log_area = self.log_text
             log_area.config(state=NORMAL)
-            log_area.insert(END, str + "\n", tags)
+            log_area.insert(END, str + '\n', tags)
             log_area.config(state=DISABLED)
             log_area.see(END)
 
@@ -166,15 +166,15 @@ class App(object):
 
         # infos
         elif (str[0] == '?'):
-            tkMessageBox.showinfo("Info", str[2:])
+            tkMessageBox.showinfo('Info', str[2:])
 
         # position data
-        elif (str[0] == "P"):
-            p = str[1:].split(";")
+        elif (str[0] == 'P'):
+            p = str[1:].split(';')
             if len(p) == 5:
                 self.position_label.config(
-                    text="Base %s° Shoulder %s° Elbow %s°\n"
-                    "Wrist %s° Grip %s" % (p[0], p[1], p[2], p[3], p[4]),
+                    text='Base %s° Shoulder %s° Elbow %s°\n'
+                    'Wrist %s° Grip %s' % (p[0], p[1], p[2], p[3], p[4]),
                     justify=RIGHT)
 
     #
@@ -195,8 +195,8 @@ class App(object):
     def __init__(self, root):
         super(App, self).__init__()
         self.root = root
-        root.title("BioRob Automation Software")
-        root.geometry("+300+100")
+        root.title('BioRob Automation Software')
+        root.geometry('+300+100')
         root.resizable(0, 0)
 
         # Connect Frame
@@ -205,7 +205,7 @@ class App(object):
         self.connect_frame.pack(padx=15, pady=15, fill=X)
 
         # port select box
-        portOptions = ["No Com-Port available"]
+        portOptions = ['No Com-Port available']
         self.selectedPort = StringVar()
         self.selectedPort.set(portOptions[0])
         self.port_option_menu = OptionMenu(
@@ -215,13 +215,13 @@ class App(object):
         self.port_option_menu.pack(side=LEFT)
 
         # refresh button
-        self.refresh_button = Button(self.connect_frame, text="R",
+        self.refresh_button = Button(self.connect_frame, text='R',
             command=self.push_refresh)
         self.refresh_button.pack(side=LEFT)
         self.push_refresh()
 
         # connect button
-        self.connect_button = Button(self.connect_frame, text="Connect",
+        self.connect_button = Button(self.connect_frame, text='Connect',
             command=self.push_connect)
         self.connect_button.pack(side=LEFT)
 
@@ -236,7 +236,7 @@ class App(object):
         self.text_frame.pack(padx=15, pady=(0, 15))
 
         self.log_text = Text(self.text_frame, width=50, state=DISABLED,
-            bg="gray", bd=3)
+            bg='gray', bd=3)
         self.log_text.tag_configure('warning', background='yellow')
         self.log_text.pack(side=RIGHT)
 
@@ -258,15 +258,15 @@ class App(object):
         # command input
         self.command_entry = Entry(self.control_frame)
         self.command_entry.pack(side=LEFT)
-        self.command_entry.bind("<Return>", self.push_send)
+        self.command_entry.bind('<Return>', self.push_send)
 
         # send button
-        self.send_button = Button(self.control_frame, text="Send",
+        self.send_button = Button(self.control_frame, text='Send',
             command=lambda: self.push_send(None),  width=10)
         self.send_button.pack(side=LEFT)
 
         # start button
-        self.start_button = Button(self.control_frame, text="Start",
+        self.start_button = Button(self.control_frame, text='Start',
             command=self.push_start, width=10)
         self.start_button.pack(side=RIGHT)
 
@@ -274,19 +274,19 @@ class App(object):
         # ----
         menubar = Menu(root)
         filemenu = Menu(menubar, tearoff=0)
-        filemenu.add_command(label="New", command=self.push_new)
-        filemenu.add_command(label="Open", command=self.push_open)
-        filemenu.add_command(label="Save", command=self.push_save)
-        filemenu.add_command(label="Clear Log", command=self.push_clear_log)
+        filemenu.add_command(label='New', command=self.push_new)
+        filemenu.add_command(label='Open', command=self.push_open)
+        filemenu.add_command(label='Save', command=self.push_save)
+        filemenu.add_command(label='Clear Log', command=self.push_clear_log)
 
         filemenu.add_separator()
-        filemenu.add_command(label="Exit", command=root.quit)
-        menubar.add_cascade(label="File", menu=filemenu)
+        filemenu.add_command(label='Exit', command=root.quit)
+        menubar.add_cascade(label='File', menu=filemenu)
 
         helpmenu = Menu(menubar, tearoff=0)
-        helpmenu.add_command(label="About", command=lambda:
-            tkMessageBox.showinfo("About", __doc__))
-        menubar.add_cascade(label="Help", menu=helpmenu)
+        helpmenu.add_command(label='About', command=lambda:
+            tkMessageBox.showinfo('About', __doc__))
+        menubar.add_cascade(label='Help', menu=helpmenu)
 
         root.config(menu=menubar)
 
