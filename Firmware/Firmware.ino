@@ -32,7 +32,14 @@ void reset()
     elbow_set_angle(-45);
     shoulder_set_angle(45);
     wrist_set_angle(0);
-    grip_open();
+}
+
+void standby()
+{
+    base_set_angle(0);
+    shoulder_set_angle(50);
+    elbow_set_angle(-140);
+    wrist_set_angle(0);
 }
 
 void stop()
