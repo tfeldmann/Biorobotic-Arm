@@ -35,9 +35,12 @@ class ArmSketch extends EmbeddedSketch
     {
         background(230);
 
-        // Angle Output
+        // Show remotely controlled component
         fill(0);
-        text("Elbow ", 10, 20);
+        if (active_component == 1)
+            text("Remote: Elbow", 10, 20);
+        if (active_component == 2)
+            text("Remote: Shoulder", 10, 20);
 
         // Sketch Description
         fill(0);
@@ -49,17 +52,6 @@ class ArmSketch extends EmbeddedSketch
             shoulder_angle_desired = shoulder_angle_current;
             elbow_angle_desired = elbow_angle_current;
         }
-
-        // draw shoulder min / max angle
-        // rotation is negative because 0|0 is top left.
-        // fill(0, 200, 0, 30);
-        // noStroke();
-        // arc(shoulder.x, height - shoulder.y, 80, 80, -radians(SHOULDER_ANGLE_MAX), -radians(SHOULDER_ANGLE_MIN));
-        // pushMatrix();
-        //     translate(elbow.x, height - elbow.y);
-        //     rotate(-atan2(elbow.y - shoulder.y, elbow.x - shoulder.x));
-        //     arc(0, 0, 80, 80, -radians(ELBOW_ANGLE_MAX), -radians(ELBOW_ANGLE_MIN));
-        // popMatrix();
 
         // desired arm position
         stroke(255, 170, 60);
@@ -99,10 +91,6 @@ class ArmSketch extends EmbeddedSketch
             rotate(radians(elbow_angle_current));
             line(0, 0, ARM_LENGTH, 0);
         popMatrix();
-
-        // show motor power
-        line(10, 10, 10 + shoulder_motor_power, 10);
-        line(10, 20, 10 + elbow_motor_power, 20);
     }
 
     void mouseDragged()
@@ -132,6 +120,18 @@ class ArmSketch extends EmbeddedSketch
     {
         sendSerial("SHOULDER "+(new Integer(shoulder_angle)).toString());
         sendSerial("ELBOW "+(new Integer(elbow_angle)).toString());
+    }
+
+    void elbow_incDesiredAngle(int angle)
+    {
+        elbow_angle_desired += angle;
+        sendSerial("ELBOW "+(new Integer(elbow_angle_desired)).toString());
+    }
+
+    void shoulder_incDesiredAngle(int angle)
+    {
+        shoulder_angle_desired += angle;
+        sendSerial("SHOULDER "+(new Integer(shoulder_angle_desired)).toString());
     }
 
     PVector circleIntersection(PVector p1, float r1, PVector p2, float r2)
