@@ -90,11 +90,11 @@ class App(object):
         try:
             port = self.selectedPort.get()
             self.scon = SerialConnection(port)
-            self.scon.add_observer(self.serial_event)
             self.connect_button.configure(
                 text='Disconnect',
                 command=self.push_disconnect)
             self.enable_serial_controls()
+            self.listen_serial_event()
         except Exception, e:
             tkMessageBox.showerror('Error', e.message)
 
@@ -147,35 +147,49 @@ class App(object):
         log_area.config(state=DISABLED)
         log_area.see(END)
 
-    def serial_event(self, str):
-        def log(str, tags):
+    def listen_serial_event(self):
+        """
+        listen_serial_event calls itself every 20ms and listens for task
+        objects in the scon queue
+        """
+        def log(command, tags):
             '''Display a logging message in the text field'''
             log_area = self.log_text
             log_area.config(state=NORMAL)
-            log_area.insert(END, str + '\n', tags)
+            log_area.insert(END, command + '\n', tags)
             log_area.config(state=DISABLED)
             log_area.see(END)
 
-        # logging
-        if (str[0] == '#'):
-            log(str, ())
+        try:
+            command = self.scon.queue.get_nowait()
 
-        # warning
-        elif (str[0] == '!'):
-            log(str, ('warning'))
+            # logging
+            if (command[0] == '#'):
+                log(command, ())
 
-        # infos
-        elif (str[0] == '?'):
-            tkMessageBox.showinfo('Info', str[2:])
+            # warning
+            elif (command[0] == '!'):
+                log(command, ('warning'))
 
-        # position data
-        elif (str[0] == 'P'):
-            p = str[1:].split(';')
-            if len(p) == 5:
-                self.position_label.config(
-                    text='Base %s° Shoulder %s° Elbow %s°\n'
-                    'Wrist %s° Grip %s' % (p[0], p[1], p[2], p[3], p[4]),
-                    justify=RIGHT)
+            # infos
+            elif (command[0] == '?'):
+                tkMessageBox.showinfo('Info', command[2:])
+
+            # position data
+            elif (command[0] == 'P'):
+                p = command[1:].split(';')
+                if len(p) == 5:
+                    self.position_label.config(
+                        text='Base %s° Shoulder %s° Elbow %s°\n'
+                        'Wrist %s° Grip %s' % (p[0], p[1], p[2], p[3], p[4]),
+                        justify=RIGHT)
+
+            self.scon.queue.task_done()
+        except:
+            pass
+
+        self.root.after(20, self.listen_serial_event)
+
 
     #
     # General GUI control

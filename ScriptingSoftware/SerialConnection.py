@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import serial
 import thread
+import Queue
 
 
 class SerialConnection(object):
@@ -8,10 +9,7 @@ class SerialConnection(object):
     def __init__(self, serialPort):
         self.serialPort = serialPort
         self.startUpdateSerial(self.serialPort)
-        self._observers = []
-
-    def add_observer(self, observer):
-        self._observers.append(observer)
+        self.queue = Queue.Queue()
 
     def startUpdateSerial(self, myPort):
         self.ser = serial.Serial(port=myPort, baudrate=19200)
@@ -29,10 +27,9 @@ class SerialConnection(object):
                     thread.exit()
                 else:
                     line = self.ser.readline().rstrip()
-                    for observer in self._observers:
-                        observer(line)
+                    self.queue.put(line)
             except Exception, e:
-                print e.message
+                print e
 
     def send(self, str):
         self.ser.write(str + "\r\n")
