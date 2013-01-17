@@ -64,6 +64,12 @@ class BaseSketch extends EmbeddedSketch
         sendPositionCommand(round(angle));
     }
 
+    void incDesiredAngle(int angle)
+    {
+        angle_desired -= angle; // other direction than arm sketches!
+        sendSerial("BASE "+(new Integer(angle_desired)).toString());
+    }
+
     void sendPositionCommand(int angle)
     {
         sendSerial("BASE "+(new Integer(angle)).toString());

@@ -11,9 +11,8 @@ HandSketch handSketch = new HandSketch();
 LogoSketch logoSketch = new LogoSketch();
 
 int active_component = 0;
-int gyro_raw, gyro_raw_old;
-int shoulder_osc, elbow_osc;
-int d_shoulder_osc, d_elbow_osc;
+int gyro_pitch, gyro_pitch_old;
+int gyro_yaw, gyro_yaw_old;
 
 void setup()
 {
@@ -134,10 +133,35 @@ void sendSerial(String cmd)
 
 void oscEvent(OscMessage theOscMessage)
 {
+    print(theOscMessage);
+
+    /**
+     * Simple Buttons
+     */
     if (theOscMessage.checkAddrPattern("/grip"))
     {
         sendSerial("GRIP TOGGLE");
     }
+    if (theOscMessage.checkAddrPattern("/autolevelon"))
+    {
+        sendSerial("AUTOLEVEL ON");
+    }
+    if (theOscMessage.checkAddrPattern("/autoleveloff"))
+    {
+        sendSerial("AUTOLEVEL OFF");
+    }
+    if (theOscMessage.checkAddrPattern("/autolevelh"))
+    {
+        sendSerial("AUTOLEVEL H");
+    }
+    if (theOscMessage.checkAddrPattern("/autolevelv"))
+    {
+        sendSerial("AUTOLEVEL V");
+    }
+
+    /**
+     * Gyro controls
+     */
     if (theOscMessage.checkAddrPattern("/elbow"))
     {
         println("Elbow");
@@ -150,27 +174,40 @@ void oscEvent(OscMessage theOscMessage)
         if (active_component == 2) active_component = 0;
         else active_component = 2;
     }
+    if (theOscMessage.checkAddrPattern("/base"))
+    {
+        println("Shoulder");
+        if (active_component == 3) active_component = 0;
+        else active_component = 3;
+    }
+
+    // Reading (and setting) gyro values
     if (theOscMessage.checkAddrPattern("/gyro"))
     {
         // get new raw gyro value
-        gyro_raw_old = gyro_raw;
-        gyro_raw = round(theOscMessage.get(3).floatValue());
+        gyro_pitch_old = gyro_pitch;
+        gyro_pitch = round(theOscMessage.get(3).floatValue());
 
-        int delta = gyro_raw - gyro_raw_old;
+        gyro_yaw_old = gyro_yaw;
+        gyro_yaw = round(theOscMessage.get(5).floatValue());
+
+        int delta_pitch = gyro_pitch - gyro_pitch_old;
+        int delta_yaw = gyro_yaw - gyro_yaw_old;
 
         if (active_component == 1) // elbow
         {
-             armSketch.elbow_incDesiredAngle(delta);
+             armSketch.elbow_incDesiredAngle(delta_pitch);
         }
 
         if (active_component == 2) // shoulder
         {
-            armSketch.shoulder_incDesiredAngle(delta);
+            armSketch.shoulder_incDesiredAngle(delta_pitch);
         }
 
-        // sets base / base is always controlled by 5th value
-        float base_osc = theOscMessage.get(5).floatValue();
-        baseSketch.setDesiredAngle(round(map(base_osc, 20, 160, 135, -135)));
+        if (active_component == 3) // base
+        {
+            baseSketch.incDesiredAngle(delta_yaw);
+        }
     }
 
     baseSketch.redraw();
