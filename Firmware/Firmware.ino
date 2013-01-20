@@ -77,7 +77,7 @@ void loop()
             grip_is_open();
         Serial.println(position);
 
-        // // Send status update
+        // // Send motor current
         // String status =
         //     String('S') +
         //     analogRead(A0) + separator +
@@ -97,7 +97,7 @@ void start_control_tick(uint8_t freq)
     TCCR1A = 0;  // set entire TCCRA register to 0
     TCCR1B = 0;  // same for TCCRB
     TCNT1  = 0;  // initialize counter value to 0
-    OCR1A  = 15625 / freq;
+    OCR1A  = 15625 / freq;  // 15625 is one second
     TCCR1B |= (1 << WGM12);  // turn on CTC mode
     TIMSK1 |= (1 << OCIE1A);  // enable timer compare interrupt
     TCCR1B |= (1 << CS12) | (1 << CS10); // 1024 prescaler

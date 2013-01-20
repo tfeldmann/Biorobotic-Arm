@@ -78,7 +78,7 @@ void collision_init()
     if (c == 0x2A) // WHO_AM_I should always be 0x2A
     {
         initMMA8452(SCALE, dataRate);  // init the accelerometer if communication is OK
-        Serial.println("# Collision sensor found");
+        // Serial.println("# Collision sensor found");
     }
     else
     {

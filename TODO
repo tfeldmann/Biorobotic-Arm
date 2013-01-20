@@ -5,14 +5,14 @@ RobControl:
  ☐ COM-port selection
 
 RemoteInterface:
- ☐ control via phone
- ☐ add a option which arm to control
- ☐ add "hold wrist flat" button
 
 Scripting Software:
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+ ✔ control via phone @done (13-01-20 14:29)
+ ✔ add a option which arm to control @done (13-01-20 14:29)
+ ✔ add "hold wrist flat" button @done (13-01-20 14:29)
  ✔ Sanity checks for incoming data @done (13-01-03 14:55)
  ✔ colour highlight logging panel @done (12-12-20 12:34)
  ✔ Reload COM-ports @done (13-01-03 14:34)

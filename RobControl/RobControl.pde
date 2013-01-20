@@ -133,11 +133,12 @@ void sendSerial(String cmd)
 
 void oscEvent(OscMessage theOscMessage)
 {
-    print(theOscMessage);
+    // print(theOscMessage);
 
     /**
      * Simple Buttons
      */
+
     if (theOscMessage.checkAddrPattern("/grip"))
     {
         sendSerial("GRIP TOGGLE");
