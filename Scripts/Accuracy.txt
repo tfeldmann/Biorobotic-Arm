@@ -1,5 +1,10 @@
+# Accuracy
+# Feldmann & Co. Roboterfabrik
+# ----------------------------
 reset
 wait 5
+
+# take pencil
 grip open
 autolevel h
 base -90
@@ -7,6 +12,8 @@ wait 4
 beep
 wait 4
 beep
+
+# put pencil through hole
 grip close
 wait 5
 autolevel v
@@ -20,9 +27,13 @@ elbow -100
 wait 3
 elbow -110
 wait 2
+
+# go back to standy
 standby
 base -20
 wait 3
+
+# and through the hole again
 base 9
 elbow -110
 shoulder 42
@@ -32,6 +43,8 @@ elbow -110
 wait 2
 base 0
 wait 2
+
+# put pencil on desk and reset
 grip open
 autolevel h
 reset
