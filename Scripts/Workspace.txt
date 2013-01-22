@@ -1,0 +1,45 @@
+# Workspace Demonstration
+# Feldmann & Co. Roboterfabrik
+# ----------------------------
+
+# reset robot to default position
+reset
+wait 5
+
+# near as possible to base
+autolevel v
+shoulder 60
+elbow -180
+wait 6
+
+# elbow a bit forward
+autolevel off
+elbow 40
+wait 12
+
+# max length of Arm, hand horizontal
+elbow 0
+wait 1
+autolevel h
+shoulder 0
+wait 6
+
+# play with grip
+autolevel off
+grip toggle
+wait 0.4
+grip toggle
+wait 2
+
+# reset robot to default position
+reset
+wait 4
+
+# max base radius
+base 135
+wait 6
+base -135
+wait 8
+
+# reset robot to default position
+reset

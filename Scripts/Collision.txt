@@ -1,0 +1,45 @@
+# Collision script
+
+standby
+autolevel v
+wait 6
+
+# collision front
+
+elbow -90
+wait 3
+elbow -120
+wait 1
+base 20
+wait 1
+elbow -95
+wait 1
+
+# collision left
+base 0
+wait 3
+base 20
+wait 1
+elbow -115
+wait 2
+base -20
+wait 1
+elbow -95
+wait 1
+
+# collision right
+base 0
+wait 3
+base -20
+wait 1
+elbow -60
+wait 2
+base 0
+wait 1
+
+# collision back
+autolevel h
+elbow -90
+wait 3
+
+reset

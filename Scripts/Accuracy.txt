@@ -1,0 +1,37 @@
+reset
+wait 5
+grip open
+autolevel h
+base -90
+wait 4
+beep
+wait 4
+beep
+grip close
+wait 5
+autolevel v
+wait 1
+base 9
+elbow -110
+wait 2
+shoulder 42
+wait 2
+elbow -100
+wait 3
+elbow -110
+wait 2
+standby
+base -20
+wait 3
+base 9
+elbow -110
+shoulder 42
+elbow -100
+wait 3
+elbow -110
+wait 2
+base 0
+wait 2
+grip open
+autolevel h
+reset

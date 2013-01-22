@@ -1,0 +1,60 @@
+# Pick And Place Demonstration
+# Feldmann & Co. Roboterfabrik
+# ----------------------------
+
+# reset robot to default position
+reset
+grip open
+wait 5
+
+# hold wrist vertical
+autolevel v
+
+# move to pick up position
+base 9
+shoulder 30
+elbow -67
+wait 2
+
+# pick up object
+grip close
+wait 1
+
+# lift up the picked object
+elbow -55
+wait 1
+shoulder 45
+wait 6
+
+# transport the object to place position
+base -20
+wait 2
+
+# move down to place position
+elbow -103
+wait 0.5
+elbow -103
+wait 0.5
+elbow -103
+wait 0.5
+elbow -103
+elbow -103
+wait 0.5
+elbow -103
+wait 0.5
+elbow -103
+wait 0.5
+elbow -103
+wait 2
+
+# get object free
+grip open
+wait 1
+
+# move unstressed arm away from objekt
+elbow -30
+autolevel off
+wait 2
+
+# reset robot to default position
+reset

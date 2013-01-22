@@ -55,9 +55,9 @@ class AutomationThread(threading.Thread):
 
 
 class App(object):
-    #
-    # Buttons
-    #
+    """
+    Main app logic and GUI
+    """
     def list_serial_ports(self):
         # Windows
         if os.name == 'nt':
