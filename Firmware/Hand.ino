@@ -2,12 +2,12 @@
  * Hand.ino
  *
  * Arduino        Wrist Servo
- *  WRIST_PWM ---- orange
+ *  WRIST_PPM ---- orange
  *        GND ---- black
  *        +5V ---- red
  *
  * Arduino        Hand Servo
- *  GRIP_PWM ----- orange
+ *  GRIP_PPM ----- orange
  *       GND ----- black
  *       +5V ----- red
  */
@@ -17,8 +17,8 @@ static Servo wrist_servo;
 static Servo grip_servo;
 
 // hardware connections
-const uint8_t WRIST_PWM = 46;
-const uint8_t GRIP_PWM = 44;
+const uint8_t WRIST_PPM = 46;
+const uint8_t GRIP_PPM = 44;
 
 // mechanical limits
 const uint8_t GRIP_CLOSE = 0;
@@ -33,8 +33,8 @@ volatile int16_t wrist_autolevel_angle;
 
 void hand_init()
 {
-    wrist_servo.attach(WRIST_PWM);
-    grip_servo.attach(GRIP_PWM);
+    wrist_servo.attach(WRIST_PPM);
+    grip_servo.attach(GRIP_PPM);
     grip_open();
 
     wrist_autolevel_enabled = false;
