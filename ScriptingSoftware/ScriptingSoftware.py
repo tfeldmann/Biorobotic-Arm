@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
-'''BioRob Scripting Software
+"""
+BioRob Scripting Software
 
 Repository and readme:
 github.com/tfeldmann/Biorobotic-Arm
 
 Mechatronics Master 2012
 Westfälische Hochschule
-'''
+"""
 
 from Tkinter import *
 import tkMessageBox
@@ -20,6 +21,10 @@ from SerialConnection import *
 
 
 class AutomationThread(threading.Thread):
+    """
+    Manages the thread that sends the commands to the robot.
+    It needs to be initialized with a working SerialConnection instance.
+    """
     def __init__(self, cmds, serial_connection):
         threading.Thread.__init__(self)
         self.cmds = cmds
