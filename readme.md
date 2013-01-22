@@ -50,7 +50,9 @@ This folder contains the setup file for the remote interface (iOS / Android).
 You will need the software "[Control](http://charlie-roberts.com/Control/)".
 
 Make sure that you are in the same network as the PC running the RobControl-software and enter the given IP-adress as destination. Install and start the RobControl Remote interface (the .js file in the folder "RemoteInterface").
-
+<p align="center">
+    <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/RemoteInterface.png" alt="RemoteInterface">
+</p>
 
 ## RobControl
 <p align="center">
@@ -81,7 +83,7 @@ A hash (#) indicates that a output is for logging purposes only and can be dismi
 
 An exclamation mark (!) indicates an error and should always be shown to the user. Possible errors are:
 
-    !01 Unkown command
+    !01 Unknown command
     !02 Collision detected [Axis]
     !03 Could not connect to MMA8452Q
 
