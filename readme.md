@@ -99,17 +99,12 @@ For example:
     P130;45;-90;30;1
       |  |   |  |  |
       |  |   |  |  + - grip opened/closed
-      |  |   |  +- - - wrist angle
-      |  |   + - - - - elbow angle
-      |  + - - - - - - shoulder angle
-      +- - - - - - - - base angle
+      |  |   |  +- - - wrist angle    (γ)
+      |  |   + - - - - elbow angle    (β)
+      |  + - - - - - - shoulder angle (α)
+      +- - - - - - - - base angle     (δ)
 
-The angles for the base (∆), shoulder (α), elbow (β) and wrist (γ) are shown in the picture below. The API automatically constrains sent values to mechanically possible angles.
-
-      -5° ≤ α ≤ 60°
-    -165° ≤ β ≤ 40°
-     -80° ≤ γ ≤ 90°
-     -135 ≤ Δ ≤ 135
+The robot automatically constrains sent values to mechanically possible angles.
 
 <p align="center">
     <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/Geometry.png" alt="geometry">
