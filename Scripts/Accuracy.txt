@@ -28,7 +28,7 @@ wait 3
 elbow -110
 wait 2
 
-# go back to standy
+# go back to standby
 standby
 base -20
 wait 3
