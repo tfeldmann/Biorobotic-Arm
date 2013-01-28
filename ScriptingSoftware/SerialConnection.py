@@ -26,7 +26,7 @@ class SerialConnection(object):
                     self.ser.close()
                     thread.exit()
                 else:
-                    line = self.ser.readline().rstrip()
+                    line = self.ser.readline().strip()
                     self.queue.put(line)
             except Exception, e:
                 print e
