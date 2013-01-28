@@ -1,11 +1,12 @@
-# Collision script
+# Collision
+# Feldmann & Co. Roboterfabrik
+# ----------------------------
 
 standby
 autolevel v
 wait 6
 
 # collision front
-
 elbow -90
 wait 3
 elbow -120

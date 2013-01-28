@@ -30,8 +30,8 @@ wait 2
 
 # go back to standby
 standby
-base -20
-wait 3
+base -60
+wait 4
 
 # and through the hole again
 base 9
@@ -48,3 +48,4 @@ wait 2
 grip open
 autolevel h
 reset
+
