@@ -2,7 +2,7 @@
 This is a collaborative project for the course "biorobotics and locomotion".
 It contains the source files for the firmware, graphical control software, scripting (automation) software and remote software as well as the driver.
 <p align="center">
-    <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/BioRob.png" alt="BioRoboter">
+    <img src="Documentation/BioRob.png" alt="BioRoboter">
 </p>
 
 - [Documentation](#documentation)
@@ -29,8 +29,8 @@ It contains the source files for the firmware, graphical control software, scrip
 ## Documentation
 The folder "Documentation" contains the screenshots used in the files you are currently seeing as well as the board layout and schematics.
 
-- [Board layout](https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/board-layout.pdf)
-- [Board schematics](https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/board-schematic.pdf)
+- [Board layout](Documentation/board-layout.pdf)
+- [Board schematics](Documentation/board-schematic.pdf)
 
 
 ## Driver
@@ -51,19 +51,19 @@ You will need the software "[Control](http://charlie-roberts.com/Control/)".
 
 Make sure that you are in the same network as the PC running the RobControl-software and enter the given IP-adress as destination. Install and start the RobControl Remote interface (the .js file in the folder "RemoteInterface").
 <p align="center">
-    <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/RemoteInterface.png" alt="RemoteInterface">
+    <img src="Documentation/RemoteInterface.png" alt="RemoteInterface">
 </p>
 
 ## RobControl
 <p align="center">
-    <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/RobControl.png" alt="RobControl">
+    <img src="Documentation/RobControl.png" alt="RobControl">
 </p>
 The graphical robot control software. Start it after you connected the robot to the PC, select the right port and you're good to go. You can control the robot by clicking and dragging. Everything should be quite self-explanatory.
 
 
 ## ScriptingSoftware
 <p align="center">
-    <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/ScriptingSoftware.png" alt="ScriptingSoftware">
+    <img src="Documentation/ScriptingSoftware.png" alt="ScriptingSoftware">
 </p>
 The programmatical robot control software. Here you can enter any command from the section "API" as well as the command "WAIT [seconds]". Click on start to run the script. Additionally you can send single commands in the entry field on the bottom.
 
@@ -107,7 +107,7 @@ For example:
 The robot automatically constrains sent values to mechanically possible angles.
 
 <p align="center">
-    <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/Geometry.png" alt="geometry">
+    <img src="Documentation/Geometry.png" alt="geometry">
 </p>
 
 
@@ -205,5 +205,5 @@ A single question mark is the identify command. You can use this to check your c
     Neuhaus, Alexander
 </p>
 <p align="center">
-    <img src="https://raw.github.com/tfeldmann/Biorobotic-Arm/master/Documentation/Roboterfabrik.png" alt="Logo">
+    <img src="Documentation/Roboterfabrik.png" alt="Logo">
 </p>
