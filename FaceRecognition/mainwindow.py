@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Tue Mar 12 18:30:01 2013
+# Created: Fri Mar 15 21:42:14 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -21,7 +21,7 @@ class Ui_FaceDetection(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayout = QtGui.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        self.video = QtGui.QWidget(self.centralwidget)
+        self.video = VideoWidget(self.centralwidget)
         self.video.setMinimumSize(QtCore.QSize(640, 480))
         self.video.setMaximumSize(QtCore.QSize(640, 480))
         self.video.setObjectName("video")
@@ -50,6 +50,11 @@ class Ui_FaceDetection(object):
         self.verticalLayout_2 = QtGui.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.serial_select = QtGui.QComboBox(self.centralwidget)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.serial_select.sizePolicy().hasHeightForWidth())
+        self.serial_select.setSizePolicy(sizePolicy)
         self.serial_select.setMaximumSize(QtCore.QSize(148, 16777215))
         self.serial_select.setCursor(QtCore.Qt.PointingHandCursor)
         self.serial_select.setFocusPolicy(QtCore.Qt.StrongFocus)
@@ -124,3 +129,4 @@ class Ui_FaceDetection(object):
         self.faces_enabled.setText(QtGui.QApplication.translate("FaceDetection", "Follow faces", None, QtGui.QApplication.UnicodeUTF8))
         self.menuBioRob_FaceDetection.setTitle(QtGui.QApplication.translate("FaceDetection", "BioRob FaceDetection", None, QtGui.QApplication.UnicodeUTF8))
 
+from videowidget import VideoWidget

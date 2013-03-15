@@ -1,30 +1,25 @@
 # -*- coding: utf-8 -*-
 """
-Thomdo
+FaceRecognition
 
-A simple todo-list application written in Python + PySide
+Controls the BioRob's integrated fan and is able to follow faces
 """
 
-from PySide.QtCore import *
-from PySide.QtGui import *
-import cv
-import sys
 import serial
 from SerialConnection import *
-
-from videowidget import VideoWidget
+from PySide.QtCore import *
+from PySide.QtGui import *
 from mainwindow import Ui_FaceDetection
 
 
 class FaceDection(QMainWindow):
+    """ The main application """
+
     def __init__(self, parent=None):
         super(FaceDection, self).__init__(parent)
+
         self.ui = Ui_FaceDetection()
         self.ui.setupUi(self)
-
-        # self.ui.video = VideoWidget(self.ui.centralwidget)
-        # self.ui.video.repaint()
-
         self.ui.speed_dial.sliderMoved.connect(self.set_fan_speed)
         self.ui.horizontal_speed.sliderReleased.connect(self.horizontal_stop)
         self.ui.vertical_speed.sliderReleased.connect(self.vertical_stop)
@@ -34,14 +29,18 @@ class FaceDection(QMainWindow):
         for port in self.scon.list_ports():
             self.ui.serial_select.addItem(port)
 
+
     def set_fan_speed(self, speed, update_dial=False):
         self.ui.speed_label.setText("%d %%" % speed)
+
 
     def horizontal_stop(self):
         self.ui.horizontal_speed.setValue(0)  # snap back
 
+
     def vertical_stop(self):
         self.ui.vertical_speed.setValue(0)  # snap back
+
 
     def port_select(self, index):
         # disconnect
@@ -54,7 +53,8 @@ class FaceDection(QMainWindow):
 
 
 if __name__ == "__main__":
+    import sys
     app = QApplication(sys.argv)
     face_detection = FaceDection()
     face_detection.show()
-    app.exec_()
+    sys.exit(app.exec_())
