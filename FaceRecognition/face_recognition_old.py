@@ -2,8 +2,8 @@ import cv
 import numpy as np
 
 CASCADE_PATH = "/usr/local/Cellar/opencv/2.4.3/share/OpenCV/haarcascades/"
-FRONTALFACE_PATH = CASCADE_PATH+"haarcascade_frontalface_alt.xml"
-PROFILEFACE_PATH = CASCADE_PATH+"haarcascade_profileface.xml"
+FRONTALFACE_PATH = CASCADE_PATH + "haarcascade_frontalface_alt.xml"
+PROFILEFACE_PATH = CASCADE_PATH + "haarcascade_profileface.xml"
 
 CAMERA_INDEX = 0
 

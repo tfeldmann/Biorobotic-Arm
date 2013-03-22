@@ -4,6 +4,12 @@ from PySide.QtCore import QPoint, QTimer
 from PySide.QtGui import QWidget, QPainter, QImage, QApplication
 
 
+CASCADE_PATH = "/usr/local/Cellar/opencv/2.4.3/share/OpenCV/haarcascades/"
+FRONTALFACE_PATH = CASCADE_PATH+"haarcascade_frontalface_alt.xml"
+PROFILEFACE_PATH = CASCADE_PATH+"haarcascade_profileface.xml"
+CAMERA_INDEX = 0
+
+
 class VideoWidget(QWidget):
     """ A custom QWidget for displaying a webcam stream """
 
@@ -18,7 +24,10 @@ class VideoWidget(QWidget):
         self.frame = cv.CreateImage((640,480), cv.IPL_DEPTH_8U, 3)
 
         # set the camera to capture from
-        self.capture = cv.CaptureFromCAM(0)
+        self.capture = cv.CaptureFromCAM(CAMERA_INDEX)
+        self.storage = cv.CreateMemStorage()
+        self.frontalface_cascade = cv.Load(FRONTALFACE_PATH)
+        self.profileface_cascade = cv.Load(PROFILEFACE_PATH)
 
         # get first frame
         self._query_frame()
