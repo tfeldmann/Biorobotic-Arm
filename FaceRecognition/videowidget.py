@@ -2,19 +2,22 @@ import cv2.cv as cv
 from PySide.QtCore import QPoint, QTimer
 from PySide.QtGui import QWidget, QPainter, QImage, QApplication
 
-FRONTALFACE_CASCADE = "haarcascades/haarcascade_frontalface_alt.xml"
-CAMERA_INDEX = 0
-FD_WAIT_FRAMES = 1
+CASCADE_PATH = "haarcascades/"  # path to cascades with trailing slash
 
 class VideoWidget(QWidget):
-    """ A custom QWidget for displaying a webcam stream """
+    """A custom QWidget for displaying a webcam stream.
+
+    It will resize the webcam image to 640*480. Callbacks are available for
+    detecting faces and modifying the current frame before viewing.
+    """
 
     def __init__(self, parent=None):
         QWidget.__init__(self)
         self.setMinimumSize(640, 480)
         self.setMaximumSize(self.minimumSize())
 
-        # register this callbacks to interact with the faces and the camera img
+        # register this callbacks to interact with the faces and the camera
+        # image before the widget will view the frame
         self.image_callback = None
         self.face_callback = None
 
@@ -22,9 +25,10 @@ class VideoWidget(QWidget):
         self.frame = cv.CreateImage((640,480), cv.IPL_DEPTH_8U, 3)
 
         self.storage = cv.CreateMemStorage()
-        self.capture = cv.CaptureFromCAM(CAMERA_INDEX)
-        self.frontalface_cascade = cv.Load(FRONTALFACE_CASCADE)
-        self._fd_wait = FD_WAIT_FRAMES
+        self.capture = cv.CaptureFromCAM(0)
+        self.face_cascade = cv.Load(CASCADE_PATH+"haarcascade_frontalface_alt.xml")
+        self.fd_wait_frames = 1
+        self._fd_wait = self.fd_wait_frames
 
         # get first frame
         self._query_frame()
@@ -50,7 +54,7 @@ class VideoWidget(QWidget):
             self.image_callback(image)
 
         if not self._fd_wait:
-            self._fd_wait = FD_WAIT_FRAMES
+            self._fd_wait = self.fd_wait_frames
             faces = self._detect_faces(image)
 
             # callback with array of detected faces
@@ -64,8 +68,8 @@ class VideoWidget(QWidget):
 
     def _detect_faces(self, image):
         detected = cv.HaarDetectObjects(
-            image, self.frontalface_cascade, self.storage,
-            1.2, 1, cv.CV_HAAR_DO_CANNY_PRUNING, (100,100))
+            image, self.face_cascade, self.storage, 1.2, 1,
+            cv.CV_HAAR_DO_CANNY_PRUNING, (100,100))
         return [(x,y,w,h) for (x,y,w,h),n in detected]
 
     def paintEvent(self, event):
@@ -91,7 +95,7 @@ class OpenCVQImage(QImage):
 
 
 def test():
-    """A simple app to test the widget"""
+    """A simple app to test the video stream"""
     import sys
     app = QApplication(sys.argv)
     video = VideoWidget()

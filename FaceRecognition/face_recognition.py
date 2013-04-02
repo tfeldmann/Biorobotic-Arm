@@ -2,7 +2,18 @@
 """
 FaceRecognition
 
-Controls the BioRob's integrated fan and is able to follow faces
+This software is meant to be used in combination with the BioRob ventilator
+upgrade. With this hardware upgrade the robot will bring a fresh breeze to
+everyone it sees. The FaceRecognition-software will automatically control the
+ventilator strength and make the robot follow faces.
+
+PySide is used for the GUI, so make sure you use pyside-uic tools to convert
+the .ui- to a .py-file if you change something there. Please do not edit
+mainwindow.py as all changes will be overwritten!
+OpenCV is used to detect the faces.
+
+Questions, issues?
+feldmann.thomas@gmail.com
 """
 
 import serial
@@ -14,21 +25,23 @@ from mainwindow import Ui_FaceDetection
 
 
 class FaceDection(QMainWindow):
-    """ The main application """
-
     def __init__(self, parent=None):
         super(FaceDection, self).__init__(parent)
 
+        # gui connections
         self.ui = Ui_FaceDetection()
         self.ui.setupUi(self)
         self.ui.speed_dial.sliderMoved.connect(self.set_fan_speed)
         self.ui.horizontal_speed.sliderReleased.connect(self.horizontal_stop)
         self.ui.vertical_speed.sliderReleased.connect(self.vertical_stop)
         self.ui.serial_select.currentIndexChanged.connect(self.port_select)
-        self.ui.video.image_callback = self.video_image_callback
-        self.ui.video.face_callback = self.video_face_callback
 
+        # video and face recognition
         self.faces = []
+        self.ui.video.face_callback = self.video_face_callback
+        self.ui.video.image_callback = self.video_image_callback
+
+        # serial connection
         self.scon = SerialConnection()
         for port in self.scon.list_ports():
             self.ui.serial_select.addItem(port)
@@ -55,7 +68,7 @@ class FaceDection(QMainWindow):
 
     def video_image_callback(self, image):
         for i, (x,y,w,h) in enumerate(self.faces):
-            cv.Rectangle(image, (x,y), (x+w,y+h), cv.RGB(0, 155 + 100*i, 0), 2)
+            cv.Rectangle(image, (x,y), (x+w,y+h), cv.RGB(0, 155+100*i, 0), 2)
 
 
 if __name__ == "__main__":
