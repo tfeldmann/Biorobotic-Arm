@@ -1,12 +1,10 @@
-import cv2
 import cv2.cv as cv
 from PySide.QtCore import QPoint, QTimer
 from PySide.QtGui import QWidget, QPainter, QImage, QApplication
 
-FRONTALFACE_PATH = "haarcascades/haarcascade_frontalface_alt.xml"
-PROFILEFACE_PATH = "haarcascades/haarcascade_profileface.xml"
+FRONTALFACE_CASCADE = "haarcascades/haarcascade_frontalface_alt.xml"
 CAMERA_INDEX = 0
-
+FD_WAIT_FRAMES = 1
 
 class VideoWidget(QWidget):
     """ A custom QWidget for displaying a webcam stream """
@@ -16,16 +14,17 @@ class VideoWidget(QWidget):
         self.setMinimumSize(640, 480)
         self.setMaximumSize(self.minimumSize())
 
+        # register this callbacks to interact with the faces and the camera img
+        self.image_callback = None
         self.face_callback = None
 
         # init view with correct size, depth, channels
         self.frame = cv.CreateImage((640,480), cv.IPL_DEPTH_8U, 3)
 
-        # set the camera to capture from
-        self.capture = cv.CaptureFromCAM(CAMERA_INDEX)
         self.storage = cv.CreateMemStorage()
-        self.frontalface_cascade = cv.Load(FRONTALFACE_PATH)
-        self.profileface_cascade = cv.Load(PROFILEFACE_PATH)
+        self.capture = cv.CaptureFromCAM(CAMERA_INDEX)
+        self.frontalface_cascade = cv.Load(FRONTALFACE_CASCADE)
+        self._fd_wait = FD_WAIT_FRAMES
 
         # get first frame
         self._query_frame()
@@ -45,16 +44,28 @@ class VideoWidget(QWidget):
 
     def _query_frame(self):
         image = cv.QueryFrame(self.capture)
-        faces = self._detect_faces(image)
-        for (x,y,w,h) in faces:
-            cv.Rectangle(image, (x, y), (x+w, y+h), cv.RGB(0, 255, 0), 2)
+
+        # callback with an cvImage
+        if self.image_callback:
+            self.image_callback(image)
+
+        if not self._fd_wait:
+            self._fd_wait = FD_WAIT_FRAMES
+            faces = self._detect_faces(image)
+
+            # callback with array of detected faces
+            if self.face_callback:
+                self.face_callback(faces)
+        else:
+            self._fd_wait -= 1
 
         self.qimage = self._build_image(image)
         self.update()
 
     def _detect_faces(self, image):
-        detected = cv.HaarDetectObjects(image, self.frontalface_cascade,
-            self.storage, 1.2, 2, cv.CV_HAAR_DO_CANNY_PRUNING, (100,100))
+        detected = cv.HaarDetectObjects(
+            image, self.frontalface_cascade, self.storage,
+            1.2, 1, cv.CV_HAAR_DO_CANNY_PRUNING, (100,100))
         return [(x,y,w,h) for (x,y,w,h),n in detected]
 
     def paintEvent(self, event):
