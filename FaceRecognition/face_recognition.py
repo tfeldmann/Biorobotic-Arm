@@ -29,18 +29,14 @@ class FaceDection(QMainWindow):
         for port in self.scon.list_ports():
             self.ui.serial_select.addItem(port)
 
-
     def set_fan_speed(self, speed, update_dial=False):
         self.ui.speed_label.setText("%d %%" % speed)
-
 
     def horizontal_stop(self):
         self.ui.horizontal_speed.setValue(0)  # snap back
 
-
     def vertical_stop(self):
         self.ui.vertical_speed.setValue(0)  # snap back
-
 
     def port_select(self, index):
         # disconnect
@@ -49,7 +45,6 @@ class FaceDection(QMainWindow):
         # connect
         else:
             self.ui.serial_select.setCurrentIndex(0)
-
 
 
 if __name__ == "__main__":
