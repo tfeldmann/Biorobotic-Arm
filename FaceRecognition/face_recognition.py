@@ -48,6 +48,8 @@ class FaceDection(QMainWindow):
 
     def set_fan_speed(self, speed, update_dial=False):
         self.ui.speed_label.setText("%d %%" % speed)
+        if update_dial:
+            self.ui.speed_dial.setValue(speed)
 
     def horizontal_stop(self):
         self.ui.horizontal_speed.setValue(0)  # snap back
@@ -66,9 +68,26 @@ class FaceDection(QMainWindow):
     def video_face_callback(self, faces):
         self.faces = faces
 
+        # ventilator automation: w and h can be anything from 100 to 640
+        if self.ui.fan_enabled.isChecked():
+            fanspeed = 0
+            if len(faces) > 0:
+                _,_,w,_ = faces[0]
+                fanspeed = constrain((640 - w) / 5, 0, 100)
+            self.set_fan_speed(fanspeed, update_dial=True)
+
     def video_image_callback(self, image):
         for i, (x,y,w,h) in enumerate(self.faces):
             cv.Rectangle(image, (x,y), (x+w,y+h), cv.RGB(0, 155+100*i, 0), 2)
+
+
+def constrain(value, min, max):
+    if value < min:
+        return min
+    elif value > max:
+        return max
+    else:
+        return value
 
 
 if __name__ == "__main__":

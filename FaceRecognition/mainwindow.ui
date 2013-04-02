@@ -307,5 +307,54 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>faces_enabled</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>horizontal_speed</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>744</x>
+     <y>527</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>625</x>
+     <y>541</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>faces_enabled</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>vertical_speed</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>777</x>
+     <y>529</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>679</x>
+     <y>425</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fan_enabled</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>speed_dial</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>769</x>
+     <y>371</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>780</x>
+     <y>399</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

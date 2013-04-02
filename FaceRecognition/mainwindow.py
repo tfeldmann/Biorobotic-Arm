@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Sat Mar 16 11:26:59 2013
+# Created: Tue Apr  2 20:59:23 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -147,6 +147,9 @@ class Ui_FaceDetection(object):
         self.menubar.addAction(self.menuAbout.menuAction())
 
         self.retranslateUi(FaceDetection)
+        QtCore.QObject.connect(self.faces_enabled, QtCore.SIGNAL("toggled(bool)"), self.horizontal_speed.setDisabled)
+        QtCore.QObject.connect(self.faces_enabled, QtCore.SIGNAL("toggled(bool)"), self.vertical_speed.setDisabled)
+        QtCore.QObject.connect(self.fan_enabled, QtCore.SIGNAL("toggled(bool)"), self.speed_dial.setDisabled)
         QtCore.QMetaObject.connectSlotsByName(FaceDetection)
 
     def retranslateUi(self, FaceDetection):
@@ -167,3 +170,13 @@ class Ui_FaceDetection(object):
         self.menuAbout.setTitle(QtGui.QApplication.translate("FaceDetection", "About", None, QtGui.QApplication.UnicodeUTF8))
 
 from videowidget import VideoWidget
+
+if __name__ == "__main__":
+    import sys
+    app = QtGui.QApplication(sys.argv)
+    FaceDetection = QtGui.QMainWindow()
+    ui = Ui_FaceDetection()
+    ui.setupUi(FaceDetection)
+    FaceDetection.show()
+    sys.exit(app.exec_())
+
