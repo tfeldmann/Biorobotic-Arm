@@ -10,6 +10,9 @@ void scmd_init()
     serialCommand.addCommand("BASE",      scmd_base);
     serialCommand.addCommand("SHOULDER",  scmd_shoulder);
     serialCommand.addCommand("ELBOW",     scmd_elbow);
+    serialCommand.addCommand("IBASE",     scmd_base_increment);
+    serialCommand.addCommand("ISHOULDER", scmd_shoulder_increment);
+    serialCommand.addCommand("IELBOW",    scmd_elbow_increment);
     serialCommand.addCommand("WRIST",     scmd_wrist);
     serialCommand.addCommand("GRIP",      scmd_grip);
     serialCommand.addCommand("STOP",      scmd_stop);
@@ -99,6 +102,54 @@ void scmd_wrist()
         wrist_set_angle(angle);
         Serial.print("# WRIST ");
         Serial.println(angle);
+    }
+}
+
+void scmd_base_increment()
+{
+    char *arg = serialCommand.next();
+    if (arg == NULL)
+    {
+        Serial.println("# IBASE [ANGLE]");
+    }
+    else
+    {
+        int16_t desired_angle = atoi(arg);
+        base_increment_angle(desired_angle);
+        Serial.print("# IBASE ");
+        Serial.println(desired_angle);
+    }
+}
+
+void scmd_shoulder_increment()
+{
+    char *arg = serialCommand.next();
+    if (arg == NULL)
+    {
+        Serial.println("# ISHOULDER [ANGLE]");
+    }
+    else
+    {
+        int16_t desired_angle = atoi(arg);
+        shoulder_increment_angle(desired_angle);
+        Serial.print("# ISHOULDER ");
+        Serial.println(desired_angle);
+    }
+}
+
+void scmd_elbow_increment()
+{
+    char *arg = serialCommand.next();
+    if (arg == NULL)
+    {
+        Serial.println("# IELBOW [ANGLE]");
+    }
+    else
+    {
+        int16_t desired_angle = atoi(arg);
+        elbow_increment_angle(desired_angle);
+        Serial.print("# IELBOW ");
+        Serial.println(desired_angle);
     }
 }
 

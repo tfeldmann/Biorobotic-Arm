@@ -57,6 +57,11 @@ void shoulder_set_angle(int16_t angle)
     shoulder.pos_desired = shoulder_angle2pos(angle);
 }
 
+void shoulder_increment_angle(int16_t angle)
+{
+    shoulder_set_angle(angle + shoulder_pos2angle(shoulder.pos_desired));
+}
+
 void shoulder_stop()
 {
     shoulder.pos_desired = shoulder.pos_current;

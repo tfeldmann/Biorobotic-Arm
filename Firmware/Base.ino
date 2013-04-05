@@ -52,6 +52,11 @@ void base_set_angle(int16_t angle)
     base.pos_desired = base_angle2pos(angle);
 }
 
+void base_increment_angle(int16_t angle)
+{
+    base_set_angle(angle + base_pos2angle(base.pos_desired));
+}
+
 void base_stop()
 {
     base.pos_desired = base.pos_current;

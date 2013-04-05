@@ -57,6 +57,11 @@ void elbow_set_angle(int16_t angle)
     elbow.pos_desired = elbow_angle2pos(angle);
 }
 
+void elbow_increment_angle(int16_t angle)
+{
+    elbow_set_angle(angle + elbow_pos2angle(elbow.pos_desired));
+}
+
 void elbow_stop()
 {
     elbow.pos_desired = elbow.pos_current;
