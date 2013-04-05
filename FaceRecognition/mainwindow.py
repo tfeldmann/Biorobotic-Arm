@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'mainwindow.ui'
 #
-# Created: Tue Apr  2 20:59:23 2013
+# Created: Fri Apr  5 14:14:04 2013
 #      by: pyside-uic 0.2.14 running on PySide 1.1.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -83,7 +83,7 @@ class Ui_FaceDetection(object):
         self.log.setObjectName("log")
         self.verticalLayout_3.addWidget(self.log)
         self.command_edit = QtGui.QLineEdit(self.groupBox_3)
-        self.command_edit.setEnabled(True)
+        self.command_edit.setEnabled(False)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)

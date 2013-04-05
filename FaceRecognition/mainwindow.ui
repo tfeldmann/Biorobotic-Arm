@@ -163,7 +163,7 @@ p, li { white-space: pre-wrap; }
            <item>
             <widget class="QLineEdit" name="command_edit">
              <property name="enabled">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">

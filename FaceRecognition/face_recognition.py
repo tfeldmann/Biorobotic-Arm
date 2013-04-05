@@ -84,6 +84,7 @@ class FaceDection(QMainWindow):
         if index == 0:
             self.serial.stop()
             self.ui.log.clear()
+            self.ui.command_edit.clear()
             self.ui.command_edit.setEnabled(False)
         # connect
         else:
