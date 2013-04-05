@@ -19,6 +19,7 @@ void setup()
     shoulder_init();
     hand_init();
     collision_init();
+    ventilator_init();
 
     start_control_tick(100);  // 100Hz
 

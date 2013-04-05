@@ -17,6 +17,7 @@ void scmd_init()
     serialCommand.addCommand("RESET",     scmd_reset);
     serialCommand.addCommand("STANDBY",   scmd_standby);
     serialCommand.addCommand("BEEP",      scmd_beep);
+    serialCommand.addCommand("VENT",      scmd_ventilator);
     serialCommand.setDefaultHandler(scmd_unknown);
 }
 
@@ -186,4 +187,20 @@ void scmd_beep()
 {
     tone_beep();
     Serial.println("# BEEP");
+}
+
+void scmd_ventilator()
+{
+    char *arg = serialCommand.next();
+    if (arg == NULL)
+    {
+        Serial.println("# VENT [STRENGTH]");
+    }
+    else
+    {
+        int16_t strength = atoi(arg);
+        ventilator_blow(strength);
+        Serial.print("# VENT ");
+        Serial.println(strength);
+    }
 }
