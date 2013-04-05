@@ -59,7 +59,7 @@ void elbow_set_angle(int16_t angle)
 
 void elbow_increment_angle(int16_t angle)
 {
-    elbow_set_angle(angle + elbow_pos2angle(elbow.pos_desired));
+    elbow_set_angle(angle + elbow_pos2angle(elbow.pos_current));
 }
 
 void elbow_stop()

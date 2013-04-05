@@ -67,7 +67,6 @@ class FaceDection(QMainWindow):
         message_queue = self.serial.queue
         while not message_queue.empty():
             message = message_queue.get_nowait()
-
             if message[0] == "#":
                 self.ui.log.append("<b>"+message+"</b>")
             elif message[0] == "!":
@@ -101,10 +100,18 @@ class FaceDection(QMainWindow):
         # ventilator automation: w and h can be anything from 100 to 640
         if self.ui.fan_enabled.isChecked():
             fanspeed = 0
-            if len(faces) > 0:
+            if faces:
                 _,_,w,_ = faces[0]
                 fanspeed = constrain((640 - w) / 5, 0, 100)
             self.set_fan_speed(fanspeed, update_dial=True)
+
+        # movement automation
+        if self.ui.faces_enabled.isChecked():
+            if faces:
+                x,_,w,_ = faces[0]
+                d = (x+w/2-320)/10
+                self.ui.horizontal_speed.setSliderPosition(d)
+                self.serial.send("IBASE "+str(d))
 
     def video_image_callback(self, image):
         for i, (x,y,w,h) in enumerate(self.faces):
