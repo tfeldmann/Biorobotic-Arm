@@ -16,6 +16,8 @@ Questions, issues?
 feldmann.thomas@gmail.com
 """
 
+import os
+import sys
 import serial
 import cv2.cv as cv
 from SerialConnection import *
@@ -35,6 +37,7 @@ class FaceDection(QMainWindow):
         self.ui.horizontal_speed.sliderReleased.connect(self.horizontal_stop)
         self.ui.vertical_speed.sliderReleased.connect(self.vertical_stop)
         self.ui.serial_select.currentIndexChanged.connect(self.port_select)
+        self.ui.command_edit.returnPressed.connect(self.command_send)
 
         # video and face recognition
         self.faces = []
@@ -42,9 +45,12 @@ class FaceDection(QMainWindow):
         self.ui.video.image_callback = self.video_image_callback
 
         # serial connection
-        self.scon = SerialConnection()
-        for port in self.scon.list_ports():
+        self.serial = SerialConnection()
+        for port in self.serial.list_ports():
             self.ui.serial_select.addItem(port)
+        self.listener_timer = QTimer(self)
+        self.listener_timer.timeout.connect(self.serial_read)
+        self.listener_timer.start(50)
 
     def set_fan_speed(self, speed, update_dial=False):
         self.ui.speed_label.setText("%d %%" % speed)
@@ -57,13 +63,36 @@ class FaceDection(QMainWindow):
     def vertical_stop(self):
         self.ui.vertical_speed.setValue(0)  # snap back
 
+    def serial_read(self):
+        message_queue = self.serial.queue
+        while not message_queue.empty():
+            message = message_queue.get_nowait()
+
+            if message[0] == "#":
+                self.ui.log.append("<b>"+message+"</b>")
+            elif message[0] == "!":
+                self.ui.log.append("<font color=red>"+message+"</font>")
+            message_queue.task_done()
+
+    def command_send(self):
+        command = self.ui.command_edit.text()
+        self.serial.send(command)
+        self.ui.command_edit.clear()
+
     def port_select(self, index):
         # disconnect
         if index == 0:
-            QMessageBox.warning(self, "Warnung", "asdasdasdtext"+str(index))
+            self.serial.stop()
+            self.ui.log.clear()
+            self.ui.command_edit.setEnabled(False)
         # connect
         else:
-            QMessageBox.warning(self, "connect", "connection established")
+            try:
+                port = self.ui.serial_select.currentText()
+                self.serial.connect(port=port, baud=19200)
+                self.ui.command_edit.setEnabled(True)
+            except Exception, e:
+                QMessageBox.warning(self, "Error", e.message)
 
     def video_face_callback(self, faces):
         self.faces = faces
@@ -91,7 +120,6 @@ def constrain(value, min, max):
 
 
 if __name__ == "__main__":
-    import sys
     app = QApplication(sys.argv)
     face_detection = FaceDection()
     face_detection.show()

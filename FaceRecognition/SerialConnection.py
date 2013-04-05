@@ -21,19 +21,19 @@ class SerialConnection(object):
         self._stop_serial_update_flag = True
 
     def update_serial(self):
-        while (True and self.connection):
+        while self.connection:
             try:
-                if (self._stop_serial_update_flag):
-                    self.ser.close()
+                if self._stop_serial_update_flag:
+                    self.connection.close()
                     thread.exit()
                 else:
-                    line = self.ser.readline().strip()
+                    line = self.connection.readline().strip()
                     self.queue.put(line)
             except Exception, e:
                 print e
 
     def send(self, str):
-        self.ser.write(str + "\r\n")
+        self.connection.write(str + "\r\n")
 
     def list_ports(self):
         if os.name == 'nt':
@@ -50,7 +50,3 @@ class SerialConnection(object):
         else:
             # Mac / Linux
             return [port[0] for port in list_ports.comports()]
-
-
-if __name__ == '__main__':
-    print "This file cannot be executed on its own"
