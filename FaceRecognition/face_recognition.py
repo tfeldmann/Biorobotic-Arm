@@ -108,10 +108,15 @@ class FaceDection(QMainWindow):
         # movement automation
         if self.ui.faces_enabled.isChecked():
             if faces:
-                x,_,w,_ = faces[0]
-                d = (x+w/2-320)/10
-                self.ui.horizontal_speed.setSliderPosition(d)
-                self.serial.send("IBASE "+str(d))
+                x,y,w,h = faces[0]
+                corner_x_angle = 20
+                corner_y_angle = 10
+                # try to keep the face in center
+                dx = (x+w/2 - 320) * corner_x_angle/320
+                # y is measured from top
+                dy = - (y+h/2 - 240) * corner_y_angle/240
+                self.serial.send("IBASE "+str(dx))
+                self.serial.send("IELBOW "+str(dy))
 
     def video_image_callback(self, image):
         for i, (x,y,w,h) in enumerate(self.faces):

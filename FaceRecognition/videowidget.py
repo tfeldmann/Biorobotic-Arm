@@ -2,7 +2,7 @@ import cv2.cv as cv
 from PySide.QtCore import QPoint, QTimer
 from PySide.QtGui import QWidget, QPainter, QImage, QApplication
 
-CASCADE_PATH = "haarcascades/"  # path to cascades with trailing slash
+CSC_PATH = "haarcascades/"  # path to cascades with trailing slash
 
 class VideoWidget(QWidget):
     """A custom QWidget for displaying a webcam stream.
@@ -26,7 +26,7 @@ class VideoWidget(QWidget):
 
         self.storage = cv.CreateMemStorage()
         self.capture = cv.CaptureFromCAM(0)
-        self.face_cascade = cv.Load(CASCADE_PATH+"haarcascade_frontalface_alt.xml")
+        self.face_cascade = cv.Load(CSC_PATH + "haarcascade_frontalface_alt.xml")
         self.fd_wait_frames = 1
         self._fd_wait = self.fd_wait_frames
 
