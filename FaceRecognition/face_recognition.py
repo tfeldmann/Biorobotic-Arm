@@ -36,6 +36,8 @@ class FaceDection(QMainWindow):
         self.ui.speed_dial.sliderMoved.connect(self.set_fan_speed)
         self.ui.horizontal_speed.sliderReleased.connect(self.horizontal_stop)
         self.ui.vertical_speed.sliderReleased.connect(self.vertical_stop)
+        self.ui.horizontal_speed.valueChanged.connect(self.set_hor_speed)
+        self.ui.vertical_speed.valueChanged.connect(self.set_ver_speed)
         self.ui.serial_select.currentIndexChanged.connect(self.port_select)
         self.ui.command_edit.returnPressed.connect(self.command_send)
 
@@ -58,10 +60,20 @@ class FaceDection(QMainWindow):
             self.ui.speed_dial.setValue(speed)
 
     def horizontal_stop(self):
+        self.serial.send("STOP")
         self.ui.horizontal_speed.setValue(0)  # snap back
 
     def vertical_stop(self):
+        self.serial.send("STOP")
         self.ui.vertical_speed.setValue(0)  # snap back
+
+    def set_hor_speed(self, value):
+        if not value == 0:
+            self.serial.send("IBASE "+str(value))
+
+    def set_ver_speed(self, value):
+        if not value == 0:
+            self.serial.send("IELBOW "+str(value))
 
     def serial_read(self):
         message_queue = self.serial.queue
