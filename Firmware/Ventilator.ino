@@ -3,7 +3,7 @@
  *
  */
 
-const uint8_t VENTILATOR_PWM = 3;
+const uint8_t VENTILATOR_PWM = 6;
 
 void ventilator_init()
 {
@@ -13,6 +13,5 @@ void ventilator_init()
 
 void ventilator_blow(int16_t strength)
 {
-    int16_t pwm = map(strength, 0, 100, 0, 255);
-    analogWrite(VENTILATOR_PWM, pwm);
+    analogWrite(VENTILATOR_PWM, strength*2.5);
 }

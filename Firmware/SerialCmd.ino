@@ -249,7 +249,7 @@ void scmd_ventilator()
     }
     else
     {
-        int16_t strength = atoi(arg);
+        int16_t strength = constrain(atoi(arg), 0, 100);
         ventilator_blow(strength);
         Serial.print("# VENT ");
         Serial.println(strength);

@@ -18,7 +18,7 @@
 
 const uint8_t ELBOW_POT = A5;
 const uint8_t ELBOW_DIR = 2;
-const uint8_t ELBOW_PWM = 4;
+const uint8_t ELBOW_PWM = 4;  // timer 0
 
 const int8_t ELBOW_TOLERANCE = 1;
 const int16_t ELBOW_PWM_MIN = 0;  // 0...255

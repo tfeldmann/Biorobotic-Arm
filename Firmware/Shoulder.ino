@@ -2,7 +2,7 @@
  * Shoulder.ino
  *
  * Arduino         H-Bridge IC3 (see schematic)
- *  SHOULDER_PWM -- 5
+ *  SHOULDER_PWM -- 9
  *  SHOULDER_DIR -- 3
  *
  * H-Bridge        Motor
@@ -18,7 +18,7 @@
 
 const uint8_t SHOULDER_POT = A4;
 const uint8_t SHOULDER_DIR = 7;
-const uint8_t SHOULDER_PWM = 9;
+const uint8_t SHOULDER_PWM = 9;  // timer 2
 
 const int8_t SHOULDER_TOLERANCE = 1;
 const int16_t SHOULDER_PWM_MIN = 0;  // 0...255

@@ -17,8 +17,8 @@ static Servo wrist_servo;
 static Servo grip_servo;
 
 // hardware connections
-const uint8_t WRIST_PPM = 46;
-const uint8_t GRIP_PPM = 44;
+const uint8_t WRIST_PPM = 46;  // timer 5
+const uint8_t GRIP_PPM = 44;  // timer 5
 
 // mechanical limits
 const uint8_t GRIP_CLOSE = 0;
