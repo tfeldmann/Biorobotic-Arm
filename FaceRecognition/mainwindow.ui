@@ -180,7 +180,10 @@ p, li { white-space: pre-wrap; }
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupBox">
+         <widget class="QGroupBox" name="fanbox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="maximumSize">
            <size>
             <width>16777215</width>
@@ -247,7 +250,10 @@ p, li { white-space: pre-wrap; }
          </widget>
         </item>
         <item>
-         <widget class="QGroupBox" name="groupBox_2">
+         <widget class="QGroupBox" name="movementbox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="title">
            <string>Movement</string>
           </property>

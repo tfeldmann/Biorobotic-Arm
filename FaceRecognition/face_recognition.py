@@ -56,6 +56,7 @@ class FaceDection(QMainWindow):
 
     def set_fan_speed(self, speed, update_dial=False):
         self.ui.speed_label.setText("%d %%" % speed)
+        self.serial.send("VENT " + str(speed))
         if update_dial:
             self.ui.speed_dial.setValue(speed)
 
@@ -97,12 +98,16 @@ class FaceDection(QMainWindow):
             self.ui.log.clear()
             self.ui.command_edit.clear()
             self.ui.command_edit.setEnabled(False)
+            self.ui.fanbox.setEnabled(False)
+            self.ui.movementbox.setEnabled(False)
         # connect
         else:
             try:
                 port = self.ui.serial_select.currentText()
                 self.serial.connect(port=port, baud=19200)
                 self.ui.command_edit.setEnabled(True)
+                self.ui.fanbox.setEnabled(True)
+                self.ui.movementbox.setEnabled(True)
             except Exception, e:
                 QMessageBox.warning(self, "Error", e.message)
 
@@ -113,22 +118,25 @@ class FaceDection(QMainWindow):
         if self.ui.fan_enabled.isChecked():
             fanspeed = 0
             if faces:
-                _,_,w,_ = faces[0]
-                fanspeed = constrain((640 - w) / 5, 0, 100)
+                _,_,_,h = faces[0]
+                fanspeed = map(h, 100, 480, 100, 0)
+                fanspeed = constrain(fanspeed, 0, 100)
+                wristangle = map(h, 100, 480, -30, 20)
+                self.serial.send("WRIST "+str(wristangle))
             self.set_fan_speed(fanspeed, update_dial=True)
 
         # movement automation
         if self.ui.faces_enabled.isChecked():
             if faces:
                 x,y,w,h = faces[0]
-                corner_x_angle = 20
-                corner_y_angle = 10
+                corner_x_angle = 14  # was 20
+                corner_y_angle = 8  # was 10
                 # try to keep the face in center
-                dx = (x+w/2 - 320) * corner_x_angle/320
+                dx = (x + w / 2 - 320) * corner_x_angle / 320
                 # y is measured from top
-                dy = - (y+h/2 - 240) * corner_y_angle/240
-                self.serial.send("IBASE "+str(dx))
-                self.serial.send("IELBOW "+str(dy))
+                dy = - (y + h / 2 - 240) * corner_y_angle / 240
+                self.serial.send("IBASE " + str(dx))
+                self.serial.send("IELBOW " + str(dy))
 
     def video_image_callback(self, image):
         for i, (x,y,w,h) in enumerate(self.faces):
@@ -142,6 +150,9 @@ def constrain(value, min, max):
         return max
     else:
         return value
+
+def map(x, in_min, in_max, out_min, out_max):
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
 
 if __name__ == "__main__":
