@@ -1,6 +1,6 @@
 # Biorobotic Arm
 This is a collaborative project for the course "biorobotics and locomotion".
-It contains the source files for the firmware, graphical control software, scripting (automation) software and remote software as well as the driver.
+It contains the source files for the firmware, graphical control software, scripting (automation) software, mobile control- and face recognition software.
 <p align="center">
     <img src="Documentation/BioRob.png" alt="BioRoboter">
 </p>
@@ -27,7 +27,7 @@ It contains the source files for the firmware, graphical control software, scrip
 
 
 ## Documentation
-The folder "Documentation" contains the screenshots used in the files you are currently seeing as well as the board layout and schematics.
+The folder "Documentation" contains screenshots, the board layout and schematics.
 
 - [Board layout](Documentation/board-layout.pdf)
 - [Board schematics](Documentation/board-schematic.pdf)
@@ -42,7 +42,7 @@ On Mac OS X everything should work out of the box. It should work on Linux, too 
 ## Firmware
 Here you find the robot's firmware. It is written for an Arduino Mega 2560 R3.
 To compile and upload use the [Arduino Software](http://arduino.cc/en/Main/Software) unless you know what you are doing.
-The [SerialCommand](https://github.com/kroimon/Arduino-SerialCommand) library must be installed. An archive of the SerialCommand library is included in Firmware/libraries.
+The [SerialCommand](https://github.com/kroimon/Arduino-SerialCommand) library must be installed. An archive of the SerialCommand library and the modified Servo library is included in Firmware/libraries.
 
 
 ## RemoteInterface
@@ -87,13 +87,13 @@ An exclamation mark (!) indicates an error and should always be shown to the use
     !02 Collision detected [Axis]
     !03 Could not connect to MMA8452Q
 
-The question mark (?) is used for the identifier (see chapter "Identify").
+The question mark (?) is used as the identifier (see chapter "Identify").
 
     ? BIOROBOTIC_ARM
 
 
 #### Position monitoring
-Ca. every 50ms (20Hz) the robot sends a ```P``` following five integers separated by ```;``` that describe the robot's position.
+About every 50ms (20Hz) the robot sends a ```P``` followed by five integers separated by ```;``` which describe the robot's position.
 For example:
 
     P130;45;-90;30;1
